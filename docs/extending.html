@@ -680,7 +680,7 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
       </ul>
       <p>Keep the <code>data-pb-block=&quot;&lt;key&gt;&quot;</code> convention on any block you want imported as a labelled, editable component and recognized by the validator. See <a href="pages-and-components.html#the-block-vocabulary">Pages → block vocabulary</a>.</p>
       <h2 id="the-aiinvoker-contract">The <code>AiInvoker</code> contract</h2>
-      <p>The flow engine and the AI app builder don&#39;t hard-depend on the gateway — they depend on <code>Andre\AiPageBuilder\Flow\Contracts\AiInvoker</code>:</p>
+      <p>The flow engine and the AI companion don&#39;t hard-depend on the gateway — they depend on <code>Andre\AiPageBuilder\Flow\Contracts\AiInvoker</code>:</p>
       <div class="codeblock"><span class="code-lang">php</span><pre><code class="language-php">interface AiInvoker
       {
           public function available(): bool;

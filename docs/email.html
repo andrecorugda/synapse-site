@@ -651,7 +651,7 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
       <li>The password is read back through <code>Settings::getEncrypted(&#39;mail_password&#39;)</code> so it is never held in plaintext at rest.</li>
       </ul>
       <h3 id="send-a-test-email">Send a test email</h3>
-      <p>On the Settings page, the <strong>Send test email</strong> header action (visible once <code>configured()</code>) opens a prompt for an address and calls <code>PageBuilderMailer::sendTest($to)</code> — a one-line &quot;Your Page Builder SMTP settings work&quot; message. Use it to confirm the transport before wiring a flow.</p>
+      <p>On the Settings page, the <strong>Send test email</strong> header action (visible once <code>configured()</code>) opens a prompt for an address and calls <code>PageBuilderMailer::sendTest($to)</code> — a one-line &quot;Your Synapse SMTP settings work&quot; message. Use it to confirm the transport before wiring a flow.</p>
       <h2 id="email-template-pages-kindemail">Email-template pages (<code>kind=email</code>)</h2>
       <p>There&#39;s no separate email-authoring surface — an email body <strong>is</strong> a page with <code>kind = &#39;email&#39;</code>. Build it like any page (you can use the editor), then reference it by slug from a <code>send_email</code> node. The page&#39;s <code>css</code> is inlined as a <code>&lt;style&gt;</code> block ahead of its <code>html</code>.</p>
       <p>Mark a page as an email template by setting <code>kind</code> to <code>email</code> in the Pages form (the <code>emailTemplates()</code> scope lists them). The AI applier also auto-marks any page referenced as a <code>send_email</code> template, even if the plan forgot to tag it.</p>
