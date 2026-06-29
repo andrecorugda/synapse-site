@@ -1,0 +1,538 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Extending — Synapse Docs</title>
+<meta name="description" content="Synapse — the self-hosted, low-code app builder for Laravel + Filament. Extending reference.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23818cf8'/%3E%3Cstop offset='1' stop-color='%2322d3ee'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M12 1.6 22.4 12 12 22.4 1.6 12Z' fill='url(%23g)'/%3E%3C/svg%3E">
+<style>
+/* Synapse documentation theme.
+   Ground: deep ink #0b1020. Accent: indigo #6366f1 -> cyan #22d3ee, spent
+   only on the mark, links, current-page rail and heading rules. Everything
+   else is quiet cool-grey on ink. System font for prose; monospace for
+   labels, code and technical table cells. */
+
+:root {
+  --ink:        #0b1020;
+  --ink-2:      #0c1226;   /* sunken (code) */
+  --panel:      #11172b;   /* sidebar / cards — indigo-biased neutral */
+  --panel-2:    #161d36;
+  --border:     #1e2740;
+  --border-2:   #2a3556;
+  --text:       #c5cde0;   /* body — cool grey */
+  --text-soft:  #aab4cf;
+  --muted:      #7e89a8;   /* captions, labels */
+  --head:       #f2f5fc;
+  --indigo:     #818cf8;
+  --indigo-deep:#6366f1;
+  --cyan:       #22d3ee;
+  --link:       #93c5fd;
+  --accent-grad: linear-gradient(120deg, #818cf8 0%, #22d3ee 100%);
+
+  --mono: ui-monospace, "SF Mono", "JetBrains Mono", "Cascadia Code", Menlo, Consolas, monospace;
+  --sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+
+  --measure: 72ch;
+  --sidebar-w: 264px;
+  --topbar-h: 56px;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * { transition: none !important; animation: none !important; }
+}
+
+body {
+  margin: 0;
+  background: var(--ink);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+a { color: var(--link); text-decoration: none; }
+a:hover { text-decoration: underline; text-underline-offset: 2px; }
+:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+
+.skip-link {
+  position: absolute; left: -9999px; top: 0; z-index: 100;
+  background: var(--panel); color: var(--head);
+  padding: 0.6rem 1rem; border: 1px solid var(--border-2);
+}
+.skip-link:focus { left: 0.5rem; top: 0.5rem; }
+
+/* ---- Top bar ---- */
+.topbar {
+  position: sticky; top: 0; z-index: 40;
+  height: var(--topbar-h);
+  display: flex; align-items: center; gap: 0.75rem;
+  padding: 0 1.25rem;
+  background: rgba(11,16,32,0.86);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+}
+.brand {
+  display: inline-flex; align-items: center; gap: 0.55rem;
+  color: var(--head); font-weight: 700; letter-spacing: -0.01em;
+}
+.brand:hover { text-decoration: none; }
+.mark-glyph { display: block; filter: drop-shadow(0 0 8px rgba(99,102,241,0.45)); }
+.brand-name { font-size: 1.05rem; }
+.topbar-links { margin-left: auto; display: flex; gap: 1.25rem; }
+.topbar-links a {
+  color: var(--text-soft); font-size: 0.9rem; font-weight: 500;
+}
+.topbar-links a:hover { color: var(--head); }
+
+.nav-toggle {
+  display: none;
+  width: 38px; height: 38px;
+  background: var(--panel); border: 1px solid var(--border-2);
+  border-radius: 8px; cursor: pointer; padding: 0;
+  align-items: center; justify-content: center;
+}
+.nav-toggle .bars,
+.nav-toggle .bars::before,
+.nav-toggle .bars::after {
+  content: ""; display: block;
+  width: 18px; height: 2px; background: var(--text);
+  position: relative; border-radius: 2px;
+}
+.nav-toggle .bars::before { position: absolute; top: -6px; }
+.nav-toggle .bars::after  { position: absolute; top: 6px; }
+
+/* ---- Shell layout ---- */
+.shell {
+  display: grid;
+  grid-template-columns: var(--sidebar-w) minmax(0, 1fr);
+  align-items: start;
+}
+
+/* ---- Sidebar ---- */
+.sidebar {
+  position: sticky;
+  top: var(--topbar-h);
+  height: calc(100vh - var(--topbar-h));
+  overflow-y: auto;
+  padding: 1.5rem 1rem 2rem 1.5rem;
+  border-right: 1px solid var(--border);
+  background: var(--panel);
+}
+.sidebar-eyebrow {
+  margin: 0 0 0.85rem;
+  font-family: var(--mono);
+  font-size: 0.68rem; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--muted);
+}
+.nav-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 1px; }
+.nav-link {
+  display: block;
+  padding: 0.5rem 0.7rem;
+  color: var(--text-soft);
+  border-radius: 7px;
+  font-size: 0.92rem;
+  border-left: 2px solid transparent;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.nav-link:hover { background: var(--panel-2); color: var(--head); text-decoration: none; }
+.nav-link.is-current {
+  color: var(--head);
+  background: var(--panel-2);
+  border-left: 2px solid transparent;
+  border-image: var(--accent-grad) 1;
+  font-weight: 600;
+}
+
+/* ---- Content ---- */
+.content {
+  min-width: 0;
+  padding: 2.5rem 2.5rem 4rem;
+  display: flex; flex-direction: column; align-items: center;
+}
+.doc { width: 100%; max-width: var(--measure); }
+
+/* Headings */
+.doc h1, .doc h2, .doc h3, .doc h4 {
+  color: var(--head);
+  line-height: 1.25;
+  text-wrap: balance;
+  letter-spacing: -0.012em;
+  scroll-margin-top: calc(var(--topbar-h) + 1rem);
+}
+.doc h1 {
+  font-size: 2.1rem;
+  margin: 0 0 1.4rem;
+  padding-bottom: 0.7rem;
+  position: relative;
+}
+.doc h1::after {
+  content: ""; position: absolute; left: 0; bottom: 0;
+  width: 4rem; height: 3px; border-radius: 2px;
+  background: var(--accent-grad);
+}
+.doc h2 {
+  font-size: 1.5rem;
+  margin: 2.8rem 0 1rem;
+  padding-top: 1.4rem;
+  border-top: 1px solid var(--border);
+}
+.doc h3 { font-size: 1.18rem; margin: 2rem 0 0.75rem; }
+.doc h4 { font-size: 1.02rem; margin: 1.6rem 0 0.6rem; color: var(--text-soft); }
+
+.doc p { margin: 0 0 1.05rem; }
+.doc strong { color: var(--head); font-weight: 650; }
+.doc em { color: var(--text-soft); }
+
+.doc ul, .doc ol { margin: 0 0 1.15rem; padding-left: 1.4rem; }
+.doc li { margin: 0.35rem 0; }
+.doc li::marker { color: var(--indigo); }
+
+/* Blockquotes — used heavily for notes/warnings */
+.doc blockquote {
+  margin: 1.3rem 0;
+  padding: 0.85rem 1.1rem;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-left: 3px solid transparent;
+  border-image: var(--accent-grad) 1;
+  border-radius: 0 8px 8px 0;
+  color: var(--text-soft);
+}
+.doc blockquote p:last-child { margin-bottom: 0; }
+
+/* Inline code */
+.doc :not(pre) > code {
+  font-family: var(--mono);
+  font-size: 0.86em;
+  background: var(--panel-2);
+  color: #d7def0;
+  padding: 0.12em 0.4em;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  word-break: break-word;
+}
+
+/* Code blocks — dark, padded, horizontal scroll */
+.codeblock {
+  position: relative;
+  margin: 1.3rem 0;
+  background: var(--ink-2);
+  border: 1px solid var(--border-2);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.code-lang {
+  position: absolute; top: 0; right: 0;
+  font-family: var(--mono);
+  font-size: 0.64rem; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--muted);
+  padding: 0.3rem 0.7rem;
+  border-bottom-left-radius: 8px;
+  border-left: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  background: rgba(255,255,255,0.02);
+}
+.codeblock pre {
+  margin: 0;
+  padding: 1rem 1.15rem;
+  overflow-x: auto;
+}
+.codeblock code {
+  font-family: var(--mono);
+  font-size: 0.84rem;
+  line-height: 1.6;
+  color: #cdd6ec;
+  white-space: pre;
+}
+
+/* Mermaid diagrams rendered as plain styled source */
+.diagram {
+  margin: 1.4rem 0;
+  border: 1px dashed var(--border-2);
+  border-radius: 10px;
+  background: var(--ink-2);
+  overflow: hidden;
+}
+.diagram figcaption {
+  font-family: var(--mono);
+  font-size: 0.66rem; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--muted);
+  padding: 0.55rem 1rem;
+  border-bottom: 1px solid var(--border);
+  background: rgba(129,140,248,0.05);
+}
+.diagram .diagram-src { margin: 0; padding: 1rem 1.15rem; overflow-x: auto; }
+.diagram .diagram-src code {
+  font-family: var(--mono); font-size: 0.8rem; line-height: 1.55;
+  color: var(--text-soft); white-space: pre;
+}
+
+/* Tables — scroll horizontally on overflow */
+.table-wrap {
+  margin: 1.4rem 0;
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+.doc table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 0.9rem;
+  font-variant-numeric: tabular-nums;
+}
+.doc th, .doc td {
+  text-align: left;
+  padding: 0.6rem 0.85rem;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+.doc thead th {
+  background: var(--panel-2);
+  color: var(--head);
+  font-weight: 600;
+  white-space: nowrap;
+  position: sticky; top: 0;
+}
+.doc tbody tr:last-child td { border-bottom: none; }
+.doc tbody tr:nth-child(even) { background: rgba(255,255,255,0.014); }
+.doc td code, .doc th code { white-space: nowrap; }
+
+.doc hr {
+  border: 0; height: 1px;
+  background: var(--border);
+  margin: 2.4rem 0;
+}
+
+.doc img { max-width: 100%; height: auto; }
+
+/* Footer */
+.doc-footer {
+  width: 100%; max-width: var(--measure);
+  margin-top: 3.5rem; padding-top: 1.4rem;
+  border-top: 1px solid var(--border);
+  color: var(--muted); font-size: 0.85rem;
+}
+.doc-footer p { margin: 0; }
+
+/* ---- Mobile ---- */
+.scrim {
+  position: fixed; inset: var(--topbar-h) 0 0 0; z-index: 30;
+  background: rgba(4,7,16,0.6);
+}
+
+@media (max-width: 860px) {
+  .nav-toggle { display: inline-flex; }
+  .shell { grid-template-columns: minmax(0, 1fr); }
+  .sidebar {
+    position: fixed;
+    top: var(--topbar-h); left: 0; z-index: 35;
+    width: min(82vw, var(--sidebar-w));
+    height: calc(100vh - var(--topbar-h));
+    transform: translateX(-102%);
+    transition: transform 0.22s ease;
+    box-shadow: 0 0 40px rgba(0,0,0,0.5);
+  }
+  body.nav-open .sidebar { transform: translateX(0); }
+  .content { padding: 1.75rem 1.25rem 3rem; }
+  .doc h1 { font-size: 1.7rem; }
+  .doc h2 { font-size: 1.3rem; }
+}
+
+@media (max-width: 460px) {
+  .topbar-links { gap: 0.85rem; }
+  .topbar-links a { font-size: 0.82rem; }
+}
+
+</style>
+</head>
+<body>
+<a class="skip-link" href="#content">Skip to content</a>
+<header class="topbar">
+  <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="sidebar">
+    <span class="bars" aria-hidden="true"></span>
+  </button>
+  <a class="brand" href="index.html"><svg class="mark-glyph" viewBox="0 0 24 24" aria-hidden="true" width="20" height="20"><defs><linearGradient id="syn-g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#818cf8"/><stop offset="1" stop-color="#22d3ee"/></linearGradient></defs><path d="M12 1.6 22.4 12 12 22.4 1.6 12Z" fill="url(#syn-g)"/></svg><span class="brand-name">Synapse</span></a>
+  <nav class="topbar-links" aria-label="Project links">
+    <a href="https://github.com/andrecorugda/synapse-app-builder" target="_blank" rel="noopener noreferrer">GitHub</a>
+    <a href="https://packagist.org/packages/andrecorugda/synapse" target="_blank" rel="noopener noreferrer">Packagist</a>
+  </nav>
+</header>
+<div class="scrim" id="scrim" hidden></div>
+<div class="shell">
+  <aside class="sidebar" id="sidebar" aria-label="Documentation">
+    <p class="sidebar-eyebrow">Documentation</p>
+    <nav>
+      <ul class="nav-list">
+        <li><a class="nav-link" href="index.html">Overview</a></li>
+        <li><a class="nav-link" href="installation.html">Installation</a></li>
+        <li><a class="nav-link" href="architecture.html">Architecture</a></li>
+        <li><a class="nav-link" href="pages-and-components.html">Pages & Components</a></li>
+        <li><a class="nav-link" href="collections-and-data.html">Collections & Data</a></li>
+        <li><a class="nav-link" href="flows.html">Flows</a></li>
+        <li><a class="nav-link" href="functions-and-states.html">Functions & States</a></li>
+        <li><a class="nav-link" href="authentication-and-permissions.html">Auth & Permissions</a></li>
+        <li><a class="nav-link" href="email.html">Email</a></li>
+        <li><a class="nav-link" href="ai.html">AI</a></li>
+        <li><a class="nav-link" href="configuration.html">Configuration</a></li>
+        <li><a class="nav-link is-current" aria-current="page" href="extending.html">Extending</a></li>
+      </ul>
+    </nav>
+  </aside>
+  <main class="content" id="content">
+    <article class="doc">
+      <h1 id="extending">Extending</h1>
+      <p>Synapse is built to be extended from the host app: swap models, add flow node types and editor blocks, plug in your own AI invoker, and react to events. None of this requires forking the package.</p>
+      <h2 id="swapping-a-model">Swapping a model</h2>
+      <p>Every model is resolved through <code>config(&#39;ai-page-builder.models.*&#39;)</code> (see <a href="configuration.html#models">Configuration</a>), so you can subclass one and point the config at your class to add behavior:</p>
+      <div class="codeblock"><span class="code-lang">php</span><pre><code class="language-php">// app/Models/AppPage.php
+      namespace App\Models;
+      
+      use Andre\AiPageBuilder\Models\Page as BasePage;
+      
+      class AppPage extends BasePage
+      {
+          protected static function booted(): void
+          {
+              static::saved(fn (self $page) =&gt; /* your hook */);
+          }
+      }</code></pre></div>
+      <div class="codeblock"><span class="code-lang">php</span><pre><code class="language-php">// config/ai-page-builder.php
+      'models' =&gt; [
+          'page' =&gt; \App\Models\AppPage::class,
+          // …
+      ],</code></pre></div>
+      <p>The services, controllers, the AI applier and the Filament resources all read the class from config, so your subclass is used everywhere. Keep the table columns and route-key contract intact (e.g. <code>Page</code> resolves by <code>slug</code>).</p>
+      <h2 id="registering-a-custom-flow-node">Registering a custom flow node</h2>
+      <p>A node type is any class implementing <code>Andre\AiPageBuilder\Flow\Contracts\FlowNodeHandler</code>:</p>
+      <div class="codeblock"><span class="code-lang">php</span><pre><code class="language-php">namespace App\Flow;
+      
+      use Andre\AiPageBuilder\Flow\Contracts\FlowNodeHandler;
+      use Andre\AiPageBuilder\Flow\FlowContext;
+      
+      class SlackNotifyNode implements FlowNodeHandler
+      {
+          public function type(): string
+          {
+              return 'slack_notify';   // the node's `type` in a flow definition
+          }
+      
+          /**
+           * @param  array&lt;string,mixed&gt;  $node   the node def: { type, config, next }
+           * @return array&lt;int,string&gt;            next node ids
+           */
+          public function run(array $node, FlowContext $context): array
+          {
+              $config  = (array) ($node['config'] ?? []);
+              $message = $context-&gt;interpolate((string) ($config['message'] ?? ''));
+      
+              // … send to Slack …
+      
+              $context-&gt;set((string) ($config['output'] ?? 'slack'), ['sent' =&gt; true]);
+      
+              return (array) ($node['next'] ?? []);
+          }
+      }</code></pre></div>
+      <p>Register it with the <code>NodeRegistry</code> singleton (e.g. in a service provider&#39;s <code>boot()</code>):</p>
+      <div class="codeblock"><span class="code-lang">php</span><pre><code class="language-php">use Andre\AiPageBuilder\Flow\NodeRegistry;
+      
+      $this-&gt;app-&gt;resolving(NodeRegistry::class, function (NodeRegistry $registry) {
+          $registry-&gt;register(new \App\Flow\SlackNotifyNode);
+      });</code></pre></div>
+      <p><code>run()</code> should: read <code>config</code> (interpolating strings via <code>$context-&gt;interpolate()</code> / <code>interpolateDeep()</code>), do its work, optionally <code>$context-&gt;set(&#39;&lt;output&gt;&#39;, $value)</code> or <code>$context-&gt;addAction([...])</code>, and return the next node ids. The new type immediately becomes valid in the <a href="ai.html#validation"><code>BuildPlanValidator</code></a> and is described to the AI by <a href="ai.html#the-code-generated-system-prompt"><code>SystemPromptBuilder</code></a> (add a <code>NODE_HINTS</code> entry by extending that class if you want a tailored prompt hint; unknown types still appear with a generic hint).</p>
+      <h2 id="registering-a-callable-function">Registering a callable Function</h2>
+      <p>The <code>callable</code> Function runtime looks its <code>body</code> up in the <code>FunctionRegistry</code>. Register callables at boot:</p>
+      <div class="codeblock"><span class="code-lang">php</span><pre><code class="language-php">use Andre\AiPageBuilder\Flow\FunctionRegistry;
+      use Andre\AiPageBuilder\Flow\FlowContext;
+      
+      app(FunctionRegistry::class)-&gt;register(
+          'slugify',
+          fn (array $args, FlowContext $ctx): string =&gt; \Illuminate\Support\Str::slug((string) ($args['text'] ?? '')),
+      );</code></pre></div>
+      <p>Signature: <code>callable(array $args, FlowContext $ctx): mixed</code>. Then create a Function with <code>runtime = callable</code> and <code>body = slugify</code>. See <a href="functions-and-states.html#callable-runtime">Functions</a>.</p>
+      <h2 id="custom-blocks">Custom blocks</h2>
+      <p>The editor&#39;s blocks come from <code>Andre\AiPageBuilder\Blocks\BlockVocabulary</code> (<code>SectionBlock</code> value objects: <code>key</code>, <code>label</code>, <code>category</code>, <code>template</code>, <code>description</code>, <code>icon</code>). The block list is consumed by the GrapesJS block manager, by the AI system prompt (section keys only) and by the validator&#39;s known-block set.</p>
+      <p><code>BlockVocabulary</code> is a <code>final</code> class with static methods, so the supported extension point is to provide your block definitions to the editor field configuration / the JS block manager rather than mutating the class. Two practical paths:</p>
+      <ul>
+      <li><strong>Compose with the published set</strong> — read <code>BlockVocabulary::toArray()</code> (the serialized form) in your panel/editor wiring and append your own block descriptors (same <code>{key,label,category,template,description}</code> shape) before handing them to GrapesJS.</li>
+      <li><strong>Use the <code>Basic</code> family</strong> — primitive blocks (<code>text</code>, <code>heading</code>, <code>image</code>, <code>button</code>, <code>columns-*</code>, <code>spacer</code>, <code>divider</code>) need no <code>data-pb-block</code> convention, so custom free-form composition works out of the box.</li>
+      </ul>
+      <p>Keep the <code>data-pb-block=&quot;&lt;key&gt;&quot;</code> convention on any block you want imported as a labelled, editable component and recognized by the validator. See <a href="pages-and-components.html#the-block-vocabulary">Pages → block vocabulary</a>.</p>
+      <h2 id="the-aiinvoker-contract">The <code>AiInvoker</code> contract</h2>
+      <p>The flow engine and the AI app builder don&#39;t hard-depend on the gateway — they depend on <code>Andre\AiPageBuilder\Flow\Contracts\AiInvoker</code>:</p>
+      <div class="codeblock"><span class="code-lang">php</span><pre><code class="language-php">interface AiInvoker
+      {
+          public function available(): bool;
+      
+          /**
+           * @param array&lt;string,mixed&gt; $args     values for the integration prompt placeholders
+           * @param array&lt;int,array&lt;string,mixed&gt;&gt; $messages conversation turns (role/content)
+           * @param array&lt;string,mixed&gt; $opts      per-call options
+           */
+          public function invoke(string $integration, array $args = [], array $messages = [], array $opts = []): string;
+      }</code></pre></div>
+      <p>The default binding is <code>GatewayAiInvoker</code> (routes through the AI OpenRouter Gateway when installed; throws if not). Bind your own to use a different backend — or a fake in tests:</p>
+      <div class="codeblock"><span class="code-lang">php</span><pre><code class="language-php">use Andre\AiPageBuilder\Flow\Contracts\AiInvoker;
+      
+      $this-&gt;app-&gt;bind(AiInvoker::class, \App\Ai\MyInvoker::class);</code></pre></div>
+      <p>Your implementation backs both the <a href="flows.html#ai_invoke"><code>ai_invoke</code> flow node</a> and the <a href="ai.html"><code>AppBuilderService</code></a> (which calls <code>invoke($app_builder_slug, [&#39;app_context&#39; =&gt; …], $conversation)</code> and expects the model&#39;s reply text back).</p>
+      <h2 id="events-observers">Events &amp; observers</h2>
+      <h3 id="collection-writes-flows">Collection writes → flows</h3>
+      <p>Every collection record write goes through the dynamic <code>Record</code> model, which the package observes with <code>RecordObserver</code> (registered in <code>packageBooted()</code>). On <code>created</code>/<code>updated</code>/<code>deleted</code> it forwards <code>{ event, collection, record }</code> to <code>FlowDispatcher::dispatchCollectionEvent()</code>, which fans out to matching <a href="flows.html#collection-trigger">collection-triggered flows</a>. Re-attached each boot (Eloquent ties observers to the event dispatcher, which is fresh per app instance).</p>
+      <p>To react to collection writes in your <strong>own</strong> code, observe the same model:</p>
+      <div class="codeblock"><span class="code-lang">php</span><pre><code class="language-php">use Andre\AiPageBuilder\Models\Record;
+      
+      Record::observe(\App\Observers\MyRecordObserver::class);</code></pre></div>
+      <p><code>$record-&gt;pbModelKey</code> tells you which collection the row belongs to. (Re-register on each boot for the same reason the package does.)</p>
+      <h3 id="standard-model-events">Standard model events</h3>
+      <p>The package&#39;s own models (<code>Page</code>, <code>Flow</code>, etc.) are ordinary Eloquent models — hook their lifecycle events as usual (e.g. via a subclass per <a href="#swapping-a-model">Swapping a model</a>, or <code>Page::saved(...)</code>). The render cache is already busted on page save/delete by the package.</p>
+      <h2 id="the-pagebuilder-facade">The <code>PageBuilder</code> facade</h2>
+      <p>The package registers a <code>PageBuilder</code> facade (auto-aliased via <code>composer.json</code> → <code>extra.laravel.aliases</code>), fronting <code>PageBuilderManager</code>. It currently exposes page rendering:</p>
+      <div class="codeblock"><span class="code-lang">php</span><pre><code class="language-php">use Andre\AiPageBuilder\Facades\PageBuilder;
+      
+      $html = PageBuilder::render($page);   // fully-rendered (cached) HTML for a published Page
+      PageBuilder::forget($page-&gt;slug);      // bust the render cache for a slug</code></pre></div>
+      <p>For data, flows and AI, use the dedicated services directly (<code>RecordQuery</code>, <code>FlowManager</code>, <code>BuildPlanApplier</code>, etc.) as shown throughout these docs.</p>
+      <hr>
+      <p>That&#39;s the tour. Back to the <a href="index.html">docs index</a>.</p>
+    </article>
+    <footer class="doc-footer">
+      <p>Synapse — App Builder · self-hosted, low-code, inside your Laravel admin.</p>
+    </footer>
+  </main>
+</div>
+<script>
+(function () {
+  var toggle = document.getElementById('nav-toggle');
+  var sidebar = document.getElementById('sidebar');
+  var scrim = document.getElementById('scrim');
+  function setOpen(open) {
+    document.body.classList.toggle('nav-open', open);
+    toggle.setAttribute('aria-expanded', String(open));
+    scrim.hidden = !open;
+  }
+  toggle.addEventListener('click', function () {
+    setOpen(!document.body.classList.contains('nav-open'));
+  });
+  scrim.addEventListener('click', function () { setOpen(false); });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') setOpen(false);
+  });
+  // Close after navigating on mobile.
+  sidebar.addEventListener('click', function (e) {
+    if (e.target.closest('a')) setOpen(false);
+  });
+})();
+</script>
+</body>
+</html>

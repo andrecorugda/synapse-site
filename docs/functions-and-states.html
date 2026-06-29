@@ -1,0 +1,534 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Functions & States — Synapse Docs</title>
+<meta name="description" content="Synapse — the self-hosted, low-code app builder for Laravel + Filament. Functions & States reference.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23818cf8'/%3E%3Cstop offset='1' stop-color='%2322d3ee'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M12 1.6 22.4 12 12 22.4 1.6 12Z' fill='url(%23g)'/%3E%3C/svg%3E">
+<style>
+/* Synapse documentation theme.
+   Ground: deep ink #0b1020. Accent: indigo #6366f1 -> cyan #22d3ee, spent
+   only on the mark, links, current-page rail and heading rules. Everything
+   else is quiet cool-grey on ink. System font for prose; monospace for
+   labels, code and technical table cells. */
+
+:root {
+  --ink:        #0b1020;
+  --ink-2:      #0c1226;   /* sunken (code) */
+  --panel:      #11172b;   /* sidebar / cards — indigo-biased neutral */
+  --panel-2:    #161d36;
+  --border:     #1e2740;
+  --border-2:   #2a3556;
+  --text:       #c5cde0;   /* body — cool grey */
+  --text-soft:  #aab4cf;
+  --muted:      #7e89a8;   /* captions, labels */
+  --head:       #f2f5fc;
+  --indigo:     #818cf8;
+  --indigo-deep:#6366f1;
+  --cyan:       #22d3ee;
+  --link:       #93c5fd;
+  --accent-grad: linear-gradient(120deg, #818cf8 0%, #22d3ee 100%);
+
+  --mono: ui-monospace, "SF Mono", "JetBrains Mono", "Cascadia Code", Menlo, Consolas, monospace;
+  --sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+
+  --measure: 72ch;
+  --sidebar-w: 264px;
+  --topbar-h: 56px;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * { transition: none !important; animation: none !important; }
+}
+
+body {
+  margin: 0;
+  background: var(--ink);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+a { color: var(--link); text-decoration: none; }
+a:hover { text-decoration: underline; text-underline-offset: 2px; }
+:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+
+.skip-link {
+  position: absolute; left: -9999px; top: 0; z-index: 100;
+  background: var(--panel); color: var(--head);
+  padding: 0.6rem 1rem; border: 1px solid var(--border-2);
+}
+.skip-link:focus { left: 0.5rem; top: 0.5rem; }
+
+/* ---- Top bar ---- */
+.topbar {
+  position: sticky; top: 0; z-index: 40;
+  height: var(--topbar-h);
+  display: flex; align-items: center; gap: 0.75rem;
+  padding: 0 1.25rem;
+  background: rgba(11,16,32,0.86);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+}
+.brand {
+  display: inline-flex; align-items: center; gap: 0.55rem;
+  color: var(--head); font-weight: 700; letter-spacing: -0.01em;
+}
+.brand:hover { text-decoration: none; }
+.mark-glyph { display: block; filter: drop-shadow(0 0 8px rgba(99,102,241,0.45)); }
+.brand-name { font-size: 1.05rem; }
+.topbar-links { margin-left: auto; display: flex; gap: 1.25rem; }
+.topbar-links a {
+  color: var(--text-soft); font-size: 0.9rem; font-weight: 500;
+}
+.topbar-links a:hover { color: var(--head); }
+
+.nav-toggle {
+  display: none;
+  width: 38px; height: 38px;
+  background: var(--panel); border: 1px solid var(--border-2);
+  border-radius: 8px; cursor: pointer; padding: 0;
+  align-items: center; justify-content: center;
+}
+.nav-toggle .bars,
+.nav-toggle .bars::before,
+.nav-toggle .bars::after {
+  content: ""; display: block;
+  width: 18px; height: 2px; background: var(--text);
+  position: relative; border-radius: 2px;
+}
+.nav-toggle .bars::before { position: absolute; top: -6px; }
+.nav-toggle .bars::after  { position: absolute; top: 6px; }
+
+/* ---- Shell layout ---- */
+.shell {
+  display: grid;
+  grid-template-columns: var(--sidebar-w) minmax(0, 1fr);
+  align-items: start;
+}
+
+/* ---- Sidebar ---- */
+.sidebar {
+  position: sticky;
+  top: var(--topbar-h);
+  height: calc(100vh - var(--topbar-h));
+  overflow-y: auto;
+  padding: 1.5rem 1rem 2rem 1.5rem;
+  border-right: 1px solid var(--border);
+  background: var(--panel);
+}
+.sidebar-eyebrow {
+  margin: 0 0 0.85rem;
+  font-family: var(--mono);
+  font-size: 0.68rem; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--muted);
+}
+.nav-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 1px; }
+.nav-link {
+  display: block;
+  padding: 0.5rem 0.7rem;
+  color: var(--text-soft);
+  border-radius: 7px;
+  font-size: 0.92rem;
+  border-left: 2px solid transparent;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.nav-link:hover { background: var(--panel-2); color: var(--head); text-decoration: none; }
+.nav-link.is-current {
+  color: var(--head);
+  background: var(--panel-2);
+  border-left: 2px solid transparent;
+  border-image: var(--accent-grad) 1;
+  font-weight: 600;
+}
+
+/* ---- Content ---- */
+.content {
+  min-width: 0;
+  padding: 2.5rem 2.5rem 4rem;
+  display: flex; flex-direction: column; align-items: center;
+}
+.doc { width: 100%; max-width: var(--measure); }
+
+/* Headings */
+.doc h1, .doc h2, .doc h3, .doc h4 {
+  color: var(--head);
+  line-height: 1.25;
+  text-wrap: balance;
+  letter-spacing: -0.012em;
+  scroll-margin-top: calc(var(--topbar-h) + 1rem);
+}
+.doc h1 {
+  font-size: 2.1rem;
+  margin: 0 0 1.4rem;
+  padding-bottom: 0.7rem;
+  position: relative;
+}
+.doc h1::after {
+  content: ""; position: absolute; left: 0; bottom: 0;
+  width: 4rem; height: 3px; border-radius: 2px;
+  background: var(--accent-grad);
+}
+.doc h2 {
+  font-size: 1.5rem;
+  margin: 2.8rem 0 1rem;
+  padding-top: 1.4rem;
+  border-top: 1px solid var(--border);
+}
+.doc h3 { font-size: 1.18rem; margin: 2rem 0 0.75rem; }
+.doc h4 { font-size: 1.02rem; margin: 1.6rem 0 0.6rem; color: var(--text-soft); }
+
+.doc p { margin: 0 0 1.05rem; }
+.doc strong { color: var(--head); font-weight: 650; }
+.doc em { color: var(--text-soft); }
+
+.doc ul, .doc ol { margin: 0 0 1.15rem; padding-left: 1.4rem; }
+.doc li { margin: 0.35rem 0; }
+.doc li::marker { color: var(--indigo); }
+
+/* Blockquotes — used heavily for notes/warnings */
+.doc blockquote {
+  margin: 1.3rem 0;
+  padding: 0.85rem 1.1rem;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-left: 3px solid transparent;
+  border-image: var(--accent-grad) 1;
+  border-radius: 0 8px 8px 0;
+  color: var(--text-soft);
+}
+.doc blockquote p:last-child { margin-bottom: 0; }
+
+/* Inline code */
+.doc :not(pre) > code {
+  font-family: var(--mono);
+  font-size: 0.86em;
+  background: var(--panel-2);
+  color: #d7def0;
+  padding: 0.12em 0.4em;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  word-break: break-word;
+}
+
+/* Code blocks — dark, padded, horizontal scroll */
+.codeblock {
+  position: relative;
+  margin: 1.3rem 0;
+  background: var(--ink-2);
+  border: 1px solid var(--border-2);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.code-lang {
+  position: absolute; top: 0; right: 0;
+  font-family: var(--mono);
+  font-size: 0.64rem; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--muted);
+  padding: 0.3rem 0.7rem;
+  border-bottom-left-radius: 8px;
+  border-left: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  background: rgba(255,255,255,0.02);
+}
+.codeblock pre {
+  margin: 0;
+  padding: 1rem 1.15rem;
+  overflow-x: auto;
+}
+.codeblock code {
+  font-family: var(--mono);
+  font-size: 0.84rem;
+  line-height: 1.6;
+  color: #cdd6ec;
+  white-space: pre;
+}
+
+/* Mermaid diagrams rendered as plain styled source */
+.diagram {
+  margin: 1.4rem 0;
+  border: 1px dashed var(--border-2);
+  border-radius: 10px;
+  background: var(--ink-2);
+  overflow: hidden;
+}
+.diagram figcaption {
+  font-family: var(--mono);
+  font-size: 0.66rem; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--muted);
+  padding: 0.55rem 1rem;
+  border-bottom: 1px solid var(--border);
+  background: rgba(129,140,248,0.05);
+}
+.diagram .diagram-src { margin: 0; padding: 1rem 1.15rem; overflow-x: auto; }
+.diagram .diagram-src code {
+  font-family: var(--mono); font-size: 0.8rem; line-height: 1.55;
+  color: var(--text-soft); white-space: pre;
+}
+
+/* Tables — scroll horizontally on overflow */
+.table-wrap {
+  margin: 1.4rem 0;
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+.doc table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 0.9rem;
+  font-variant-numeric: tabular-nums;
+}
+.doc th, .doc td {
+  text-align: left;
+  padding: 0.6rem 0.85rem;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+.doc thead th {
+  background: var(--panel-2);
+  color: var(--head);
+  font-weight: 600;
+  white-space: nowrap;
+  position: sticky; top: 0;
+}
+.doc tbody tr:last-child td { border-bottom: none; }
+.doc tbody tr:nth-child(even) { background: rgba(255,255,255,0.014); }
+.doc td code, .doc th code { white-space: nowrap; }
+
+.doc hr {
+  border: 0; height: 1px;
+  background: var(--border);
+  margin: 2.4rem 0;
+}
+
+.doc img { max-width: 100%; height: auto; }
+
+/* Footer */
+.doc-footer {
+  width: 100%; max-width: var(--measure);
+  margin-top: 3.5rem; padding-top: 1.4rem;
+  border-top: 1px solid var(--border);
+  color: var(--muted); font-size: 0.85rem;
+}
+.doc-footer p { margin: 0; }
+
+/* ---- Mobile ---- */
+.scrim {
+  position: fixed; inset: var(--topbar-h) 0 0 0; z-index: 30;
+  background: rgba(4,7,16,0.6);
+}
+
+@media (max-width: 860px) {
+  .nav-toggle { display: inline-flex; }
+  .shell { grid-template-columns: minmax(0, 1fr); }
+  .sidebar {
+    position: fixed;
+    top: var(--topbar-h); left: 0; z-index: 35;
+    width: min(82vw, var(--sidebar-w));
+    height: calc(100vh - var(--topbar-h));
+    transform: translateX(-102%);
+    transition: transform 0.22s ease;
+    box-shadow: 0 0 40px rgba(0,0,0,0.5);
+  }
+  body.nav-open .sidebar { transform: translateX(0); }
+  .content { padding: 1.75rem 1.25rem 3rem; }
+  .doc h1 { font-size: 1.7rem; }
+  .doc h2 { font-size: 1.3rem; }
+}
+
+@media (max-width: 460px) {
+  .topbar-links { gap: 0.85rem; }
+  .topbar-links a { font-size: 0.82rem; }
+}
+
+</style>
+</head>
+<body>
+<a class="skip-link" href="#content">Skip to content</a>
+<header class="topbar">
+  <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="sidebar">
+    <span class="bars" aria-hidden="true"></span>
+  </button>
+  <a class="brand" href="index.html"><svg class="mark-glyph" viewBox="0 0 24 24" aria-hidden="true" width="20" height="20"><defs><linearGradient id="syn-g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#818cf8"/><stop offset="1" stop-color="#22d3ee"/></linearGradient></defs><path d="M12 1.6 22.4 12 12 22.4 1.6 12Z" fill="url(#syn-g)"/></svg><span class="brand-name">Synapse</span></a>
+  <nav class="topbar-links" aria-label="Project links">
+    <a href="https://github.com/andrecorugda/synapse-app-builder" target="_blank" rel="noopener noreferrer">GitHub</a>
+    <a href="https://packagist.org/packages/andrecorugda/synapse" target="_blank" rel="noopener noreferrer">Packagist</a>
+  </nav>
+</header>
+<div class="scrim" id="scrim" hidden></div>
+<div class="shell">
+  <aside class="sidebar" id="sidebar" aria-label="Documentation">
+    <p class="sidebar-eyebrow">Documentation</p>
+    <nav>
+      <ul class="nav-list">
+        <li><a class="nav-link" href="index.html">Overview</a></li>
+        <li><a class="nav-link" href="installation.html">Installation</a></li>
+        <li><a class="nav-link" href="architecture.html">Architecture</a></li>
+        <li><a class="nav-link" href="pages-and-components.html">Pages & Components</a></li>
+        <li><a class="nav-link" href="collections-and-data.html">Collections & Data</a></li>
+        <li><a class="nav-link" href="flows.html">Flows</a></li>
+        <li><a class="nav-link is-current" aria-current="page" href="functions-and-states.html">Functions & States</a></li>
+        <li><a class="nav-link" href="authentication-and-permissions.html">Auth & Permissions</a></li>
+        <li><a class="nav-link" href="email.html">Email</a></li>
+        <li><a class="nav-link" href="ai.html">AI</a></li>
+        <li><a class="nav-link" href="configuration.html">Configuration</a></li>
+        <li><a class="nav-link" href="extending.html">Extending</a></li>
+      </ul>
+    </nav>
+  </aside>
+  <main class="content" id="content">
+    <article class="doc">
+      <h1 id="functions-states">Functions &amp; States</h1>
+      <p>Two small but central pieces: <strong>Functions</strong> are reusable units of logic a flow can call; <strong>States</strong> are persistent, app-wide variables that pages bind to reactively and flows update live.</p>
+      <h2 id="functions">Functions</h2>
+      <p>A function is a row in <code>page_builder_functions</code> (<code>src/Models/FlowFunction.php</code>), edited under <strong>Functions</strong> in the admin and invoked by the <a href="flows.html#function"><code>function</code> flow node</a>. Route key <code>slug</code>; soft-deletes.</p>
+      <div class="table-wrap"><table>
+      <thead>
+      <tr>
+      <th>Column</th>
+      <th>Notes</th>
+      </tr>
+      </thead>
+      <tbody><tr>
+      <td><code>slug</code></td>
+      <td><code>^[a-z][a-z0-9_-]*$</code></td>
+      </tr>
+      <tr>
+      <td><code>name</code></td>
+      <td>Label</td>
+      </tr>
+      <tr>
+      <td><code>description</code></td>
+      <td>Optional</td>
+      </tr>
+      <tr>
+      <td><code>runtime</code></td>
+      <td><code>expression</code> | <code>callable</code> | <code>php</code></td>
+      </tr>
+      <tr>
+      <td><code>body</code></td>
+      <td>Code/expression/key, depending on runtime</td>
+      </tr>
+      </tbody></table></div>
+      <p>The <code>function</code> node passes interpolated <code>args</code> and writes the return value to <code>vars[output]</code>.</p>
+      <h3 id="expression-runtime"><code>expression</code> runtime</h3>
+      <p>A <a href="https://symfony.com/doc/current/components/expression_language.html" target="_blank" rel="noopener noreferrer">Symfony ExpressionLanguage</a> expression — a safe sandbox (no PHP functions, no eval, no file/DB/network access; pure expressions only). The expression sees these variables:</p>
+      <ul>
+      <li><code>input</code> — the flow input</li>
+      <li><code>vars</code> — accumulated flow vars</li>
+      <li><code>args</code> — the node&#39;s <code>args</code></li>
+      <li><code>states</code> / <code>globals</code> — the persistent State map</li>
+      </ul>
+      <p>Plus two custom helpers: <code>state(&#39;key&#39;)</code> and <code>global(&#39;key&#39;)</code> (alias) read a persistent State. Errors never throw — <code>ExpressionEvaluator</code> logs a warning and returns <code>null</code>.</p>
+      <div class="codeblock"><span class="code-lang">text</span><pre><code class="language-text">args["price"] * 1.2</code></pre></div>
+      <div class="codeblock"><span class="code-lang">text</span><pre><code class="language-text">state('tax_rate') * args["subtotal"]</code></pre></div>
+      <h3 id="callable-runtime"><code>callable</code> runtime</h3>
+      <p><code>body</code> is a key into the <code>FunctionRegistry</code>. You register a PHP callable at boot (see <a href="extending.html#registering-a-callable-function">Extending</a>):</p>
+      <div class="codeblock"><span class="code-lang">php</span><pre><code class="language-php">app(\Andre\AiPageBuilder\Flow\FunctionRegistry::class)
+          -&gt;register('calc-total', fn (array $args, \Andre\AiPageBuilder\Flow\FlowContext $ctx): float
+              =&gt; (float) $args['price'] * 1.2);</code></pre></div>
+      <p>The callable signature is <code>callable(array $args, FlowContext $ctx): mixed</code>.</p>
+      <h3 id="php-runtime-and-the-security-flag"><code>php</code> runtime — and the security flag</h3>
+      <p><code>body</code> is raw PHP executed in a closure with <code>$args</code>, <code>$input</code>, <code>$vars</code>, <code>$states</code>, <code>$globals</code> in scope. Inside it you can read/write States, query collections, etc.:</p>
+      <div class="codeblock"><span class="code-lang">php</span><pre><code class="language-php">$total = 0;
+      foreach ($args['items'] as $item) {
+          $total += $item['price'];
+      }
+      app(\Andre\AiPageBuilder\Services\Data\VariableStore::class)-&gt;set('cart_total', $total);
+      return $total;</code></pre></div>
+      <blockquote>
+      <p><strong>Security:</strong> the <code>php</code> runtime runs <strong>arbitrary PHP</strong>. It is gated by <code>flow.allow_php_functions</code> (<code>AI_PAGE_BUILDER_ALLOW_PHP</code>, default <strong>true</strong> in config). This is intentional for a single-tenant, self-hosted builder where the function author <em>is</em> the app owner. <strong>Set it to <code>false</code> if you ever expose the builder to less-trusted authors</strong> — the <code>php</code> option then disappears from the Function form and <code>php</code> functions are refused at run time. Prefer <code>expression</code> or <code>callable</code> for anything you don&#39;t fully control.</p>
+      </blockquote>
+      <h2 id="states">States</h2>
+      <p>A State is a persistent, app-wide variable in <code>page_builder_variables</code> (<code>src/Models/Variable.php</code>). The Filament resource is labelled <strong>States</strong>; the model is <code>Variable</code>. Route key <code>key</code>; the <code>VariableStore</code> service is the read/write API.</p>
+      <div class="table-wrap"><table>
+      <thead>
+      <tr>
+      <th>Column</th>
+      <th>Notes</th>
+      </tr>
+      </thead>
+      <tbody><tr>
+      <td><code>key</code></td>
+      <td><code>^[a-z][a-z0-9_]*$</code>. <strong>Immutable after create.</strong></td>
+      </tr>
+      <tr>
+      <td><code>type</code></td>
+      <td><code>string</code> | <code>number</code> | <code>boolean</code> | <code>json</code></td>
+      </tr>
+      <tr>
+      <td><code>value</code></td>
+      <td>Stored as a string; cast back on read per <code>type</code></td>
+      </tr>
+      <tr>
+      <td><code>description</code></td>
+      <td>Optional</td>
+      </tr>
+      <tr>
+      <td><code>is_protected</code></td>
+      <td>Guards against casual edit/delete (advisory)</td>
+      </tr>
+      </tbody></table></div>
+      <p>Type round-tripping: <code>number</code> → int/float, <code>boolean</code> → <code>1</code>/<code>0</code> ↔ bool, <code>json</code> → <code>json_encode</code>/<code>json_decode</code>, <code>string</code> → as-is.</p>
+      <h3 id="reading-writing">Reading &amp; writing</h3>
+      <p><strong><code>VariableStore</code></strong> (<code>src/Services/Data/VariableStore.php</code>) — a memoized singleton (the full map is loaded once per request and the cache is flushed on every write):</p>
+      <div class="codeblock"><span class="code-lang">php</span><pre><code class="language-php">$store = app(\Andre\AiPageBuilder\Services\Data\VariableStore::class);
+      
+      $store-&gt;get('tax_rate', 0.0);          // typed value, with default
+      $store-&gt;set('tax_rate', 0.2);          // infers type when omitted
+      $store-&gt;set('flags', ['beta' =&gt; true], 'json');
+      $store-&gt;has('tax_rate');
+      $store-&gt;forget('tax_rate');
+      $store-&gt;all();                          // key =&gt; typed value</code></pre></div>
+      <p>From flows: the <a href="flows.html#set_variable"><code>set_variable</code> node</a> writes a State; any <code>{{ states.x }}</code> token reads one. From expression functions: <code>state(&#39;x&#39;)</code>.</p>
+      <h3 id="the-reactive-store-data-binding-on-pages">The reactive Store (data binding on pages)</h3>
+      <p>When a page renders, all States are serialized and seeded into an Alpine store named <code>app</code>:</p>
+      <div class="codeblock"><span class="code-lang">js</span><pre><code class="language-js">window.__pbState = { /* every State, key =&gt; value */ };
+      Alpine.store('app', { ...window.__pbState });</code></pre></div>
+      <p>Page markup binds to it declaratively over <code>$store.app.&lt;key&gt;</code> — <code>x-text</code>, <code>x-show</code>, <code>x-model</code>, <code>x-for</code> (see <a href="pages-and-components.html#declarative-data-binding-alpine">Pages → declarative binding</a>). The current end-user is added at <code>$store.app.$user</code> (from <code>GET /pb-auth/me</code>).</p>
+      <p>A flow can update the store <strong>live</strong> without a reload: a <code>result</code> action of type <code>setState</code>/<code>setStates</code> (applied by the page runtime) writes into <code>$store.app</code>, and every bound component re-renders. (Persisting the value server-side is a separate <code>set_variable</code> node — <code>setState</code> only changes the in-page store for that visitor.)</p>
+      <p>Next: <a href="authentication-and-permissions.html">Authentication &amp; permissions</a>.</p>
+    </article>
+    <footer class="doc-footer">
+      <p>Synapse — App Builder · self-hosted, low-code, inside your Laravel admin.</p>
+    </footer>
+  </main>
+</div>
+<script>
+(function () {
+  var toggle = document.getElementById('nav-toggle');
+  var sidebar = document.getElementById('sidebar');
+  var scrim = document.getElementById('scrim');
+  function setOpen(open) {
+    document.body.classList.toggle('nav-open', open);
+    toggle.setAttribute('aria-expanded', String(open));
+    scrim.hidden = !open;
+  }
+  toggle.addEventListener('click', function () {
+    setOpen(!document.body.classList.contains('nav-open'));
+  });
+  scrim.addEventListener('click', function () { setOpen(false); });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') setOpen(false);
+  });
+  // Close after navigating on mobile.
+  sidebar.addEventListener('click', function (e) {
+    if (e.target.closest('a')) setOpen(false);
+  });
+})();
+</script>
+</body>
+</html>

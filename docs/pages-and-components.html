@@ -1,0 +1,623 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pages & Components — Synapse Docs</title>
+<meta name="description" content="Synapse — the self-hosted, low-code app builder for Laravel + Filament. Pages & Components reference.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23818cf8'/%3E%3Cstop offset='1' stop-color='%2322d3ee'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M12 1.6 22.4 12 12 22.4 1.6 12Z' fill='url(%23g)'/%3E%3C/svg%3E">
+<style>
+/* Synapse documentation theme.
+   Ground: deep ink #0b1020. Accent: indigo #6366f1 -> cyan #22d3ee, spent
+   only on the mark, links, current-page rail and heading rules. Everything
+   else is quiet cool-grey on ink. System font for prose; monospace for
+   labels, code and technical table cells. */
+
+:root {
+  --ink:        #0b1020;
+  --ink-2:      #0c1226;   /* sunken (code) */
+  --panel:      #11172b;   /* sidebar / cards — indigo-biased neutral */
+  --panel-2:    #161d36;
+  --border:     #1e2740;
+  --border-2:   #2a3556;
+  --text:       #c5cde0;   /* body — cool grey */
+  --text-soft:  #aab4cf;
+  --muted:      #7e89a8;   /* captions, labels */
+  --head:       #f2f5fc;
+  --indigo:     #818cf8;
+  --indigo-deep:#6366f1;
+  --cyan:       #22d3ee;
+  --link:       #93c5fd;
+  --accent-grad: linear-gradient(120deg, #818cf8 0%, #22d3ee 100%);
+
+  --mono: ui-monospace, "SF Mono", "JetBrains Mono", "Cascadia Code", Menlo, Consolas, monospace;
+  --sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+
+  --measure: 72ch;
+  --sidebar-w: 264px;
+  --topbar-h: 56px;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * { transition: none !important; animation: none !important; }
+}
+
+body {
+  margin: 0;
+  background: var(--ink);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+a { color: var(--link); text-decoration: none; }
+a:hover { text-decoration: underline; text-underline-offset: 2px; }
+:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+
+.skip-link {
+  position: absolute; left: -9999px; top: 0; z-index: 100;
+  background: var(--panel); color: var(--head);
+  padding: 0.6rem 1rem; border: 1px solid var(--border-2);
+}
+.skip-link:focus { left: 0.5rem; top: 0.5rem; }
+
+/* ---- Top bar ---- */
+.topbar {
+  position: sticky; top: 0; z-index: 40;
+  height: var(--topbar-h);
+  display: flex; align-items: center; gap: 0.75rem;
+  padding: 0 1.25rem;
+  background: rgba(11,16,32,0.86);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+}
+.brand {
+  display: inline-flex; align-items: center; gap: 0.55rem;
+  color: var(--head); font-weight: 700; letter-spacing: -0.01em;
+}
+.brand:hover { text-decoration: none; }
+.mark-glyph { display: block; filter: drop-shadow(0 0 8px rgba(99,102,241,0.45)); }
+.brand-name { font-size: 1.05rem; }
+.topbar-links { margin-left: auto; display: flex; gap: 1.25rem; }
+.topbar-links a {
+  color: var(--text-soft); font-size: 0.9rem; font-weight: 500;
+}
+.topbar-links a:hover { color: var(--head); }
+
+.nav-toggle {
+  display: none;
+  width: 38px; height: 38px;
+  background: var(--panel); border: 1px solid var(--border-2);
+  border-radius: 8px; cursor: pointer; padding: 0;
+  align-items: center; justify-content: center;
+}
+.nav-toggle .bars,
+.nav-toggle .bars::before,
+.nav-toggle .bars::after {
+  content: ""; display: block;
+  width: 18px; height: 2px; background: var(--text);
+  position: relative; border-radius: 2px;
+}
+.nav-toggle .bars::before { position: absolute; top: -6px; }
+.nav-toggle .bars::after  { position: absolute; top: 6px; }
+
+/* ---- Shell layout ---- */
+.shell {
+  display: grid;
+  grid-template-columns: var(--sidebar-w) minmax(0, 1fr);
+  align-items: start;
+}
+
+/* ---- Sidebar ---- */
+.sidebar {
+  position: sticky;
+  top: var(--topbar-h);
+  height: calc(100vh - var(--topbar-h));
+  overflow-y: auto;
+  padding: 1.5rem 1rem 2rem 1.5rem;
+  border-right: 1px solid var(--border);
+  background: var(--panel);
+}
+.sidebar-eyebrow {
+  margin: 0 0 0.85rem;
+  font-family: var(--mono);
+  font-size: 0.68rem; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--muted);
+}
+.nav-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 1px; }
+.nav-link {
+  display: block;
+  padding: 0.5rem 0.7rem;
+  color: var(--text-soft);
+  border-radius: 7px;
+  font-size: 0.92rem;
+  border-left: 2px solid transparent;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.nav-link:hover { background: var(--panel-2); color: var(--head); text-decoration: none; }
+.nav-link.is-current {
+  color: var(--head);
+  background: var(--panel-2);
+  border-left: 2px solid transparent;
+  border-image: var(--accent-grad) 1;
+  font-weight: 600;
+}
+
+/* ---- Content ---- */
+.content {
+  min-width: 0;
+  padding: 2.5rem 2.5rem 4rem;
+  display: flex; flex-direction: column; align-items: center;
+}
+.doc { width: 100%; max-width: var(--measure); }
+
+/* Headings */
+.doc h1, .doc h2, .doc h3, .doc h4 {
+  color: var(--head);
+  line-height: 1.25;
+  text-wrap: balance;
+  letter-spacing: -0.012em;
+  scroll-margin-top: calc(var(--topbar-h) + 1rem);
+}
+.doc h1 {
+  font-size: 2.1rem;
+  margin: 0 0 1.4rem;
+  padding-bottom: 0.7rem;
+  position: relative;
+}
+.doc h1::after {
+  content: ""; position: absolute; left: 0; bottom: 0;
+  width: 4rem; height: 3px; border-radius: 2px;
+  background: var(--accent-grad);
+}
+.doc h2 {
+  font-size: 1.5rem;
+  margin: 2.8rem 0 1rem;
+  padding-top: 1.4rem;
+  border-top: 1px solid var(--border);
+}
+.doc h3 { font-size: 1.18rem; margin: 2rem 0 0.75rem; }
+.doc h4 { font-size: 1.02rem; margin: 1.6rem 0 0.6rem; color: var(--text-soft); }
+
+.doc p { margin: 0 0 1.05rem; }
+.doc strong { color: var(--head); font-weight: 650; }
+.doc em { color: var(--text-soft); }
+
+.doc ul, .doc ol { margin: 0 0 1.15rem; padding-left: 1.4rem; }
+.doc li { margin: 0.35rem 0; }
+.doc li::marker { color: var(--indigo); }
+
+/* Blockquotes — used heavily for notes/warnings */
+.doc blockquote {
+  margin: 1.3rem 0;
+  padding: 0.85rem 1.1rem;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-left: 3px solid transparent;
+  border-image: var(--accent-grad) 1;
+  border-radius: 0 8px 8px 0;
+  color: var(--text-soft);
+}
+.doc blockquote p:last-child { margin-bottom: 0; }
+
+/* Inline code */
+.doc :not(pre) > code {
+  font-family: var(--mono);
+  font-size: 0.86em;
+  background: var(--panel-2);
+  color: #d7def0;
+  padding: 0.12em 0.4em;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  word-break: break-word;
+}
+
+/* Code blocks — dark, padded, horizontal scroll */
+.codeblock {
+  position: relative;
+  margin: 1.3rem 0;
+  background: var(--ink-2);
+  border: 1px solid var(--border-2);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.code-lang {
+  position: absolute; top: 0; right: 0;
+  font-family: var(--mono);
+  font-size: 0.64rem; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--muted);
+  padding: 0.3rem 0.7rem;
+  border-bottom-left-radius: 8px;
+  border-left: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  background: rgba(255,255,255,0.02);
+}
+.codeblock pre {
+  margin: 0;
+  padding: 1rem 1.15rem;
+  overflow-x: auto;
+}
+.codeblock code {
+  font-family: var(--mono);
+  font-size: 0.84rem;
+  line-height: 1.6;
+  color: #cdd6ec;
+  white-space: pre;
+}
+
+/* Mermaid diagrams rendered as plain styled source */
+.diagram {
+  margin: 1.4rem 0;
+  border: 1px dashed var(--border-2);
+  border-radius: 10px;
+  background: var(--ink-2);
+  overflow: hidden;
+}
+.diagram figcaption {
+  font-family: var(--mono);
+  font-size: 0.66rem; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--muted);
+  padding: 0.55rem 1rem;
+  border-bottom: 1px solid var(--border);
+  background: rgba(129,140,248,0.05);
+}
+.diagram .diagram-src { margin: 0; padding: 1rem 1.15rem; overflow-x: auto; }
+.diagram .diagram-src code {
+  font-family: var(--mono); font-size: 0.8rem; line-height: 1.55;
+  color: var(--text-soft); white-space: pre;
+}
+
+/* Tables — scroll horizontally on overflow */
+.table-wrap {
+  margin: 1.4rem 0;
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+.doc table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 0.9rem;
+  font-variant-numeric: tabular-nums;
+}
+.doc th, .doc td {
+  text-align: left;
+  padding: 0.6rem 0.85rem;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+.doc thead th {
+  background: var(--panel-2);
+  color: var(--head);
+  font-weight: 600;
+  white-space: nowrap;
+  position: sticky; top: 0;
+}
+.doc tbody tr:last-child td { border-bottom: none; }
+.doc tbody tr:nth-child(even) { background: rgba(255,255,255,0.014); }
+.doc td code, .doc th code { white-space: nowrap; }
+
+.doc hr {
+  border: 0; height: 1px;
+  background: var(--border);
+  margin: 2.4rem 0;
+}
+
+.doc img { max-width: 100%; height: auto; }
+
+/* Footer */
+.doc-footer {
+  width: 100%; max-width: var(--measure);
+  margin-top: 3.5rem; padding-top: 1.4rem;
+  border-top: 1px solid var(--border);
+  color: var(--muted); font-size: 0.85rem;
+}
+.doc-footer p { margin: 0; }
+
+/* ---- Mobile ---- */
+.scrim {
+  position: fixed; inset: var(--topbar-h) 0 0 0; z-index: 30;
+  background: rgba(4,7,16,0.6);
+}
+
+@media (max-width: 860px) {
+  .nav-toggle { display: inline-flex; }
+  .shell { grid-template-columns: minmax(0, 1fr); }
+  .sidebar {
+    position: fixed;
+    top: var(--topbar-h); left: 0; z-index: 35;
+    width: min(82vw, var(--sidebar-w));
+    height: calc(100vh - var(--topbar-h));
+    transform: translateX(-102%);
+    transition: transform 0.22s ease;
+    box-shadow: 0 0 40px rgba(0,0,0,0.5);
+  }
+  body.nav-open .sidebar { transform: translateX(0); }
+  .content { padding: 1.75rem 1.25rem 3rem; }
+  .doc h1 { font-size: 1.7rem; }
+  .doc h2 { font-size: 1.3rem; }
+}
+
+@media (max-width: 460px) {
+  .topbar-links { gap: 0.85rem; }
+  .topbar-links a { font-size: 0.82rem; }
+}
+
+</style>
+</head>
+<body>
+<a class="skip-link" href="#content">Skip to content</a>
+<header class="topbar">
+  <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="sidebar">
+    <span class="bars" aria-hidden="true"></span>
+  </button>
+  <a class="brand" href="index.html"><svg class="mark-glyph" viewBox="0 0 24 24" aria-hidden="true" width="20" height="20"><defs><linearGradient id="syn-g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#818cf8"/><stop offset="1" stop-color="#22d3ee"/></linearGradient></defs><path d="M12 1.6 22.4 12 12 22.4 1.6 12Z" fill="url(#syn-g)"/></svg><span class="brand-name">Synapse</span></a>
+  <nav class="topbar-links" aria-label="Project links">
+    <a href="https://github.com/andrecorugda/synapse-app-builder" target="_blank" rel="noopener noreferrer">GitHub</a>
+    <a href="https://packagist.org/packages/andrecorugda/synapse" target="_blank" rel="noopener noreferrer">Packagist</a>
+  </nav>
+</header>
+<div class="scrim" id="scrim" hidden></div>
+<div class="shell">
+  <aside class="sidebar" id="sidebar" aria-label="Documentation">
+    <p class="sidebar-eyebrow">Documentation</p>
+    <nav>
+      <ul class="nav-list">
+        <li><a class="nav-link" href="index.html">Overview</a></li>
+        <li><a class="nav-link" href="installation.html">Installation</a></li>
+        <li><a class="nav-link" href="architecture.html">Architecture</a></li>
+        <li><a class="nav-link is-current" aria-current="page" href="pages-and-components.html">Pages & Components</a></li>
+        <li><a class="nav-link" href="collections-and-data.html">Collections & Data</a></li>
+        <li><a class="nav-link" href="flows.html">Flows</a></li>
+        <li><a class="nav-link" href="functions-and-states.html">Functions & States</a></li>
+        <li><a class="nav-link" href="authentication-and-permissions.html">Auth & Permissions</a></li>
+        <li><a class="nav-link" href="email.html">Email</a></li>
+        <li><a class="nav-link" href="ai.html">AI</a></li>
+        <li><a class="nav-link" href="configuration.html">Configuration</a></li>
+        <li><a class="nav-link" href="extending.html">Extending</a></li>
+      </ul>
+    </nav>
+  </aside>
+  <main class="content" id="content">
+    <article class="doc">
+      <h1 id="pages-components">Pages &amp; components</h1>
+      <p>A <strong>page</strong> is a row in the <code>pages</code> table. The GrapesJS visual editor stores its canonical state in <code>project_data</code> and a compiled snapshot in <code>html</code> + <code>css</code>; the public render route assembles those plus per-page CSS/JS, a reactive Alpine store and a small flow runtime into a standalone HTML document.</p>
+      <h2 id="the-page-model">The Page model</h2>
+      <p><code>src/Models/Page.php</code>. Route key is <code>slug</code>; soft-deletes enabled.</p>
+      <div class="table-wrap"><table>
+      <thead>
+      <tr>
+      <th>Column</th>
+      <th>Type</th>
+      <th>Notes</th>
+      </tr>
+      </thead>
+      <tbody><tr>
+      <td><code>title</code></td>
+      <td>string</td>
+      <td></td>
+      </tr>
+      <tr>
+      <td><code>slug</code></td>
+      <td>string</td>
+      <td>Unique, route key. Pattern <code>^[a-z0-9\-_]+$</code></td>
+      </tr>
+      <tr>
+      <td><code>status</code></td>
+      <td><code>PageStatus</code> enum</td>
+      <td><code>draft</code> | <code>published</code></td>
+      </tr>
+      <tr>
+      <td><code>kind</code></td>
+      <td>string</td>
+      <td><code>page</code> (default) or <code>email</code> (an <a href="email.html">email template</a>)</td>
+      </tr>
+      <tr>
+      <td><code>requires_auth</code></td>
+      <td>bool</td>
+      <td>Gate the page behind the <code>pb</code> guard</td>
+      </tr>
+      <tr>
+      <td><code>project_data</code></td>
+      <td>array (JSON)</td>
+      <td>GrapesJS canonical editor state</td>
+      </tr>
+      <tr>
+      <td><code>html</code></td>
+      <td>string</td>
+      <td>Compiled markup snapshot</td>
+      </tr>
+      <tr>
+      <td><code>css</code></td>
+      <td>string</td>
+      <td>Compiled stylesheet snapshot</td>
+      </tr>
+      <tr>
+      <td><code>custom_css</code></td>
+      <td>string</td>
+      <td>Per-page CSS (Advanced section)</td>
+      </tr>
+      <tr>
+      <td><code>custom_js</code></td>
+      <td>string</td>
+      <td>Per-page JS (Advanced section)</td>
+      </tr>
+      <tr>
+      <td><code>meta</code></td>
+      <td>array (JSON)</td>
+      <td>SEO: <code>title</code>, <code>description</code>, <code>og_image</code>, <code>canonical</code>, <code>noindex</code></td>
+      </tr>
+      <tr>
+      <td><code>published_at</code></td>
+      <td>datetime</td>
+      <td>Set automatically when status is <code>published</code></td>
+      </tr>
+      </tbody></table></div>
+      <p>Scopes: <code>published()</code>, <code>pages()</code>, <code>emailTemplates()</code>. Helpers: <code>isPublished()</code>, <code>isEmailTemplate()</code>. Saving/deleting a page busts the render cache for its slug (and the old slug if it changed).</p>
+      <p><code>PageStatus</code> (<code>src/Enums/PageStatus.php</code>): <code>Draft = &#39;draft&#39;</code>, <code>Published = &#39;published&#39;</code>, each with <code>label()</code> and <code>color()</code>.</p>
+      <h2 id="editing-in-filament">Editing in Filament</h2>
+      <p><code>PageResource</code> form sections:</p>
+      <ol>
+      <li><strong>Page details</strong> — <code>title</code> (auto-fills <code>slug</code> on create), <code>status</code>, <code>kind</code>, <code>slug</code>, <code>requires_auth</code>.</li>
+      <li><strong>Builder</strong> — the GrapesJS field (<code>builder</code>), holding <code>{ project_data, html, css }</code>. <code>PageDataMapper::merge()</code>/<code>split()</code> map between this form shape and the DB columns.</li>
+      <li><strong>SEO</strong> (collapsed) — the <code>meta.*</code> keys.</li>
+      <li><strong>Advanced</strong> (collapsed) — <code>custom_css</code> and <code>custom_js</code> (Ace code fields).</li>
+      </ol>
+      <p>The list view offers <strong>Duplicate</strong> (clones to a Draft with a random slug suffix), <strong>View live</strong> (for published pages when the render route is enabled), and delete.</p>
+      <h2 id="the-block-vocabulary">The block vocabulary</h2>
+      <p><code>src/Blocks/BlockVocabulary.php</code> is the single source of truth for the editor&#39;s blocks <strong>and</strong> the AI&#39;s allowed component keys. Blocks come in families; each block has a <code>key</code>, <code>label</code>, <code>category</code>, <code>template</code> (HTML), <code>description</code> and an icon (<code>src/Blocks/SectionBlock.php</code> is the value object).</p>
+      <p>Section blocks wrap their markup in <code>&lt;section data-pb-block=&quot;{key}&quot;&gt;</code> with stable <code>pb-{key}__*</code> classes. The <code>data-pb-block</code> attribute is the convention that lets dragged or AI-generated markup import as a labelled, editable GrapesJS component — and it is the vocabulary the AI is constrained to (<code>BlockVocabulary::keys()</code> returns the section keys only).</p>
+      <h3 id="sections-category-sections-the-ai-vocabulary">Sections (category <code>Sections</code>) — the AI vocabulary</h3>
+      <p><code>navbar</code>, <code>hero</code>, <code>features</code>, <code>logos</code>, <code>stats</code>, <code>gallery</code>, <code>pricing</code>, <code>testimonial</code>, <code>faq</code>, <code>team</code>, <code>cta</code>, <code>contact</code>, <code>footer</code>.</p>
+      <h3 id="basics-category-basic-no-data-pb-block">Basics (category <code>Basic</code>) — no <code>data-pb-block</code></h3>
+      <p><code>text</code>, <code>heading</code>, <code>image</code>, <code>button</code>, <code>columns-2</code>, <code>columns-3</code>, <code>spacer</code>, <code>divider</code>.</p>
+      <h3 id="shapes-category-shapes">Shapes (category <code>Shapes</code>)</h3>
+      <p><code>shape-wave</code>, <code>shape-slant</code>, <code>shape-tilt</code>, <code>shape-curve</code> — full-width SVG section dividers.</p>
+      <h3 id="components-category-components">Components (category <code>Components</code>)</h3>
+      <p><code>card</code>, <code>banner</code>, <code>modal</code>, <code>drawer</code>, <code>tabs</code>, <code>accordion</code>, <code>tooltip</code>, <code>dropdown_menu</code>. These are <strong>owner-authored, trusted</strong> interactive blocks — because the author wrote them (not the AI), they may carry <em>executable</em> Alpine directives (<code>x-data</code>, <code>@click</code>, <code>x-show</code>, <code>x-transition</code>, etc.) for local UI state. Overlay panels use <code>x-cloak</code> so they stay hidden in the editor canvas (where Alpine does not run).</p>
+      <h3 id="forms-category-forms">Forms (category <code>Forms</code>)</h3>
+      <p><code>text_input</code>, <code>email_input</code>, <code>textarea</code>, <code>select</code>, <code>checkbox</code>, <code>radio_group</code>, <code>submit_button</code>, <code>form</code>. Each input is a real control with a stable <code>name</code> so the runtime&#39;s <code>collectFormInput()</code> picks it up.</p>
+      <h3 id="data-category-data">Data (category <code>Data</code>)</h3>
+      <p><code>data_table</code> and <code>list</code> — render rows reactively. <code>data_table</code> carries <code>x-data=&quot;pbTable(&#39;&lt;collection&gt;&#39;)&quot;</code> and fetches <code>GET {api}/{collection}</code> on init; <code>list</code> repeats over a <code>$store.app</code> array. (See <a href="#data-tables-with-pbtable"><code>pbTable</code></a> below.)</p>
+      <blockquote>
+      <p>The full HTML template for every block lives in <code>BlockVocabulary.php</code>. <code>BlockVocabulary::all()</code> returns every family; <code>BlockVocabulary::toArray()</code> is the serialized form handed to the GrapesJS block manager.</p>
+      </blockquote>
+      <h2 id="the-render-route">The render route</h2>
+      <p>When <code>routes.render_enabled</code> is on (default), the package serves:</p>
+      <ul>
+      <li><code>GET /{render_prefix}/{slug}</code> → <code>RenderPageController</code> (default prefix <code>p</code>, so <code>/p/{slug}</code>). <code>slug</code> matches <code>[A-Za-z0-9\-_]+</code>.</li>
+      <li><code>GET /{render_prefix}/</code> → the configured <strong>home page</strong> (<code>RenderPageController@home</code>).</li>
+      </ul>
+      <p><code>RenderPageController</code> resolves the page via the <code>published()</code> scope, returns 404 for unknown/unpublished slugs, and — if <code>requires_auth</code> is true and <code>auth.enabled</code> is true — redirects unauthenticated visitors to the login path (with <code>intended</code>). See <a href="authentication-and-permissions.html">Authentication &amp; permissions</a>.</p>
+      <h3 id="home-page">Home page</h3>
+      <p>The home page is <strong>not</strong> chosen in config — it is the <code>home_page</code> setting (a page slug), chosen on the <em>Settings</em> admin screen. <code>RenderPageController@home</code> reads it from the <code>Settings</code> service and 404s if unset.</p>
+      <p>To also serve the home page at the site root <code>/</code>, enable <code>routes.home_at_root</code> (<code>AI_PAGE_BUILDER_HOME_AT_ROOT=true</code>). This only takes effect if the host app has <strong>no</strong> <code>/</code> route of its own (Laravel matches the first-registered route). If your app keeps a <code>/</code> route, point it at the controller yourself:</p>
+      <div class="codeblock"><span class="code-lang">php</span><pre><code class="language-php">use Andre\AiPageBuilder\Http\Controllers\RenderPageController;
+      Route::get('/', [RenderPageController::class, 'home']);</code></pre></div>
+      <h3 id="caching">Caching</h3>
+      <p><code>PageRenderer</code> caches the assembled HTML per slug. Cache key prefix <code>ai-page-builder:rendered:</code>, TTL <code>cache.ttl</code> (default 3600s; <code>0</code> disables), store <code>cache.store</code>. The cache is busted automatically when a page is saved or deleted.</p>
+      <h2 id="per-page-css-js">Per-page CSS / JS</h2>
+      <p><code>custom_css</code> is injected into the page <code>&lt;head&gt;</code>; <code>custom_js</code> is injected at the <strong>end</strong> of <code>&lt;body&gt;</code>, after the DOM, the flow runtime and Alpine — so it can rely on <code>window.Alpine</code> and <code>$store.app</code> being present.</p>
+      <h2 id="declarative-data-binding-alpine">Declarative data binding (Alpine)</h2>
+      <p>The rendered page loads Alpine and registers a global store named <code>app</code>, seeded from your <a href="functions-and-states.html">States</a>: <code>Alpine.store(&#39;app&#39;, { ...window.__pbState })</code>. Bind page content to state with <strong>declarative</strong> directives over <code>$store.app.&lt;state&gt;</code>:</p>
+      <div class="table-wrap"><table>
+      <thead>
+      <tr>
+      <th>Directive</th>
+      <th>Use</th>
+      </tr>
+      </thead>
+      <tbody><tr>
+      <td><code>x-text=&quot;$store.app.greeting&quot;</code></td>
+      <td>Render a state value as text</td>
+      </tr>
+      <tr>
+      <td><code>x-show=&quot;$store.app.isOpen&quot;</code></td>
+      <td>Toggle visibility</td>
+      </tr>
+      <tr>
+      <td><code>x-model=&quot;$store.app.search&quot;</code></td>
+      <td>Two-way bind an input</td>
+      </tr>
+      <tr>
+      <td><code>x-for=&quot;item in $store.app.items&quot;</code></td>
+      <td>Repeat over a state array</td>
+      </tr>
+      </tbody></table></div>
+      <blockquote>
+      <p><strong>AI-authored pages are restricted to these declarative directives.</strong> The <a href="ai.html#safety"><code>HtmlSanitizer</code></a> strips executable directives (<code>@click</code>, <code>x-on:*</code>, <code>x-init</code>, <code>x-effect</code>, <code>x-html</code>) and <code>&lt;script&gt;</code> from AI HTML, but keeps <code>x-data</code>, <code>x-show</code>, <code>x-text</code>, <code>x-model</code>, <code>x-for</code>, <code>x-bind:</code>/<code>:</code>, <code>x-cloak</code>, <code>x-transition*</code> and the <code>data-pb-*</code> attributes. Owner-authored Component blocks are trusted and bypass the sanitizer.</p>
+      </blockquote>
+      <p>The current end-user is fetched client-side from <code>GET /pb-auth/me</code> and placed at <code>$store.app.$user</code> — used to drive component visibility (see below).</p>
+      <h2 id="runtime-data-attributes">Runtime data attributes</h2>
+      <p>The bundled <code>flow-runtime.blade.php</code> wires up these attributes on the published page:</p>
+      <div class="table-wrap"><table>
+      <thead>
+      <tr>
+      <th>Attribute</th>
+      <th>Effect</th>
+      </tr>
+      </thead>
+      <tbody><tr>
+      <td><code>data-pb-block=&quot;{key}&quot;</code></td>
+      <td>Marks a section block (editor + validator convention)</td>
+      </tr>
+      <tr>
+      <td><code>data-pb-flow=&quot;{slug}&quot;</code></td>
+      <td>Run a flow when the element is clicked/submitted</td>
+      </tr>
+      <tr>
+      <td><code>data-pb-flow-event=&quot;click|submit|…&quot;</code></td>
+      <td>Which event triggers the flow</td>
+      </tr>
+      <tr>
+      <td><code>data-pb-flow-input=&#39;{&quot;k&quot;:&quot;v&quot;}&#39;</code></td>
+      <td>Explicit input merged with nearest-form data</td>
+      </tr>
+      <tr>
+      <td><code>data-pb-record=&quot;{collection}&quot;</code></td>
+      <td>A <code>&lt;form&gt;</code> that creates a record in a collection on submit</td>
+      </tr>
+      <tr>
+      <td><code>data-pb-page=&quot;{slug}&quot;</code></td>
+      <td>Navigate to another page on click</td>
+      </tr>
+      <tr>
+      <td><code>data-pb-auth</code></td>
+      <td>Hide the element unless an end-user is logged in</td>
+      </tr>
+      <tr>
+      <td><code>data-pb-roles=&quot;a,b&quot;</code></td>
+      <td>Hide unless the user has one of those role slugs (admins always pass)</td>
+      </tr>
+      </tbody></table></div>
+      <p>Flow runs <code>POST</code> to <code>/{flow_prefix}/{slug}</code> with <code>{ &quot;input&quot;: {...} }</code> and apply the returned <code>actions[]</code> (<code>setHtml</code>, <code>setText</code>, <code>notify</code>, <code>redirect</code>, <code>addClass</code>, <code>removeClass</code>, <code>setState</code>, <code>setStates</code>). See <a href="flows.html">Flows</a>.</p>
+      <h2 id="data-tables-with-pbtable">Data tables with <code>pbTable</code></h2>
+      <p>For a data-bound table, give the root <code>x-data=&quot;pbTable(&#39;&lt;collection key&gt;&#39;)&quot;</code>. On init it fetches <code>GET {api_prefix}/{collection}</code> and exposes:</p>
+      <ul>
+      <li><code>rows</code> — the records (<code>response.data</code>)</li>
+      <li><code>loading</code> / <code>error</code> — request state</li>
+      </ul>
+      <p>Then repeat with <code>&lt;template x-for=&quot;row in rows&quot; :key=&quot;row.id&quot;&gt;</code> and bind cells with <code>x-text=&quot;row.&lt;field&gt;&quot;</code>. The <code>data_table</code> block ships this scaffold plus sample rows (hidden with <code>x-show=&quot;false&quot;</code>) so the editor canvas shows something while Alpine is inert.</p>
+      <p>Next: <a href="collections-and-data.html">Collections &amp; data</a>.</p>
+    </article>
+    <footer class="doc-footer">
+      <p>Synapse — App Builder · self-hosted, low-code, inside your Laravel admin.</p>
+    </footer>
+  </main>
+</div>
+<script>
+(function () {
+  var toggle = document.getElementById('nav-toggle');
+  var sidebar = document.getElementById('sidebar');
+  var scrim = document.getElementById('scrim');
+  function setOpen(open) {
+    document.body.classList.toggle('nav-open', open);
+    toggle.setAttribute('aria-expanded', String(open));
+    scrim.hidden = !open;
+  }
+  toggle.addEventListener('click', function () {
+    setOpen(!document.body.classList.contains('nav-open'));
+  });
+  scrim.addEventListener('click', function () { setOpen(false); });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') setOpen(false);
+  });
+  // Close after navigating on mobile.
+  sidebar.addEventListener('click', function (e) {
+    if (e.target.closest('a')) setOpen(false);
+  });
+})();
+</script>
+</body>
+</html>
