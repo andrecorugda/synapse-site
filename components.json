@@ -1,0 +1,442 @@
+[
+    {
+        "key": "navbar",
+        "label": "Navbar",
+        "category": "Sections",
+        "template": "<section data-pb-block=\"navbar\" class=\"pb-navbar\" style=\"display:flex;align-items:center;justify-content:space-between;padding:1rem 1.5rem;border-bottom:1px solid #e2e8f0;\">\n  <span class=\"pb-navbar__brand\" style=\"font-weight:700;font-size:1.25rem;\">Brand</span>\n  <nav class=\"pb-navbar__links\" style=\"display:flex;gap:1.5rem;\">\n    <a href=\"#\" style=\"color:#334155;text-decoration:none;\">Features</a>\n    <a href=\"#\" style=\"color:#334155;text-decoration:none;\">Pricing</a>\n    <a href=\"#\" style=\"color:#334155;text-decoration:none;\">Contact</a>\n  </nav>\n  <a href=\"#\" class=\"pb-navbar__cta\" style=\"padding:0.5rem 1rem;border-radius:0.5rem;background:#4f46e5;color:#fff;text-decoration:none;\">Sign up</a>\n</section>",
+        "description": "Top navigation bar with logo and links.",
+        "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"width:26px;height:26px;\"><rect x=\"3\" y=\"5\" width=\"18\" height=\"14\" rx=\"2\"/><line x1=\"3\" y1=\"9\" x2=\"21\" y2=\"9\"/></svg>"
+    },
+    {
+        "key": "hero",
+        "label": "Hero",
+        "category": "Sections",
+        "template": "<section data-pb-block=\"hero\" class=\"pb-hero\" style=\"padding:5rem 1.5rem;text-align:center;\">\n  <h1 class=\"pb-hero__title\" style=\"font-size:2.75rem;margin:0 0 1rem;\">Your headline here</h1>\n  <p class=\"pb-hero__subtitle\" style=\"font-size:1.25rem;color:#475569;max-width:40rem;margin:0 auto 2rem;\">A short, punchy subheadline that explains the value.</p>\n  <a class=\"pb-hero__cta\" href=\"#\" style=\"display:inline-block;padding:0.85rem 1.75rem;border-radius:0.5rem;background:#4f46e5;color:#fff;text-decoration:none;font-weight:600;\">Get started</a>\n</section>",
+        "description": "Headline, subheadline and a primary call-to-action.",
+        "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"width:26px;height:26px;\"><rect x=\"3\" y=\"5\" width=\"18\" height=\"14\" rx=\"2\"/><line x1=\"7\" y1=\"11\" x2=\"17\" y2=\"11\"/><line x1=\"9\" y1=\"14\" x2=\"15\" y2=\"14\"/></svg>"
+    },
+    {
+        "key": "features",
+        "label": "Features",
+        "category": "Sections",
+        "template": "<section data-pb-block=\"features\" class=\"pb-features\" style=\"padding:4rem 1.5rem;\">\n  <h2 class=\"pb-features__title\" style=\"text-align:center;font-size:2rem;margin:0 0 2.5rem;\">Features</h2>\n  <div class=\"pb-features__grid\" style=\"display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;max-width:64rem;margin:0 auto;\">\n    <div class=\"pb-features__item\" style=\"padding:1.5rem;border:1px solid #e2e8f0;border-radius:0.75rem;\"><h3 style=\"margin:0 0 0.5rem;\">Feature one</h3><p style=\"color:#475569;margin:0;\">Describe the benefit.</p></div>\n    <div class=\"pb-features__item\" style=\"padding:1.5rem;border:1px solid #e2e8f0;border-radius:0.75rem;\"><h3 style=\"margin:0 0 0.5rem;\">Feature two</h3><p style=\"color:#475569;margin:0;\">Describe the benefit.</p></div>\n    <div class=\"pb-features__item\" style=\"padding:1.5rem;border:1px solid #e2e8f0;border-radius:0.75rem;\"><h3 style=\"margin:0 0 0.5rem;\">Feature three</h3><p style=\"color:#475569;margin:0;\">Describe the benefit.</p></div>\n  </div>\n</section>",
+        "description": "A grid of feature cards.",
+        "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"width:26px;height:26px;\"><rect x=\"4\" y=\"4\" width=\"7\" height=\"7\" rx=\"1\"/><rect x=\"13\" y=\"4\" width=\"7\" height=\"7\" rx=\"1\"/><rect x=\"4\" y=\"13\" width=\"7\" height=\"7\" rx=\"1\"/><rect x=\"13\" y=\"13\" width=\"7\" height=\"7\" rx=\"1\"/></svg>"
+    },
+    {
+        "key": "logos",
+        "label": "Logo cloud",
+        "category": "Sections",
+        "template": "<section data-pb-block=\"logos\" class=\"pb-logos\" style=\"padding:3rem 1.5rem;text-align:center;\">\n  <p class=\"pb-logos__caption\" style=\"color:#64748b;margin:0 0 1.5rem;\">Trusted by teams at</p>\n  <div class=\"pb-logos__row\" style=\"display:flex;flex-wrap:wrap;gap:2.5rem;justify-content:center;align-items:center;color:#94a3b8;font-weight:700;font-size:1.25rem;\">\n    <span>Acme</span><span>Globex</span><span>Initech</span><span>Umbrella</span><span>Soylent</span>\n  </div>\n</section>",
+        "description": "A row of customer / partner logos.",
+        "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"width:26px;height:26px;\"><rect x=\"3\" y=\"10\" width=\"4\" height=\"4\" rx=\"1\"/><rect x=\"10\" y=\"10\" width=\"4\" height=\"4\" rx=\"1\"/><rect x=\"17\" y=\"10\" width=\"4\" height=\"4\" rx=\"1\"/></svg>"
+    },
+    {
+        "key": "stats",
+        "label": "Stats",
+        "category": "Sections",
+        "template": "<section data-pb-block=\"stats\" class=\"pb-stats\" style=\"padding:4rem 1.5rem;background:#f8fafc;\">\n  <div class=\"pb-stats__row\" style=\"display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;max-width:60rem;margin:0 auto;text-align:center;\">\n    <div><div style=\"font-size:2.5rem;font-weight:800;color:#4f46e5;\">99.9%</div><div style=\"color:#475569;\">Uptime</div></div>\n    <div><div style=\"font-size:2.5rem;font-weight:800;color:#4f46e5;\">10k+</div><div style=\"color:#475569;\">Customers</div></div>\n    <div><div style=\"font-size:2.5rem;font-weight:800;color:#4f46e5;\">24/7</div><div style=\"color:#475569;\">Support</div></div>\n  </div>\n</section>",
+        "description": "Key metrics in a row.",
+        "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"width:26px;height:26px;\"><line x1=\"5\" y1=\"20\" x2=\"5\" y2=\"13\"/><line x1=\"12\" y1=\"20\" x2=\"12\" y2=\"7\"/><line x1=\"19\" y1=\"20\" x2=\"19\" y2=\"11\"/></svg>"
+    },
+    {
+        "key": "gallery",
+        "label": "Gallery",
+        "category": "Sections",
+        "template": "<section data-pb-block=\"gallery\" class=\"pb-gallery\" style=\"padding:4rem 1.5rem;\">\n  <div class=\"pb-gallery__grid\" style=\"display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;max-width:64rem;margin:0 auto;\">\n    <img src=\"data:image/svg+xml;charset=utf8,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='400'%20height='300'%3E%3Crect%20width='400'%20height='300'%20fill='%23e2e8f0'/%3E%3C/svg%3E\" alt=\"\" style=\"width:100%;border-radius:0.5rem;\">\n    <img src=\"data:image/svg+xml;charset=utf8,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='400'%20height='300'%3E%3Crect%20width='400'%20height='300'%20fill='%23e2e8f0'/%3E%3C/svg%3E\" alt=\"\" style=\"width:100%;border-radius:0.5rem;\">\n    <img src=\"data:image/svg+xml;charset=utf8,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='400'%20height='300'%3E%3Crect%20width='400'%20height='300'%20fill='%23e2e8f0'/%3E%3C/svg%3E\" alt=\"\" style=\"width:100%;border-radius:0.5rem;\">\n  </div>\n</section>",
+        "description": "An image gallery grid.",
+        "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"width:26px;height:26px;\"><rect x=\"3\" y=\"6\" width=\"8\" height=\"12\" rx=\"1\"/><rect x=\"13\" y=\"6\" width=\"8\" height=\"12\" rx=\"1\"/><circle cx=\"6\" cy=\"9.5\" r=\"1\"/></svg>"
+    },
+    {
+        "key": "pricing",
+        "label": "Pricing",
+        "category": "Sections",
+        "template": "<section data-pb-block=\"pricing\" class=\"pb-pricing\" style=\"padding:4rem 1.5rem;\">\n  <h2 class=\"pb-pricing__title\" style=\"text-align:center;font-size:2rem;margin:0 0 2.5rem;\">Pricing</h2>\n  <div class=\"pb-pricing__grid\" style=\"display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;max-width:60rem;margin:0 auto;\">\n    <div class=\"pb-pricing__plan\" style=\"padding:2rem;border:1px solid #e2e8f0;border-radius:0.75rem;text-align:center;\"><h3 style=\"margin:0 0 0.5rem;\">Starter</h3><p style=\"font-size:2rem;font-weight:700;margin:0 0 1rem;\">$9<span style=\"font-size:1rem;color:#64748b;\">/mo</span></p><a href=\"#\" style=\"display:inline-block;padding:0.6rem 1.25rem;border-radius:0.5rem;background:#4f46e5;color:#fff;text-decoration:none;\">Choose</a></div>\n    <div class=\"pb-pricing__plan\" style=\"padding:2rem;border:2px solid #4f46e5;border-radius:0.75rem;text-align:center;\"><h3 style=\"margin:0 0 0.5rem;\">Pro</h3><p style=\"font-size:2rem;font-weight:700;margin:0 0 1rem;\">$29<span style=\"font-size:1rem;color:#64748b;\">/mo</span></p><a href=\"#\" style=\"display:inline-block;padding:0.6rem 1.25rem;border-radius:0.5rem;background:#4f46e5;color:#fff;text-decoration:none;\">Choose</a></div>\n    <div class=\"pb-pricing__plan\" style=\"padding:2rem;border:1px solid #e2e8f0;border-radius:0.75rem;text-align:center;\"><h3 style=\"margin:0 0 0.5rem;\">Business</h3><p style=\"font-size:2rem;font-weight:700;margin:0 0 1rem;\">$99<span style=\"font-size:1rem;color:#64748b;\">/mo</span></p><a href=\"#\" style=\"display:inline-block;padding:0.6rem 1.25rem;border-radius:0.5rem;background:#4f46e5;color:#fff;text-decoration:none;\">Choose</a></div>\n  </div>\n</section>",
+        "description": "Pricing tiers with a CTA each.",
+        "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"width:26px;height:26px;\"><path d=\"M4 4h7l9 9-7 7-9-9z\"/><circle cx=\"8\" cy=\"8\" r=\"1\"/></svg>"
+    },
+    {
+        "key": "testimonial",
+        "label": "Testimonial",
+        "category": "Sections",
+        "template": "<section data-pb-block=\"testimonial\" class=\"pb-testimonial\" style=\"padding:4rem 1.5rem;background:#f8fafc;text-align:center;\">\n  <blockquote class=\"pb-testimonial__quote\" style=\"font-size:1.5rem;max-width:48rem;margin:0 auto 1rem;font-style:italic;\">\u201cThis product changed how our team works.\u201d</blockquote>\n  <p class=\"pb-testimonial__author\" style=\"color:#475569;margin:0;font-weight:600;\">Jane Doe, CEO at Acme</p>\n</section>",
+        "description": "A customer quote with attribution.",
+        "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"width:26px;height:26px;\"><path d=\"M4 5h16v10H8l-4 4z\"/></svg>"
+    },
+    {
+        "key": "faq",
+        "label": "FAQ",
+        "category": "Sections",
+        "template": "<section data-pb-block=\"faq\" class=\"pb-faq\" style=\"padding:4rem 1.5rem;max-width:48rem;margin:0 auto;\">\n  <h2 class=\"pb-faq__title\" style=\"text-align:center;font-size:2rem;margin:0 0 2rem;\">Frequently asked questions</h2>\n  <div class=\"pb-faq__item\" style=\"padding:1.25rem 0;border-bottom:1px solid #e2e8f0;\"><h3 style=\"margin:0 0 0.5rem;font-size:1.1rem;\">Is there a free trial?</h3><p style=\"color:#475569;margin:0;\">Yes, 14 days, no card required.</p></div>\n  <div class=\"pb-faq__item\" style=\"padding:1.25rem 0;border-bottom:1px solid #e2e8f0;\"><h3 style=\"margin:0 0 0.5rem;font-size:1.1rem;\">Can I cancel anytime?</h3><p style=\"color:#475569;margin:0;\">Absolutely \u2014 cancel in one click.</p></div>\n</section>",
+        "description": "Frequently asked questions.",
+        "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"width:26px;height:26px;\"><rect x=\"3\" y=\"4\" width=\"18\" height=\"6\" rx=\"1.5\"/><rect x=\"3\" y=\"14\" width=\"18\" height=\"6\" rx=\"1.5\"/><path d=\"M16 6l1.5 1.5L19 6\"/></svg>"
+    },
+    {
+        "key": "team",
+        "label": "Team",
+        "category": "Sections",
+        "template": "<section data-pb-block=\"team\" class=\"pb-team\" style=\"padding:4rem 1.5rem;\">\n  <h2 class=\"pb-team__title\" style=\"text-align:center;font-size:2rem;margin:0 0 2.5rem;\">Meet the team</h2>\n  <div class=\"pb-team__grid\" style=\"display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;max-width:60rem;margin:0 auto;text-align:center;\">\n    <div><img src=\"data:image/svg+xml;charset=utf8,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='120'%20height='120'%3E%3Crect%20width='120'%20height='120'%20fill='%23e2e8f0'/%3E%3C/svg%3E\" alt=\"\" style=\"width:96px;height:96px;border-radius:50%;object-fit:cover;\"><h3 style=\"margin:0.75rem 0 0.25rem;\">Alex Kim</h3><p style=\"color:#64748b;margin:0;\">CEO</p></div>\n    <div><img src=\"data:image/svg+xml;charset=utf8,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='120'%20height='120'%3E%3Crect%20width='120'%20height='120'%20fill='%23e2e8f0'/%3E%3C/svg%3E\" alt=\"\" style=\"width:96px;height:96px;border-radius:50%;object-fit:cover;\"><h3 style=\"margin:0.75rem 0 0.25rem;\">Sam Lee</h3><p style=\"color:#64748b;margin:0;\">CTO</p></div>\n    <div><img src=\"data:image/svg+xml;charset=utf8,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='120'%20height='120'%3E%3Crect%20width='120'%20height='120'%20fill='%23e2e8f0'/%3E%3C/svg%3E\" alt=\"\" style=\"width:96px;height:96px;border-radius:50%;object-fit:cover;\"><h3 style=\"margin:0.75rem 0 0.25rem;\">Jo Park</h3><p style=\"color:#64748b;margin:0;\">Design</p></div>\n  </div>\n</section>",
+        "description": "Team member cards.",
+        "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"width:26px;height:26px;\"><circle cx=\"9\" cy=\"9\" r=\"3\"/><path d=\"M4 19c0-3 2.2-5 5-5s5 2 5 5\"/><circle cx=\"17\" cy=\"9\" r=\"2.3\"/></svg>"
+    },
+    {
+        "key": "cta",
+        "label": "Call to action",
+        "category": "Sections",
+        "template": "<section data-pb-block=\"cta\" class=\"pb-cta\" style=\"padding:4rem 1.5rem;text-align:center;background:#4f46e5;color:#fff;\">\n  <h2 class=\"pb-cta__title\" style=\"font-size:2rem;margin:0 0 1rem;\">Ready to get started?</h2>\n  <a class=\"pb-cta__button\" href=\"#\" style=\"display:inline-block;padding:0.85rem 1.75rem;border-radius:0.5rem;background:#fff;color:#4f46e5;text-decoration:none;font-weight:600;\">Sign up free</a>\n</section>",
+        "description": "A closing call-to-action banner.",
+        "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"width:26px;height:26px;\"><path d=\"M4 10v4l10 5V5z\"/><path d=\"M14 8a4 4 0 0 1 0 8\"/></svg>"
+    },
+    {
+        "key": "contact",
+        "label": "Contact",
+        "category": "Sections",
+        "template": "<section data-pb-block=\"contact\" class=\"pb-contact\" style=\"padding:4rem 1.5rem;max-width:36rem;margin:0 auto;\">\n  <h2 class=\"pb-contact__title\" style=\"text-align:center;font-size:2rem;margin:0 0 2rem;\">Get in touch</h2>\n  <form class=\"pb-contact__form\" style=\"display:flex;flex-direction:column;gap:1rem;\">\n    <input type=\"text\" placeholder=\"Name\" style=\"padding:0.75rem;border:1px solid #cbd5e1;border-radius:0.5rem;\">\n    <input type=\"email\" placeholder=\"Email\" style=\"padding:0.75rem;border:1px solid #cbd5e1;border-radius:0.5rem;\">\n    <textarea placeholder=\"Message\" rows=\"4\" style=\"padding:0.75rem;border:1px solid #cbd5e1;border-radius:0.5rem;\"></textarea>\n    <button type=\"submit\" style=\"padding:0.75rem;border:0;border-radius:0.5rem;background:#4f46e5;color:#fff;font-weight:600;cursor:pointer;\">Send</button>\n  </form>\n</section>",
+        "description": "A simple contact form.",
+        "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"width:26px;height:26px;\"><rect x=\"3\" y=\"6\" width=\"18\" height=\"12\" rx=\"2\"/><path d=\"M3 7l9 6 9-6\"/></svg>"
+    },
+    {
+        "key": "footer",
+        "label": "Footer",
+        "category": "Sections",
+        "template": "<section data-pb-block=\"footer\" class=\"pb-footer\" style=\"padding:2.5rem 1.5rem;background:#0f172a;color:#cbd5e1;text-align:center;\">\n  <p class=\"pb-footer__links\" style=\"margin:0 0 0.75rem;\"><a href=\"#\" style=\"color:#cbd5e1;text-decoration:none;margin:0 0.75rem;\">About</a><a href=\"#\" style=\"color:#cbd5e1;text-decoration:none;margin:0 0.75rem;\">Pricing</a><a href=\"#\" style=\"color:#cbd5e1;text-decoration:none;margin:0 0.75rem;\">Contact</a></p>\n  <p class=\"pb-footer__copy\" style=\"margin:0;font-size:0.875rem;color:#64748b;\">\u00a9 Your Company. All rights reserved.</p>\n</section>",
+        "description": "A footer with links and copyright.",
+        "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"width:26px;height:26px;\"><rect x=\"3\" y=\"5\" width=\"18\" height=\"14\" rx=\"2\"/><line x1=\"3\" y1=\"15\" x2=\"21\" y2=\"15\"/></svg>"
+    },
+    {
+        "key": "text",
+        "label": "Text",
+        "category": "Basic",
+        "template": "<p style=\"padding:0.5rem;\">Insert your text here.</p>",
+        "description": "A paragraph of text.",
+        "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"width:26px;height:26px;\"><line x1=\"4\" y1=\"7\" x2=\"20\" y2=\"7\"/><line x1=\"4\" y1=\"12\" x2=\"20\" y2=\"12\"/><line x1=\"4\" y1=\"17\" x2=\"14\" y2=\"17\"/></svg>"
+    },
+    {
+        "key": "heading",
+        "label": "Heading",
+        "category": "Basic",
+        "template": "<h2 style=\"padding:0.5rem;\">Heading</h2>",
+        "description": "A section heading.",
+        "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"width:26px;height:26px;\"><line x1=\"6\" y1=\"5\" x2=\"6\" y2=\"19\"/><line x1=\"18\" y1=\"5\" x2=\"18\" y2=\"19\"/><line x1=\"6\" y1=\"12\" x2=\"18\" y2=\"12\"/></svg>"
+    },
+    {
+        "key": "image",
+        "label": "Image",
+        "category": "Basic",
+        "template": "<img alt=\"\" style=\"max-width:100%;\">",
+        "description": "An image.",
+        "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"width:26px;height:26px;\"><rect x=\"3\" y=\"5\" width=\"18\" height=\"14\" rx=\"2\"/><circle cx=\"8.5\" cy=\"10\" r=\"1.5\"/><path d=\"M21 16l-5-5-4 4-2-2-4 4\"/></svg>"
+    },
+    {
+        "key": "button",
+        "label": "Button",
+        "category": "Basic",
+        "template": "<a href=\"#\" style=\"display:inline-block;padding:0.7rem 1.4rem;border-radius:0.5rem;background:#4f46e5;color:#fff;text-decoration:none;font-weight:600;\">Button</a>",
+        "description": "A call-to-action button.",
+        "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"width:26px;height:26px;\"><rect x=\"4\" y=\"9\" width=\"16\" height=\"6\" rx=\"3\"/></svg>"
+    },
+    {
+        "key": "columns-2",
+        "label": "2 Columns",
+        "category": "Basic",
+        "template": "<div style=\"display:grid;grid-template-columns:1fr 1fr;gap:1rem;padding:1rem;\"><div style=\"min-height:3rem;border:1px dashed #cbd5e1;\"></div><div style=\"min-height:3rem;border:1px dashed #cbd5e1;\"></div></div>",
+        "description": "Two-column row.",
+        "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"width:26px;height:26px;\"><rect x=\"4\" y=\"5\" width=\"7\" height=\"14\" rx=\"1\"/><rect x=\"13\" y=\"5\" width=\"7\" height=\"14\" rx=\"1\"/></svg>"
+    },
+    {
+        "key": "columns-3",
+        "label": "3 Columns",
+        "category": "Basic",
+        "template": "<div style=\"display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;padding:1rem;\"><div style=\"min-height:3rem;border:1px dashed #cbd5e1;\"></div><div style=\"min-height:3rem;border:1px dashed #cbd5e1;\"></div><div style=\"min-height:3rem;border:1px dashed #cbd5e1;\"></div></div>",
+        "description": "Three-column row.",
+        "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"width:26px;height:26px;\"><rect x=\"3\" y=\"5\" width=\"5\" height=\"14\" rx=\"1\"/><rect x=\"9.5\" y=\"5\" width=\"5\" height=\"14\" rx=\"1\"/><rect x=\"16\" y=\"5\" width=\"5\" height=\"14\" rx=\"1\"/></svg>"
+    },
+    {
+        "key": "spacer",
+        "label": "Spacer",
+        "category": "Basic",
+        "template": "<div style=\"height:3rem;\"></div>",
+        "description": "Vertical spacing.",
+        "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"width:26px;height:26px;\"><line x1=\"12\" y1=\"4\" x2=\"12\" y2=\"20\"/><path d=\"M8 8l4-4 4 4\"/><path d=\"M8 16l4 4 4-4\"/></svg>"
+    },
+    {
+        "key": "divider",
+        "label": "Divider",
+        "category": "Basic",
+        "template": "<hr style=\"border:0;border-top:1px solid #e2e8f0;margin:1.5rem 0;\">",
+        "description": "A horizontal rule.",
+        "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"width:26px;height:26px;\"><line x1=\"4\" y1=\"12\" x2=\"20\" y2=\"12\"/></svg>"
+    },
+    {
+        "key": "shape-wave",
+        "label": "Wave",
+        "category": "Shapes",
+        "template": "<div data-pb-block=\"shape-wave\" class=\"pb-shape\" style=\"line-height:0;\"><svg viewBox=\"0 0 1200 120\" preserveAspectRatio=\"none\" style=\"display:block;width:100%;height:80px;\"><path d=\"M0,0 C300,120 900,0 1200,80 L1200,120 L0,120 Z\" fill=\"#4f46e5\"></path></svg></div>",
+        "description": "A wavy section divider.",
+        "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"width:26px;height:26px;\"><path d=\"M3 12c3-4 6 4 9 0s6-4 9 0\"/></svg>"
+    },
+    {
+        "key": "shape-slant",
+        "label": "Slant",
+        "category": "Shapes",
+        "template": "<div data-pb-block=\"shape-slant\" class=\"pb-shape\" style=\"line-height:0;\"><svg viewBox=\"0 0 1200 120\" preserveAspectRatio=\"none\" style=\"display:block;width:100%;height:80px;\"><path d=\"M0,120 L1200,0 L1200,120 Z\" fill=\"#4f46e5\"></path></svg></div>",
+        "description": "A diagonal section divider.",
+        "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"width:26px;height:26px;\"><path d=\"M3 16L21 8\"/><path d=\"M3 16h18\"/></svg>"
+    },
+    {
+        "key": "shape-tilt",
+        "label": "Tilt",
+        "category": "Shapes",
+        "template": "<div data-pb-block=\"shape-tilt\" class=\"pb-shape\" style=\"line-height:0;\"><svg viewBox=\"0 0 1200 120\" preserveAspectRatio=\"none\" style=\"display:block;width:100%;height:80px;\"><path d=\"M0,0 L1200,120 L0,120 Z\" fill=\"#4f46e5\"></path></svg></div>",
+        "description": "A tilted section divider.",
+        "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"width:26px;height:26px;\"><path d=\"M3 8l18 8\"/><path d=\"M3 16h18\"/></svg>"
+    },
+    {
+        "key": "shape-curve",
+        "label": "Curve",
+        "category": "Shapes",
+        "template": "<div data-pb-block=\"shape-curve\" class=\"pb-shape\" style=\"line-height:0;\"><svg viewBox=\"0 0 1200 120\" preserveAspectRatio=\"none\" style=\"display:block;width:100%;height:80px;\"><path d=\"M0,120 C400,0 800,0 1200,120 Z\" fill=\"#4f46e5\"></path></svg></div>",
+        "description": "A curved section divider.",
+        "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"width:26px;height:26px;\"><path d=\"M3 14c4-8 14-8 18 0\"/></svg>"
+    },
+    {
+        "key": "card",
+        "label": "Card",
+        "category": "Components",
+        "template": "<div data-pb-block=\"card\" class=\"pb-card\" style=\"max-width:24rem;border:1px solid #e2e8f0;border-radius:0.75rem;background:#fff;box-shadow:0 1px 3px rgba(15,23,42,0.08);overflow:hidden;\">\n  <div class=\"pb-card__body\" style=\"padding:1.5rem;\">\n    <h3 class=\"pb-card__title\" style=\"margin:0 0 0.5rem;font-size:1.15rem;color:#0f172a;\">Card title</h3>\n    <p class=\"pb-card__text\" style=\"margin:0;color:#475569;line-height:1.6;\">Supporting copy that explains the content of this card. Add anything you like below.</p>\n    <div class=\"pb-card__slot\" style=\"margin-top:1rem;\"></div>\n  </div>\n</div>",
+        "description": "Titled content container with heading, text and a slot.",
+        "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"width:26px;height:26px;\"><rect x=\"4\" y=\"5\" width=\"16\" height=\"14\" rx=\"2\"/><line x1=\"7\" y1=\"9\" x2=\"14\" y2=\"9\"/><line x1=\"7\" y1=\"13\" x2=\"17\" y2=\"13\"/><line x1=\"7\" y1=\"16\" x2=\"13\" y2=\"16\"/></svg>"
+    },
+    {
+        "key": "banner",
+        "label": "Banner",
+        "category": "Components",
+        "template": "<div data-pb-block=\"banner\" class=\"pb-banner\" x-data=\"{ show: true }\" x-show=\"show\" style=\"display:flex;align-items:center;gap:0.75rem;padding:0.85rem 1rem;border:1px solid #bfdbfe;border-radius:0.5rem;background:#eff6ff;color:#1e3a8a;\">\n  <svg class=\"pb-banner__icon\" viewBox=\"0 0 24 24\" width=\"20\" height=\"20\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"flex-shrink:0;\"><circle cx=\"12\" cy=\"12\" r=\"10\"/><line x1=\"12\" y1=\"11\" x2=\"12\" y2=\"16\"/><line x1=\"12\" y1=\"8\" x2=\"12.01\" y2=\"8\"/></svg>\n  <span class=\"pb-banner__message\" style=\"flex:1;line-height:1.5;\">Heads up \u2014 this is an informational message.</span>\n  <button type=\"button\" class=\"pb-banner__dismiss\" @click=\"show = false\" aria-label=\"Dismiss\" style=\"flex-shrink:0;display:inline-flex;align-items:center;justify-content:center;width:1.75rem;height:1.75rem;padding:0;border:0;border-radius:0.375rem;background:transparent;color:inherit;cursor:pointer;line-height:0;\">\n    <svg viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><line x1=\"18\" y1=\"6\" x2=\"6\" y2=\"18\"/><line x1=\"6\" y1=\"6\" x2=\"18\" y2=\"18\"/></svg>\n  </button>\n</div>",
+        "description": "Dismissible inline alert strip.",
+        "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"width:26px;height:26px;\"><rect x=\"3\" y=\"8\" width=\"18\" height=\"8\" rx=\"2\"/><circle cx=\"7\" cy=\"12\" r=\"1.3\"/><line x1=\"10\" y1=\"12\" x2=\"16\" y2=\"12\"/></svg>"
+    },
+    {
+        "key": "modal",
+        "label": "Modal",
+        "category": "Components",
+        "template": "<div data-pb-block=\"modal\" class=\"pb-modal\" x-data=\"{ open: false }\">\n  <button type=\"button\" class=\"pb-modal__trigger\" @click=\"open = true\" style=\"display:inline-block;padding:0.7rem 1.4rem;border:0;border-radius:0.5rem;background:#4f46e5;color:#fff;font-weight:600;cursor:pointer;\">Open modal</button>\n  <div class=\"pb-modal__overlay\" x-show=\"open\" x-cloak x-transition.opacity @keydown.escape.window=\"open = false\" @click.self=\"open = false\" style=\"position:fixed;inset:0;display:flex;align-items:center;justify-content:center;padding:1rem;background:rgba(15,23,42,0.55);z-index:1000;\">\n    <div class=\"pb-modal__panel\" role=\"dialog\" aria-modal=\"true\" x-transition style=\"width:100%;max-width:28rem;background:#fff;border-radius:0.75rem;box-shadow:0 20px 50px rgba(15,23,42,0.25);overflow:hidden;\">\n      <div class=\"pb-modal__body\" style=\"padding:1.75rem;\">\n        <h3 class=\"pb-modal__title\" style=\"margin:0 0 0.75rem;font-size:1.25rem;color:#0f172a;\">Modal title</h3>\n        <p class=\"pb-modal__text\" style=\"margin:0;color:#475569;line-height:1.6;\">Put your dialog content here. Press Escape, click the backdrop, or use the buttons to close.</p>\n      </div>\n      <div class=\"pb-modal__actions\" style=\"display:flex;justify-content:flex-end;gap:0.75rem;padding:1rem 1.75rem;border-top:1px solid #e2e8f0;background:#f8fafc;\">\n        <button type=\"button\" class=\"pb-modal__close\" @click=\"open = false\" style=\"padding:0.55rem 1.1rem;border:1px solid #cbd5e1;border-radius:0.5rem;background:#fff;color:#334155;font-weight:600;cursor:pointer;\">Close</button>\n        <button type=\"button\" class=\"pb-modal__confirm\" @click=\"open = false\" style=\"padding:0.55rem 1.1rem;border:0;border-radius:0.5rem;background:#4f46e5;color:#fff;font-weight:600;cursor:pointer;\">Confirm</button>\n      </div>\n    </div>\n  </div>\n</div>",
+        "description": "Trigger button with a centered overlay dialog.",
+        "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"width:26px;height:26px;\"><rect x=\"3\" y=\"4\" width=\"18\" height=\"16\" rx=\"2\" opacity=\"0.4\"/><rect x=\"7\" y=\"8\" width=\"10\" height=\"8\" rx=\"1.5\"/></svg>"
+    },
+    {
+        "key": "drawer",
+        "label": "Drawer",
+        "category": "Components",
+        "template": "<div data-pb-block=\"drawer\" class=\"pb-drawer\" x-data=\"{ open: false }\">\n  <button type=\"button\" class=\"pb-drawer__trigger\" @click=\"open = true\" style=\"display:inline-block;padding:0.7rem 1.4rem;border:0;border-radius:0.5rem;background:#4f46e5;color:#fff;font-weight:600;cursor:pointer;\">Open drawer</button>\n  <div class=\"pb-drawer__backdrop\" x-show=\"open\" x-cloak x-transition.opacity @click=\"open = false\" @keydown.escape.window=\"open = false\" style=\"position:fixed;inset:0;background:rgba(15,23,42,0.55);z-index:1000;\"></div>\n  <aside class=\"pb-drawer__panel\" role=\"dialog\" aria-modal=\"true\" x-show=\"open\" x-cloak x-transition:enter=\"pb-drawer-enter\" x-transition:enter-start=\"pb-drawer-enter-start\" x-transition:enter-end=\"pb-drawer-enter-end\" x-transition:leave=\"pb-drawer-leave\" x-transition:leave-start=\"pb-drawer-enter-end\" x-transition:leave-end=\"pb-drawer-enter-start\" style=\"position:fixed;top:0;right:0;height:100%;width:360px;max-width:90vw;background:#fff;box-shadow:-12px 0 40px rgba(15,23,42,0.18);z-index:1001;display:flex;flex-direction:column;\">\n    <div class=\"pb-drawer__header\" style=\"display:flex;align-items:center;justify-content:space-between;padding:1.25rem 1.5rem;border-bottom:1px solid #e2e8f0;\">\n      <h3 class=\"pb-drawer__title\" style=\"margin:0;font-size:1.15rem;color:#0f172a;\">Drawer</h3>\n      <button type=\"button\" class=\"pb-drawer__close\" @click=\"open = false\" aria-label=\"Close\" style=\"display:inline-flex;align-items:center;justify-content:center;width:2rem;height:2rem;padding:0;border:0;border-radius:0.375rem;background:transparent;color:#475569;cursor:pointer;line-height:0;\">\n        <svg viewBox=\"0 0 24 24\" width=\"20\" height=\"20\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><line x1=\"18\" y1=\"6\" x2=\"6\" y2=\"18\"/><line x1=\"6\" y1=\"6\" x2=\"18\" y2=\"18\"/></svg>\n      </button>\n    </div>\n    <div class=\"pb-drawer__body\" style=\"padding:1.5rem;overflow-y:auto;color:#475569;line-height:1.6;\">\n      <p style=\"margin:0;\">Slide-over panel content. Great for navigation, filters or details.</p>\n    </div>\n  </aside>\n</div>",
+        "description": "Trigger button with a right-edge slide-over panel.",
+        "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"width:26px;height:26px;\"><rect x=\"3\" y=\"4\" width=\"18\" height=\"16\" rx=\"2\"/><rect x=\"14\" y=\"4\" width=\"7\" height=\"16\" rx=\"0\"/></svg>"
+    },
+    {
+        "key": "tabs",
+        "label": "Tabs",
+        "category": "Components",
+        "template": "<div data-pb-block=\"tabs\" class=\"pb-tabs\" x-data=\"{ tab: 'one' }\" style=\"max-width:36rem;\">\n  <div class=\"pb-tabs__list\" role=\"tablist\" style=\"display:flex;gap:0.25rem;border-bottom:1px solid #e2e8f0;\">\n    <button type=\"button\" class=\"pb-tabs__tab\" role=\"tab\" @click=\"tab = 'one'\" :aria-selected=\"tab === 'one'\" :style=\"tab === 'one' ? 'color:#4f46e5;border-bottom-color:#4f46e5' : 'color:#64748b;border-bottom-color:transparent'\" style=\"padding:0.7rem 1rem;border:0;border-bottom:2px solid transparent;background:transparent;font-weight:600;cursor:pointer;\">Tab one</button>\n    <button type=\"button\" class=\"pb-tabs__tab\" role=\"tab\" @click=\"tab = 'two'\" :aria-selected=\"tab === 'two'\" :style=\"tab === 'two' ? 'color:#4f46e5;border-bottom-color:#4f46e5' : 'color:#64748b;border-bottom-color:transparent'\" style=\"padding:0.7rem 1rem;border:0;border-bottom:2px solid transparent;background:transparent;font-weight:600;cursor:pointer;\">Tab two</button>\n    <button type=\"button\" class=\"pb-tabs__tab\" role=\"tab\" @click=\"tab = 'three'\" :aria-selected=\"tab === 'three'\" :style=\"tab === 'three' ? 'color:#4f46e5;border-bottom-color:#4f46e5' : 'color:#64748b;border-bottom-color:transparent'\" style=\"padding:0.7rem 1rem;border:0;border-bottom:2px solid transparent;background:transparent;font-weight:600;cursor:pointer;\">Tab three</button>\n  </div>\n  <div class=\"pb-tabs__panels\" style=\"padding:1.25rem 0;color:#475569;line-height:1.6;\">\n    <div class=\"pb-tabs__panel\" role=\"tabpanel\" x-show=\"tab === 'one'\"><p style=\"margin:0;\">Content for the first tab.</p></div>\n    <div class=\"pb-tabs__panel\" role=\"tabpanel\" x-show=\"tab === 'two'\" x-cloak><p style=\"margin:0;\">Content for the second tab.</p></div>\n    <div class=\"pb-tabs__panel\" role=\"tabpanel\" x-show=\"tab === 'three'\" x-cloak><p style=\"margin:0;\">Content for the third tab.</p></div>\n  </div>\n</div>",
+        "description": "Tabbed panels \u2014 switch content without navigating.",
+        "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"width:26px;height:26px;\"><path d=\"M3 9h5V5h5v4h8\"/><rect x=\"3\" y=\"9\" width=\"18\" height=\"10\" rx=\"1.5\"/></svg>"
+    },
+    {
+        "key": "accordion",
+        "label": "Accordion",
+        "category": "Components",
+        "template": "<div data-pb-block=\"accordion\" class=\"pb-accordion\" style=\"max-width:36rem;border:1px solid #e2e8f0;border-radius:0.75rem;overflow:hidden;\">\n  <div class=\"pb-accordion__item\" x-data=\"{ open: true }\" style=\"border-bottom:1px solid #e2e8f0;\">\n    <button type=\"button\" class=\"pb-accordion__header\" @click=\"open = !open\" :aria-expanded=\"open\" style=\"display:flex;align-items:center;justify-content:space-between;width:100%;padding:1rem 1.25rem;border:0;background:#fff;font-weight:600;color:#0f172a;text-align:left;cursor:pointer;\">\n      <span>First item</span>\n      <svg viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" :style=\"open ? 'transform:rotate(180deg)' : ''\" style=\"transition:transform 0.2s ease;\"><polyline points=\"6 9 12 15 18 9\"/></svg>\n    </button>\n    <div class=\"pb-accordion__body\" x-show=\"open\" x-cloak style=\"padding:0 1.25rem 1rem;color:#475569;line-height:1.6;\"><p style=\"margin:0;\">Body content for the first item.</p></div>\n  </div>\n  <div class=\"pb-accordion__item\" x-data=\"{ open: false }\" style=\"border-bottom:1px solid #e2e8f0;\">\n    <button type=\"button\" class=\"pb-accordion__header\" @click=\"open = !open\" :aria-expanded=\"open\" style=\"display:flex;align-items:center;justify-content:space-between;width:100%;padding:1rem 1.25rem;border:0;background:#fff;font-weight:600;color:#0f172a;text-align:left;cursor:pointer;\">\n      <span>Second item</span>\n      <svg viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" :style=\"open ? 'transform:rotate(180deg)' : ''\" style=\"transition:transform 0.2s ease;\"><polyline points=\"6 9 12 15 18 9\"/></svg>\n    </button>\n    <div class=\"pb-accordion__body\" x-show=\"open\" x-cloak style=\"padding:0 1.25rem 1rem;color:#475569;line-height:1.6;\"><p style=\"margin:0;\">Body content for the second item.</p></div>\n  </div>\n  <div class=\"pb-accordion__item\" x-data=\"{ open: false }\">\n    <button type=\"button\" class=\"pb-accordion__header\" @click=\"open = !open\" :aria-expanded=\"open\" style=\"display:flex;align-items:center;justify-content:space-between;width:100%;padding:1rem 1.25rem;border:0;background:#fff;font-weight:600;color:#0f172a;text-align:left;cursor:pointer;\">\n      <span>Third item</span>\n      <svg viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" :style=\"open ? 'transform:rotate(180deg)' : ''\" style=\"transition:transform 0.2s ease;\"><polyline points=\"6 9 12 15 18 9\"/></svg>\n    </button>\n    <div class=\"pb-accordion__body\" x-show=\"open\" x-cloak style=\"padding:0 1.25rem 1rem;color:#475569;line-height:1.6;\"><p style=\"margin:0;\">Body content for the third item.</p></div>\n  </div>\n</div>",
+        "description": "Collapsible items \u2014 expand one at a time.",
+        "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"width:26px;height:26px;\"><rect x=\"3\" y=\"4\" width=\"18\" height=\"5\" rx=\"1.5\"/><rect x=\"3\" y=\"11\" width=\"18\" height=\"9\" rx=\"1.5\"/><path d=\"M17 6.5l1 1 1-1\"/></svg>"
+    },
+    {
+        "key": "tooltip",
+        "label": "Tooltip",
+        "category": "Components",
+        "template": "<div data-pb-block=\"tooltip\" class=\"pb-tooltip\" x-data=\"{ h: false }\" style=\"display:inline-block;position:relative;\">\n  <button type=\"button\" class=\"pb-tooltip__trigger\" @mouseenter=\"h = true\" @mouseleave=\"h = false\" @focus=\"h = true\" @blur=\"h = false\" :aria-describedby=\"h ? 'pb-tooltip-bubble' : null\" style=\"display:inline-block;padding:0.6rem 1.1rem;border:1px solid #cbd5e1;border-radius:0.5rem;background:#fff;color:#334155;font-weight:600;cursor:default;\">Hover me</button>\n  <span class=\"pb-tooltip__bubble\" id=\"pb-tooltip-bubble\" role=\"tooltip\" x-show=\"h\" x-cloak x-transition.opacity style=\"position:absolute;bottom:calc(100% + 0.5rem);left:50%;transform:translateX(-50%);white-space:nowrap;padding:0.4rem 0.65rem;border-radius:0.375rem;background:#0f172a;color:#fff;font-size:0.8125rem;line-height:1.3;box-shadow:0 4px 12px rgba(15,23,42,0.25);z-index:10;\">Helpful hint goes here</span>\n</div>",
+        "description": "Hover/focus hint bubble above an element.",
+        "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"width:26px;height:26px;\"><rect x=\"4\" y=\"5\" width=\"16\" height=\"9\" rx=\"2\"/><path d=\"M10 14l2 3 2-3\"/></svg>"
+    },
+    {
+        "key": "dropdown_menu",
+        "label": "Dropdown menu",
+        "category": "Components",
+        "template": "<div data-pb-block=\"dropdown_menu\" class=\"pb-dropdown\" x-data=\"{ open: false }\" style=\"display:inline-block;position:relative;\">\n  <button type=\"button\" class=\"pb-dropdown__trigger\" @click=\"open = !open\" :aria-expanded=\"open\" style=\"display:inline-flex;align-items:center;gap:0.5rem;padding:0.6rem 1.1rem;border:1px solid #cbd5e1;border-radius:0.5rem;background:#fff;color:#334155;font-weight:600;cursor:pointer;\">\n    <span>Options</span>\n    <svg viewBox=\"0 0 24 24\" width=\"16\" height=\"16\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" :style=\"open ? 'transform:rotate(180deg)' : ''\" style=\"transition:transform 0.2s ease;\"><polyline points=\"6 9 12 15 18 9\"/></svg>\n  </button>\n  <div class=\"pb-dropdown__menu\" role=\"menu\" x-show=\"open\" x-cloak x-transition.opacity @click.outside=\"open = false\" @keydown.escape.window=\"open = false\" style=\"position:absolute;top:calc(100% + 0.35rem);left:0;min-width:11rem;padding:0.35rem;background:#fff;border:1px solid #e2e8f0;border-radius:0.5rem;box-shadow:0 12px 32px rgba(15,23,42,0.16);z-index:20;\">\n    <a href=\"#\" class=\"pb-dropdown__item\" role=\"menuitem\" @click=\"open = false\" style=\"display:block;padding:0.5rem 0.65rem;border-radius:0.375rem;color:#334155;text-decoration:none;\">Edit</a>\n    <a href=\"#\" class=\"pb-dropdown__item\" role=\"menuitem\" @click=\"open = false\" style=\"display:block;padding:0.5rem 0.65rem;border-radius:0.375rem;color:#334155;text-decoration:none;\">Duplicate</a>\n    <a href=\"#\" class=\"pb-dropdown__item\" role=\"menuitem\" @click=\"open = false\" style=\"display:block;padding:0.5rem 0.65rem;border-radius:0.375rem;color:#dc2626;text-decoration:none;\">Delete</a>\n  </div>\n</div>",
+        "description": "Button that toggles a menu of actions.",
+        "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"width:26px;height:26px;\"><rect x=\"6\" y=\"4\" width=\"12\" height=\"5\" rx=\"1.5\"/><path d=\"M10 6.5l2 2 2-2\"/><rect x=\"6\" y=\"11\" width=\"12\" height=\"9\" rx=\"1.5\"/><line x1=\"9\" y1=\"14\" x2=\"15\" y2=\"14\"/><line x1=\"9\" y1=\"17\" x2=\"15\" y2=\"17\"/></svg>"
+    },
+    {
+        "key": "video",
+        "label": "Video",
+        "category": "Components",
+        "template": "<div data-pb-block=\"video\" class=\"pb-video\" style=\"max-width:100%;border-radius:var(--pb-radius,0.75rem);overflow:hidden;background:#000;\">\n  <video class=\"pb-video__el\" controls playsinline poster=\"https://placehold.co/1280x720/0f172a/64748b?text=Video\" style=\"display:block;width:100%;height:auto;\">\n    <source src=\"\" type=\"video/mp4\">\n  </video>\n</div>",
+        "description": "A self-hosted HTML5 video player.",
+        "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"width:26px;height:26px;\"><rect x=\"4\" y=\"4\" width=\"16\" height=\"16\" rx=\"2\"/></svg>"
+    },
+    {
+        "key": "breadcrumbs",
+        "label": "Breadcrumbs",
+        "category": "Components",
+        "template": "<nav data-pb-block=\"breadcrumbs\" class=\"pb-breadcrumbs\" aria-label=\"Breadcrumb\" style=\"font-family:inherit;font-size:0.875rem;color:var(--pb-muted,#64748b);\">\n  <ol style=\"list-style:none;display:flex;flex-wrap:wrap;align-items:center;gap:0.5rem;margin:0;padding:0;\">\n    <li><a href=\"/\" style=\"color:var(--pb-muted,#64748b);text-decoration:none;\">Home</a></li>\n    <li aria-hidden=\"true\">/</li>\n    <li><a href=\"#\" style=\"color:var(--pb-muted,#64748b);text-decoration:none;\">Section</a></li>\n    <li aria-hidden=\"true\">/</li>\n    <li aria-current=\"page\" style=\"color:var(--pb-ink,#0f172a);font-weight:600;\">Current</li>\n  </ol>\n</nav>",
+        "description": "A breadcrumb trail.",
+        "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"width:26px;height:26px;\"><rect x=\"4\" y=\"4\" width=\"16\" height=\"16\" rx=\"2\"/></svg>"
+    },
+    {
+        "key": "rating",
+        "label": "Rating",
+        "category": "Components",
+        "template": "<div data-pb-block=\"rating\" class=\"pb-rating\" role=\"img\" aria-label=\"Rated 4 out of 5\" style=\"font-size:1.25rem;letter-spacing:2px;color:var(--pb-accent,#f59e0b);\">\u2605\u2605\u2605\u2605<span style=\"color:#cbd5e1;\">\u2605</span></div>",
+        "description": "A star rating display.",
+        "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"width:26px;height:26px;\"><rect x=\"4\" y=\"4\" width=\"16\" height=\"16\" rx=\"2\"/></svg>"
+    },
+    {
+        "key": "progress",
+        "label": "Progress bar",
+        "category": "Components",
+        "template": "<div data-pb-block=\"progress\" class=\"pb-progress\" style=\"font-family:inherit;max-width:32rem;\">\n  <div class=\"pb-progress__label\" style=\"display:flex;justify-content:space-between;font-size:0.8125rem;color:var(--pb-muted,#64748b);margin-bottom:0.35rem;\"><span>Progress</span><span>70%</span></div>\n  <div class=\"pb-progress__track\" style=\"height:0.6rem;border-radius:999px;background:var(--pb-border,#e2e8f0);overflow:hidden;\"><div class=\"pb-progress__bar\" style=\"height:100%;width:70%;border-radius:999px;background:var(--pb-primary,#6366f1);\"></div></div>\n</div>",
+        "description": "A labelled progress bar.",
+        "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"width:26px;height:26px;\"><rect x=\"4\" y=\"4\" width=\"16\" height=\"16\" rx=\"2\"/></svg>"
+    },
+    {
+        "key": "alert",
+        "label": "Alert",
+        "category": "Components",
+        "template": "<div data-pb-block=\"alert\" class=\"pb-alert\" role=\"alert\" style=\"display:flex;gap:0.75rem;align-items:flex-start;padding:1rem 1.15rem;border:1px solid var(--pb-border,#e2e8f0);border-left:4px solid var(--pb-primary,#6366f1);border-radius:var(--pb-radius,0.6rem);background:var(--pb-surface,#f8fafc);color:var(--pb-ink,#0f172a);font-family:inherit;\">\n  <span aria-hidden=\"true\" style=\"font-size:1.15rem;line-height:1.3;\">\u2139\ufe0f</span>\n  <div><strong class=\"pb-alert__title\" style=\"display:block;margin-bottom:0.15rem;\">Heads up</strong><span class=\"pb-alert__text\" style=\"color:var(--pb-muted,#64748b);font-size:0.9375rem;\">This is an informational message you can edit.</span></div>\n</div>",
+        "description": "A callout / alert box.",
+        "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"width:26px;height:26px;\"><rect x=\"4\" y=\"4\" width=\"16\" height=\"16\" rx=\"2\"/></svg>"
+    },
+    {
+        "key": "avatar",
+        "label": "Avatar",
+        "category": "Components",
+        "template": "<img data-pb-block=\"avatar\" class=\"pb-avatar\" src=\"https://placehold.co/96x96/6366f1/ffffff?text=A\" alt=\"Avatar\" width=\"64\" height=\"64\" style=\"width:64px;height:64px;border-radius:50%;object-fit:cover;border:2px solid var(--pb-border,#e2e8f0);\">",
+        "description": "A circular avatar image.",
+        "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"width:26px;height:26px;\"><rect x=\"4\" y=\"4\" width=\"16\" height=\"16\" rx=\"2\"/></svg>"
+    },
+    {
+        "key": "text_input",
+        "label": "Text input",
+        "category": "Forms",
+        "template": "<label data-pb-block=\"text_input\" class=\"pb-text-input\" style=\"display:block;max-width:24rem;font-family:inherit;\">\n  <span class=\"pb-text-input__label\" style=\"display:block;margin:0 0 0.35rem;font-weight:600;color:#0f172a;font-size:0.9375rem;\">Name</span>\n  <input type=\"text\" name=\"name\" placeholder=\"Your name\" class=\"pb-text-input__control\" style=\"width:100%;padding:0.6rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.5rem;font-size:0.9375rem;color:#0f172a;outline-offset:2px;box-sizing:border-box;\">\n</label>",
+        "description": "Single-line text field with a label.",
+        "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"width:26px;height:26px;\"><rect x=\"3\" y=\"9\" width=\"18\" height=\"6\" rx=\"1.5\"/><line x1=\"7\" y1=\"12\" x2=\"7\" y2=\"12.01\"/></svg>"
+    },
+    {
+        "key": "email_input",
+        "label": "Email input",
+        "category": "Forms",
+        "template": "<label data-pb-block=\"email_input\" class=\"pb-email-input\" style=\"display:block;max-width:24rem;font-family:inherit;\">\n  <span class=\"pb-email-input__label\" style=\"display:block;margin:0 0 0.35rem;font-weight:600;color:#0f172a;font-size:0.9375rem;\">Email</span>\n  <input type=\"email\" name=\"email\" placeholder=\"you@example.com\" class=\"pb-email-input__control\" style=\"width:100%;padding:0.6rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.5rem;font-size:0.9375rem;color:#0f172a;outline-offset:2px;box-sizing:border-box;\">\n</label>",
+        "description": "Email field with a label.",
+        "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"width:26px;height:26px;\"><rect x=\"3\" y=\"6\" width=\"18\" height=\"12\" rx=\"2\"/><path d=\"M3 8l9 6 9-6\"/></svg>"
+    },
+    {
+        "key": "textarea",
+        "label": "Textarea",
+        "category": "Forms",
+        "template": "<label data-pb-block=\"textarea\" class=\"pb-textarea\" style=\"display:block;max-width:24rem;font-family:inherit;\">\n  <span class=\"pb-textarea__label\" style=\"display:block;margin:0 0 0.35rem;font-weight:600;color:#0f172a;font-size:0.9375rem;\">Message</span>\n  <textarea name=\"message\" rows=\"4\" placeholder=\"Type your message\u2026\" class=\"pb-textarea__control\" style=\"width:100%;padding:0.6rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.5rem;font-size:0.9375rem;color:#0f172a;outline-offset:2px;box-sizing:border-box;resize:vertical;font-family:inherit;\"></textarea>\n</label>",
+        "description": "Multi-line text field with a label.",
+        "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"width:26px;height:26px;\"><rect x=\"3\" y=\"5\" width=\"18\" height=\"14\" rx=\"1.5\"/><line x1=\"7\" y1=\"9\" x2=\"17\" y2=\"9\"/><line x1=\"7\" y1=\"12\" x2=\"17\" y2=\"12\"/><line x1=\"7\" y1=\"15\" x2=\"13\" y2=\"15\"/></svg>"
+    },
+    {
+        "key": "select",
+        "label": "Select",
+        "category": "Forms",
+        "template": "<label data-pb-block=\"select\" class=\"pb-select\" style=\"display:block;max-width:24rem;font-family:inherit;\">\n  <span class=\"pb-select__label\" style=\"display:block;margin:0 0 0.35rem;font-weight:600;color:#0f172a;font-size:0.9375rem;\">Choose an option</span>\n  <select name=\"option\" class=\"pb-select__control\" style=\"width:100%;padding:0.6rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.5rem;font-size:0.9375rem;color:#0f172a;outline-offset:2px;box-sizing:border-box;background:#fff;\">\n    <option value=\"\">\u2014 select \u2014</option>\n    <option value=\"one\">Option one</option>\n    <option value=\"two\">Option two</option>\n    <option value=\"three\">Option three</option>\n  </select>\n</label>",
+        "description": "Dropdown select with a label.",
+        "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"width:26px;height:26px;\"><rect x=\"3\" y=\"8\" width=\"18\" height=\"8\" rx=\"1.5\"/><path d=\"M15 11l2 2 2-2\"/></svg>"
+    },
+    {
+        "key": "checkbox",
+        "label": "Checkbox",
+        "category": "Forms",
+        "template": "<label data-pb-block=\"checkbox\" class=\"pb-checkbox\" style=\"display:flex;align-items:center;gap:0.6rem;max-width:24rem;font-family:inherit;color:#0f172a;font-size:0.9375rem;cursor:pointer;\">\n  <input type=\"checkbox\" name=\"agree\" value=\"yes\" class=\"pb-checkbox__control\" style=\"width:1.1rem;height:1.1rem;outline-offset:2px;cursor:pointer;\">\n  <span class=\"pb-checkbox__label\">I agree to the terms</span>\n</label>",
+        "description": "A single labelled checkbox.",
+        "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"width:26px;height:26px;\"><rect x=\"4\" y=\"4\" width=\"16\" height=\"16\" rx=\"3\"/><path d=\"M8 12l3 3 5-6\"/></svg>"
+    },
+    {
+        "key": "radio_group",
+        "label": "Radio group",
+        "category": "Forms",
+        "template": "<fieldset data-pb-block=\"radio_group\" class=\"pb-radio-group\" style=\"border:0;padding:0;margin:0;max-width:24rem;font-family:inherit;\">\n  <legend class=\"pb-radio-group__legend\" style=\"padding:0;margin:0 0 0.5rem;font-weight:600;color:#0f172a;font-size:0.9375rem;\">Pick one</legend>\n  <label class=\"pb-radio-group__option\" style=\"display:flex;align-items:center;gap:0.6rem;margin:0 0 0.4rem;color:#0f172a;font-size:0.9375rem;cursor:pointer;\">\n    <input type=\"radio\" name=\"choice\" value=\"a\" class=\"pb-radio-group__control\" style=\"width:1.05rem;height:1.05rem;outline-offset:2px;cursor:pointer;\" checked>\n    <span>Option A</span>\n  </label>\n  <label class=\"pb-radio-group__option\" style=\"display:flex;align-items:center;gap:0.6rem;margin:0 0 0.4rem;color:#0f172a;font-size:0.9375rem;cursor:pointer;\">\n    <input type=\"radio\" name=\"choice\" value=\"b\" class=\"pb-radio-group__control\" style=\"width:1.05rem;height:1.05rem;outline-offset:2px;cursor:pointer;\">\n    <span>Option B</span>\n  </label>\n  <label class=\"pb-radio-group__option\" style=\"display:flex;align-items:center;gap:0.6rem;margin:0;color:#0f172a;font-size:0.9375rem;cursor:pointer;\">\n    <input type=\"radio\" name=\"choice\" value=\"c\" class=\"pb-radio-group__control\" style=\"width:1.05rem;height:1.05rem;outline-offset:2px;cursor:pointer;\">\n    <span>Option C</span>\n  </label>\n</fieldset>",
+        "description": "A set of radio buttons sharing one name.",
+        "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"width:26px;height:26px;\"><circle cx=\"7\" cy=\"7\" r=\"3\"/><circle cx=\"7\" cy=\"7\" r=\"1\"/><line x1=\"13\" y1=\"7\" x2=\"20\" y2=\"7\"/><circle cx=\"7\" cy=\"17\" r=\"3\"/><line x1=\"13\" y1=\"17\" x2=\"20\" y2=\"17\"/></svg>"
+    },
+    {
+        "key": "submit_button",
+        "label": "Submit button",
+        "category": "Forms",
+        "template": "<button type=\"submit\" data-pb-block=\"submit_button\" class=\"pb-submit-button\" style=\"display:inline-block;padding:0.7rem 1.4rem;border:0;border-radius:0.5rem;background:#4f46e5;color:#fff;font-weight:600;font-size:0.9375rem;cursor:pointer;outline-offset:2px;font-family:inherit;\">Submit</button>",
+        "description": "A form submit button.",
+        "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"width:26px;height:26px;\"><rect x=\"4\" y=\"9\" width=\"16\" height=\"6\" rx=\"3\"/><path d=\"M9 12h4\"/><path d=\"M13 10.5l1.5 1.5-1.5 1.5\"/></svg>"
+    },
+    {
+        "key": "form",
+        "label": "Form",
+        "category": "Forms",
+        "template": "<form data-pb-block=\"form\" class=\"pb-form\" style=\"display:flex;flex-direction:column;gap:1rem;max-width:28rem;padding:1.75rem;border:1px solid #e2e8f0;border-radius:0.75rem;background:#fff;box-shadow:0 1px 3px rgba(15,23,42,0.08);font-family:inherit;\">\n  <label class=\"pb-form__field\" style=\"display:block;\">\n    <span style=\"display:block;margin:0 0 0.35rem;font-weight:600;color:#0f172a;font-size:0.9375rem;\">Name</span>\n    <input type=\"text\" name=\"name\" placeholder=\"Your name\" required style=\"width:100%;padding:0.6rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.5rem;font-size:0.9375rem;color:#0f172a;outline-offset:2px;box-sizing:border-box;\">\n  </label>\n  <label class=\"pb-form__field\" style=\"display:block;\">\n    <span style=\"display:block;margin:0 0 0.35rem;font-weight:600;color:#0f172a;font-size:0.9375rem;\">Email</span>\n    <input type=\"email\" name=\"email\" placeholder=\"you@example.com\" required style=\"width:100%;padding:0.6rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.5rem;font-size:0.9375rem;color:#0f172a;outline-offset:2px;box-sizing:border-box;\">\n  </label>\n  <button type=\"submit\" class=\"pb-form__submit\" style=\"display:inline-block;padding:0.7rem 1.4rem;border:0;border-radius:0.5rem;background:#4f46e5;color:#fff;font-weight:600;font-size:0.9375rem;cursor:pointer;outline-offset:2px;\">Submit</button>\n</form>",
+        "description": "A form card with fields and a submit button.",
+        "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"width:26px;height:26px;\"><rect x=\"4\" y=\"3\" width=\"16\" height=\"18\" rx=\"2\"/><line x1=\"8\" y1=\"8\" x2=\"16\" y2=\"8\"/><line x1=\"8\" y1=\"12\" x2=\"16\" y2=\"12\"/><rect x=\"8\" y=\"15.5\" width=\"6\" height=\"3\" rx=\"1\"/></svg>"
+    },
+    {
+        "key": "date_picker",
+        "label": "Date picker",
+        "category": "Forms",
+        "template": "<label data-pb-block=\"date_picker\" class=\"pb-field\" style=\"display:block;font-family:inherit;max-width:24rem;\">\n  <span class=\"pb-field__label\" style=\"display:block;font-size:0.875rem;font-weight:600;color:var(--pb-ink,#0f172a);margin-bottom:0.35rem;\">Date</span>\n  <input type=\"date\" name=\"date\" style=\"width:100%;padding:0.6rem 0.75rem;border:1px solid #cbd5e1;border-radius:0.5rem;font:inherit;color:var(--pb-ink,#0f172a);box-sizing:border-box;\">\n</label>",
+        "description": "A date input field.",
+        "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"width:26px;height:26px;\"><rect x=\"4\" y=\"4\" width=\"16\" height=\"16\" rx=\"2\"/></svg>"
+    },
+    {
+        "key": "file_upload",
+        "label": "File upload",
+        "category": "Forms",
+        "template": "<label data-pb-block=\"file_upload\" class=\"pb-field\" style=\"display:block;font-family:inherit;max-width:24rem;\">\n  <span class=\"pb-field__label\" style=\"display:block;font-size:0.875rem;font-weight:600;color:var(--pb-ink,#0f172a);margin-bottom:0.35rem;\">Upload a file</span>\n  <input type=\"file\" name=\"file\" style=\"width:100%;padding:0.5rem;border:1px dashed #cbd5e1;border-radius:0.5rem;font:inherit;color:var(--pb-muted,#64748b);box-sizing:border-box;\">\n</label>",
+        "description": "A file input field.",
+        "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"width:26px;height:26px;\"><rect x=\"4\" y=\"4\" width=\"16\" height=\"16\" rx=\"2\"/></svg>"
+    },
+    {
+        "key": "data_table",
+        "label": "Data Table",
+        "category": "Data",
+        "template": "<table data-pb-block=\"data_table\" class=\"pb-data-table\" x-data=\"pbTable('leads')\" style=\"width:100%;border-collapse:collapse;font-family:inherit;font-size:0.9375rem;color:#0f172a;border:1px solid #e2e8f0;border-radius:0.75rem;overflow:hidden;\">\n  <thead class=\"pb-data-table__head\" style=\"background:#f8fafc;text-align:left;\">\n    <tr>\n      <th class=\"pb-data-table__th\" style=\"padding:0.75rem 1rem;border-bottom:1px solid #e2e8f0;font-weight:600;color:#334155;\">Name</th>\n      <th class=\"pb-data-table__th\" style=\"padding:0.75rem 1rem;border-bottom:1px solid #e2e8f0;font-weight:600;color:#334155;\">Email</th>\n    </tr>\n  </thead>\n  <tbody class=\"pb-data-table__body\">\n    <tr class=\"pb-data-table__loading\" x-show=\"loading\" x-cloak><td colspan=\"2\" style=\"padding:0.75rem 1rem;color:#64748b;\">Loading\u2026</td></tr>\n    <tr class=\"pb-data-table__error\" x-show=\"error\" x-cloak><td colspan=\"2\" style=\"padding:0.75rem 1rem;color:#dc2626;\">Couldn\u2019t load records.</td></tr>\n    <tr class=\"pb-data-table__empty\" x-show=\"!loading && !error && rows.length === 0\" x-cloak><td colspan=\"2\" style=\"padding:0.75rem 1rem;color:#64748b;\">No records</td></tr>\n    <template x-for=\"row in rows\" :key=\"row.id\">\n      <tr class=\"pb-data-table__row\" style=\"border-top:1px solid #e2e8f0;\">\n        <td class=\"pb-data-table__td\" x-text=\"row.name\" style=\"padding:0.75rem 1rem;\"></td>\n        <td class=\"pb-data-table__td\" x-text=\"row.email\" style=\"padding:0.75rem 1rem;\"></td>\n      </tr>\n    </template>\n    <tr class=\"pb-data-table__sample\" x-show=\"false\" style=\"border-top:1px solid #e2e8f0;\">\n      <td class=\"pb-data-table__td\" style=\"padding:0.75rem 1rem;\">Acme Corp</td>\n      <td class=\"pb-data-table__td\" style=\"padding:0.75rem 1rem;\">hello@acme.com</td>\n    </tr>\n    <tr class=\"pb-data-table__sample\" x-show=\"false\" style=\"border-top:1px solid #e2e8f0;\">\n      <td class=\"pb-data-table__td\" style=\"padding:0.75rem 1rem;\">Globex</td>\n      <td class=\"pb-data-table__td\" style=\"padding:0.75rem 1rem;\">contact@globex.com</td>\n    </tr>\n  </tbody>\n  <tfoot class=\"pb-data-table__foot\" x-show=\"lastPage > 1\" x-cloak>\n    <tr>\n      <td colspan=\"2\" style=\"padding:0.6rem 1rem;border-top:1px solid #e2e8f0;\">\n        <div style=\"display:flex;align-items:center;justify-content:space-between;gap:1rem;color:#64748b;font-size:0.85rem;\">\n          <span>Page <span x-text=\"page\"></span> of <span x-text=\"lastPage\"></span> \u00b7 <span x-text=\"total\"></span> records</span>\n          <span style=\"display:flex;gap:0.5rem;\">\n            <button type=\"button\" @click=\"prev()\" :disabled=\"page<=1\" style=\"padding:0.35rem 0.7rem;border:1px solid #e2e8f0;border-radius:0.375rem;background:#fff;cursor:pointer;\">Prev</button>\n            <button type=\"button\" @click=\"next()\" :disabled=\"page>=lastPage\" style=\"padding:0.35rem 0.7rem;border:1px solid #e2e8f0;border-radius:0.375rem;background:#fff;cursor:pointer;\">Next</button>\n          </span>\n        </div>\n      </td>\n    </tr>\n  </tfoot>\n</table>",
+        "description": "A table that lists rows from a collection.",
+        "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"width:26px;height:26px;\"><rect x=\"3\" y=\"5\" width=\"18\" height=\"14\" rx=\"2\"/><line x1=\"3\" y1=\"10\" x2=\"21\" y2=\"10\"/><line x1=\"3\" y1=\"14.5\" x2=\"21\" y2=\"14.5\"/><line x1=\"12\" y1=\"5\" x2=\"12\" y2=\"19\"/></svg>"
+    },
+    {
+        "key": "list",
+        "label": "List",
+        "category": "Data",
+        "template": "<div data-pb-block=\"list\" class=\"pb-list\" x-data style=\"font-family:inherit;color:#0f172a;display:flex;flex-direction:column;gap:0.5rem;max-width:32rem;\">\n  <template x-for=\"item in $store.app.items\" :key=\"item.id\">\n    <div class=\"pb-list__item\" x-text=\"item.label\" style=\"padding:0.75rem 1rem;border:1px solid #e2e8f0;border-radius:0.5rem;background:#fff;\"></div>\n  </template>\n  <div class=\"pb-list__sample\" x-show=\"false\" style=\"padding:0.75rem 1rem;border:1px solid #e2e8f0;border-radius:0.5rem;background:#fff;\">First item</div>\n  <div class=\"pb-list__sample\" x-show=\"false\" style=\"padding:0.75rem 1rem;border:1px solid #e2e8f0;border-radius:0.5rem;background:#fff;\">Second item</div>\n</div>",
+        "description": "A list that repeats over a State array.",
+        "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"width:26px;height:26px;\"><circle cx=\"5\" cy=\"7\" r=\"1\"/><line x1=\"9\" y1=\"7\" x2=\"20\" y2=\"7\"/><circle cx=\"5\" cy=\"12\" r=\"1\"/><line x1=\"9\" y1=\"12\" x2=\"20\" y2=\"12\"/><circle cx=\"5\" cy=\"17\" r=\"1\"/><line x1=\"9\" y1=\"17\" x2=\"20\" y2=\"17\"/></svg>"
+    },
+    {
+        "key": "kpi",
+        "label": "Stat card",
+        "category": "Data",
+        "template": "<div data-pb-block=\"kpi\" class=\"pb-kpi\" data-pb-collection=\"\" data-pb-metric=\"count\" data-pb-field=\"\" data-pb-label=\"Total\" style=\"font-family:inherit;border:1px solid #e2e8f0;border-radius:0.75rem;padding:1.25rem 1.5rem;background:#fff;min-width:12rem;display:inline-flex;flex-direction:column;gap:0.4rem;\">\n  <span class=\"pb-kpi__label\" style=\"font-size:0.72rem;letter-spacing:0.06em;text-transform:uppercase;color:#64748b;\">Total</span>\n  <span class=\"pb-kpi__value\" data-pb-kpi-value style=\"font-size:2rem;font-weight:700;color:#0f172a;line-height:1.1;\">\u2014</span>\n</div>",
+        "description": "A KPI number aggregated from a collection (count/sum/avg).",
+        "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"width:26px;height:26px;\"><rect x=\"4\" y=\"4\" width=\"16\" height=\"16\" rx=\"2\"/></svg>"
+    },
+    {
+        "key": "chart",
+        "label": "Chart",
+        "category": "Data",
+        "template": "<div data-pb-block=\"chart\" class=\"pb-chart\" data-pb-collection=\"\" data-pb-metric=\"count\" data-pb-field=\"\" data-pb-group=\"\" data-pb-date-bucket=\"\" data-pb-chart-type=\"bar\" style=\"font-family:inherit;border:1px solid #e2e8f0;border-radius:0.75rem;padding:1.25rem;background:#fff;max-width:40rem;\">\n  <div class=\"pb-chart__title\" style=\"font-size:0.95rem;font-weight:600;color:#334155;margin-bottom:0.75rem;\">Chart</div>\n  <div class=\"pb-chart__canvas-wrap\" style=\"position:relative;height:18rem;\">\n    <canvas class=\"pb-chart__canvas\"></canvas>\n  </div>\n  <div class=\"pb-chart__placeholder\" style=\"color:#94a3b8;font-size:0.85rem;padding:0.5rem 0;\">Pick a collection in the Settings panel \u2014 the chart renders on the published page.</div>\n</div>",
+        "description": "A chart (bar/line/donut/area) aggregated from a collection via Chart.js.",
+        "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"width:26px;height:26px;\"><rect x=\"4\" y=\"4\" width=\"16\" height=\"16\" rx=\"2\"/></svg>"
+    },
+    {
+        "key": "embed",
+        "label": "Embed / iframe",
+        "category": "Components",
+        "template": "<div data-pb-block=\"embed\" class=\"pb-embed\" data-pb-embed-url=\"\" style=\"font-family:inherit;\">\n  <div class=\"pb-embed__frame\" style=\"position:relative;width:100%;aspect-ratio:16/9;background:#0f172a;border-radius:0.5rem;overflow:hidden;\">\n    <iframe class=\"pb-embed__iframe\" src=\"\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen style=\"position:absolute;inset:0;width:100%;height:100%;border:0;\"></iframe>\n    <div class=\"pb-embed__placeholder\" style=\"position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#94a3b8;font-size:0.85rem;text-align:center;padding:1rem;\">Set an embed URL (YouTube, Vimeo, Maps, or any page) in the Settings panel.</div>\n  </div>\n</div>",
+        "description": "Embed a YouTube, Vimeo, Maps or any URL via an iframe.",
+        "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"width:26px;height:26px;\"><rect x=\"4\" y=\"4\" width=\"16\" height=\"16\" rx=\"2\"/></svg>"
+    },
+    {
+        "key": "autocomplete",
+        "label": "Autocomplete",
+        "category": "Forms",
+        "template": "<div data-pb-block=\"autocomplete\" class=\"pb-autocomplete\" data-pb-collection=\"\" data-pb-label-field=\"name\" x-data=\"pbAutocomplete($el)\" style=\"position:relative;font-family:inherit;max-width:24rem;\">\n  <input type=\"text\" class=\"pb-autocomplete__input\" name=\"autocomplete\" x-model=\"q\" @input=\"search()\" @focus=\"open=true\" placeholder=\"Search\u2026\" autocomplete=\"off\" style=\"width:100%;padding:0.6rem 0.8rem;border:1px solid #cbd5e1;border-radius:0.5rem;font:inherit;\">\n  <input type=\"hidden\" class=\"pb-autocomplete__value\" :value=\"selectedId\">\n  <ul class=\"pb-autocomplete__menu\" x-show=\"open && results.length\" x-cloak @click.outside=\"open=false\" style=\"position:absolute;z-index:30;left:0;right:0;margin:0.25rem 0 0;padding:0.25rem;list-style:none;background:#fff;border:1px solid #e2e8f0;border-radius:0.5rem;box-shadow:0 12px 32px -12px rgba(2,6,23,0.35);max-height:14rem;overflow:auto;\">\n    <template x-for=\"r in results\" :key=\"r.id\">\n      <li class=\"pb-autocomplete__option\" x-text=\"r.label\" @click=\"pick(r)\" style=\"padding:0.5rem 0.6rem;border-radius:0.375rem;cursor:pointer;\"></li>\n    </template>\n  </ul>\n</div>",
+        "description": "A typeahead input that searches a collection and fills a value.",
+        "icon": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.7\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"width:26px;height:26px;\"><rect x=\"4\" y=\"4\" width=\"16\" height=\"16\" rx=\"2\"/></svg>"
+    }
+]
