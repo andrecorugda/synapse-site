@@ -883,8 +883,14 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
       <td><code>data-pb-roles=&quot;editor,admin&quot;</code></td>
       <td>Hide unless the user&#39;s role slug is in the list (admins always pass)</td>
       </tr>
+      <tr>
+      <td><code>data-pb-logout=&quot;1&quot;</code></td>
+      <td>Log out on click — ends the session and returns to the login page</td>
+      </tr>
       </tbody></table></div>
       <p>You can also bind directly, e.g. <code>x-show=&quot;$store.app.$user&quot;</code> or <code>x-text=&quot;$store.app.$user?.name&quot;</code>. See <a href="pages-and-components.html#runtime-data-attributes">Pages → runtime attributes</a>.</p>
+      <h2 id="logging-out">Logging out</h2>
+      <p>Mark any element (a button, a navbar menu item) with the editor&#39;s <strong>&ldquo;Log out on click&rdquo;</strong> toggle (<code>data-pb-logout=&quot;1&quot;</code>): the published-page runtime POSTs to <code>pb-logout</code>, ends the <code>pb</code> session, and returns to login. The CSRF token is read from the per-session <code>XSRF-TOKEN</code> cookie at click time, so it stays valid even on cached pages. A flow can sign the user out too — add a <code>{&quot;type&quot;:&quot;logout&quot;}</code> action (optional <code>url</code>) to a <strong>result</strong> node. And a signed-in user who opens the login / register / forgot pages is redirected to <code>redirect_after_login</code>.</p>
       <blockquote>
       <p>Component visibility is a <strong>UX</strong> control (the element is hidden client-side). Data is protected server-side by the data-API enforcement above — always back a hidden control with a collection permission rule.</p>
       </blockquote>
