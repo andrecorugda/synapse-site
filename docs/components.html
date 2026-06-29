@@ -537,7 +537,7 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
           </li>
           <li>
             <details class="nav-cat">
-              <summary class="nav-cat__label">Components <span class="nav-cat__count">8</span></summary>
+              <summary class="nav-cat__label">Components <span class="nav-cat__count">15</span></summary>
               <ul class="nav-sublist">
               <li><a class="nav-sublink" href="component-card.html">Card</a></li>
               <li><a class="nav-sublink" href="component-banner.html">Banner</a></li>
@@ -547,12 +547,19 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
               <li><a class="nav-sublink" href="component-accordion.html">Accordion</a></li>
               <li><a class="nav-sublink" href="component-tooltip.html">Tooltip</a></li>
               <li><a class="nav-sublink" href="component-dropdown_menu.html">Dropdown menu</a></li>
+              <li><a class="nav-sublink" href="component-video.html">Video</a></li>
+              <li><a class="nav-sublink" href="component-breadcrumbs.html">Breadcrumbs</a></li>
+              <li><a class="nav-sublink" href="component-rating.html">Rating</a></li>
+              <li><a class="nav-sublink" href="component-progress.html">Progress bar</a></li>
+              <li><a class="nav-sublink" href="component-alert.html">Alert</a></li>
+              <li><a class="nav-sublink" href="component-avatar.html">Avatar</a></li>
+              <li><a class="nav-sublink" href="component-embed.html">Embed / iframe</a></li>
               </ul>
             </details>
           </li>
           <li>
             <details class="nav-cat">
-              <summary class="nav-cat__label">Forms <span class="nav-cat__count">8</span></summary>
+              <summary class="nav-cat__label">Forms <span class="nav-cat__count">11</span></summary>
               <ul class="nav-sublist">
               <li><a class="nav-sublink" href="component-text_input.html">Text input</a></li>
               <li><a class="nav-sublink" href="component-email_input.html">Email input</a></li>
@@ -562,15 +569,20 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
               <li><a class="nav-sublink" href="component-radio_group.html">Radio group</a></li>
               <li><a class="nav-sublink" href="component-submit_button.html">Submit button</a></li>
               <li><a class="nav-sublink" href="component-form.html">Form</a></li>
+              <li><a class="nav-sublink" href="component-date_picker.html">Date picker</a></li>
+              <li><a class="nav-sublink" href="component-file_upload.html">File upload</a></li>
+              <li><a class="nav-sublink" href="component-autocomplete.html">Autocomplete</a></li>
               </ul>
             </details>
           </li>
           <li>
             <details class="nav-cat">
-              <summary class="nav-cat__label">Data <span class="nav-cat__count">2</span></summary>
+              <summary class="nav-cat__label">Data <span class="nav-cat__count">4</span></summary>
               <ul class="nav-sublist">
               <li><a class="nav-sublink" href="component-data_table.html">Data Table</a></li>
               <li><a class="nav-sublink" href="component-list.html">List</a></li>
+              <li><a class="nav-sublink" href="component-kpi.html">Stat card</a></li>
+              <li><a class="nav-sublink" href="component-chart.html">Chart</a></li>
               </ul>
             </details>
           </li>
@@ -592,7 +604,7 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
     <article class="doc">
       <h1 id="components">Components</h1>
       <p>The block vocabulary — every component you can drop onto a page in the GrapesJS editor, and the single source of truth the AI is constrained to. Each section block imports as a labelled, editable component via its <code>data-pb-block</code> key.</p>
-      <p class="muted-note">This reference is generated from the live block catalog (43 blocks), so new components appear here automatically as the package adds them.</p>
+      <p class="muted-note">This reference is generated from the live block catalog (55 blocks), so new components appear here automatically as the package adds them.</p>
       <h2 id="sections">Sections <span class="cat-count">13</span></h2>
       <p>Full-width page sections — the AI vocabulary. Each wraps its markup in a labelled <code>&lt;section data-pb-block&gt;</code>.</p>
       <div class="table-wrap"><table>
@@ -739,7 +751,7 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
           </tr>
         </tbody>
       </table></div>
-      <h2 id="components">Components <span class="cat-count">8</span></h2>
+      <h2 id="components">Components <span class="cat-count">15</span></h2>
       <p>Owner-authored, trusted interactive blocks — interactive via Alpine out of the box.</p>
       <div class="table-wrap"><table>
         <thead><tr><th>Component</th><th>Key</th><th>What it does</th></tr></thead>
@@ -784,9 +796,44 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
             <td><code>dropdown_menu</code></td>
             <td>Button that toggles a menu of actions.</td>
           </tr>
+          <tr>
+            <td><a href="component-video.html">Video</a></td>
+            <td><code>video</code></td>
+            <td>A self-hosted HTML5 video player.</td>
+          </tr>
+          <tr>
+            <td><a href="component-breadcrumbs.html">Breadcrumbs</a></td>
+            <td><code>breadcrumbs</code></td>
+            <td>A breadcrumb trail.</td>
+          </tr>
+          <tr>
+            <td><a href="component-rating.html">Rating</a></td>
+            <td><code>rating</code></td>
+            <td>A star rating display.</td>
+          </tr>
+          <tr>
+            <td><a href="component-progress.html">Progress bar</a></td>
+            <td><code>progress</code></td>
+            <td>A labelled progress bar.</td>
+          </tr>
+          <tr>
+            <td><a href="component-alert.html">Alert</a></td>
+            <td><code>alert</code></td>
+            <td>A callout / alert box.</td>
+          </tr>
+          <tr>
+            <td><a href="component-avatar.html">Avatar</a></td>
+            <td><code>avatar</code></td>
+            <td>A circular avatar image.</td>
+          </tr>
+          <tr>
+            <td><a href="component-embed.html">Embed / iframe</a></td>
+            <td><code>embed</code></td>
+            <td>Embed a YouTube, Vimeo, Maps or any URL via an iframe.</td>
+          </tr>
         </tbody>
       </table></div>
-      <h2 id="forms">Forms <span class="cat-count">8</span></h2>
+      <h2 id="forms">Forms <span class="cat-count">11</span></h2>
       <p>Inputs and a form container that submit to a collection or run a flow.</p>
       <div class="table-wrap"><table>
         <thead><tr><th>Component</th><th>Key</th><th>What it does</th></tr></thead>
@@ -831,9 +878,24 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
             <td><code>form</code></td>
             <td>A form card with fields and a submit button.</td>
           </tr>
+          <tr>
+            <td><a href="component-date_picker.html">Date picker</a></td>
+            <td><code>date_picker</code></td>
+            <td>A date input field.</td>
+          </tr>
+          <tr>
+            <td><a href="component-file_upload.html">File upload</a></td>
+            <td><code>file_upload</code></td>
+            <td>A file input field.</td>
+          </tr>
+          <tr>
+            <td><a href="component-autocomplete.html">Autocomplete</a></td>
+            <td><code>autocomplete</code></td>
+            <td>A typeahead input that searches a collection and fills a value.</td>
+          </tr>
         </tbody>
       </table></div>
-      <h2 id="data">Data <span class="cat-count">2</span></h2>
+      <h2 id="data">Data <span class="cat-count">4</span></h2>
       <p>Blocks that render collection rows or State arrays reactively.</p>
       <div class="table-wrap"><table>
         <thead><tr><th>Component</th><th>Key</th><th>What it does</th></tr></thead>
@@ -847,6 +909,16 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
             <td><a href="component-list.html">List</a></td>
             <td><code>list</code></td>
             <td>A list that repeats over a State array.</td>
+          </tr>
+          <tr>
+            <td><a href="component-kpi.html">Stat card</a></td>
+            <td><code>kpi</code></td>
+            <td>A KPI number aggregated from a collection (count/sum/avg).</td>
+          </tr>
+          <tr>
+            <td><a href="component-chart.html">Chart</a></td>
+            <td><code>chart</code></td>
+            <td>A chart (bar/line/donut/area) aggregated from a collection via Chart.js.</td>
           </tr>
         </tbody>
       </table></div>

@@ -3,13 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Footer — Synapse Docs</title>
+<title>Autocomplete — Synapse Docs</title>
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
     <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
     <link rel="icon" href="/favicon-16.png" sizes="16x16" type="image/png">
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
     <meta name="theme-color" content="#0a0e1a">
-<meta name="description" content="Synapse — the self-hosted, low-code app builder for Laravel + Filament. Footer reference.">
+<meta name="description" content="Synapse — the self-hosted, low-code app builder for Laravel + Filament. Autocomplete reference.">
 <style>
 /* Synapse documentation theme.
    Ground: deep ink #0b1020. Accent: indigo #6366f1 -> cyan #22d3ee, spent
@@ -490,7 +490,7 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
           <ul class="nav-grouplist">
             <li><a class="nav-link nav-link--overview" href="components.html">Overview</a></li>
           <li>
-            <details class="nav-cat" open>
+            <details class="nav-cat">
               <summary class="nav-cat__label">Sections <span class="nav-cat__count">13</span></summary>
               <ul class="nav-sublist">
               <li><a class="nav-sublink" href="component-navbar.html">Navbar</a></li>
@@ -505,7 +505,7 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
               <li><a class="nav-sublink" href="component-team.html">Team</a></li>
               <li><a class="nav-sublink" href="component-cta.html">Call to action</a></li>
               <li><a class="nav-sublink" href="component-contact.html">Contact</a></li>
-              <li><a class="nav-sublink is-current" aria-current="page" href="component-footer.html">Footer</a></li>
+              <li><a class="nav-sublink" href="component-footer.html">Footer</a></li>
               </ul>
             </details>
           </li>
@@ -558,7 +558,7 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
             </details>
           </li>
           <li>
-            <details class="nav-cat">
+            <details class="nav-cat" open>
               <summary class="nav-cat__label">Forms <span class="nav-cat__count">11</span></summary>
               <ul class="nav-sublist">
               <li><a class="nav-sublink" href="component-text_input.html">Text input</a></li>
@@ -571,7 +571,7 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
               <li><a class="nav-sublink" href="component-form.html">Form</a></li>
               <li><a class="nav-sublink" href="component-date_picker.html">Date picker</a></li>
               <li><a class="nav-sublink" href="component-file_upload.html">File upload</a></li>
-              <li><a class="nav-sublink" href="component-autocomplete.html">Autocomplete</a></li>
+              <li><a class="nav-sublink is-current" aria-current="page" href="component-autocomplete.html">Autocomplete</a></li>
               </ul>
             </details>
           </li>
@@ -602,17 +602,22 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
   </aside>
   <main class="content" id="content">
     <article class="doc">
-      <p class="crumb"><a href="components.html">Components</a> <span aria-hidden="true">/</span> Sections</p>
-      <h1 id="footer">Footer</h1>
-      <p class="badges"><span class="badge badge--cat">Sections</span> <code class="badge badge--key">footer</code></p>
-      <p class="lead">A footer with links and copyright.</p>
+      <p class="crumb"><a href="components.html">Components</a> <span aria-hidden="true">/</span> Forms</p>
+      <h1 id="autocomplete">Autocomplete</h1>
+      <p class="badges"><span class="badge badge--cat">Forms</span> <code class="badge badge--key">autocomplete</code></p>
+      <p class="lead">A typeahead input that searches a collection and fills a value.</p>
 
       <h2 id="markup">Markup</h2>
-      <p>Drops in as <code>data-pb-block="footer"</code>.</p>
-      <div class="codeblock"><span class="code-lang">html</span><pre><code class="language-html">&lt;section data-pb-block=&quot;footer&quot; class=&quot;pb-footer&quot; style=&quot;padding:2.5rem 1.5rem;background:#0f172a;color:#cbd5e1;text-align:center;&quot;&gt;
-  &lt;p class=&quot;pb-footer__links&quot; style=&quot;margin:0 0 0.75rem;&quot;&gt;&lt;a href=&quot;#&quot; style=&quot;color:#cbd5e1;text-decoration:none;margin:0 0.75rem;&quot;&gt;About&lt;/a&gt;&lt;a href=&quot;#&quot; style=&quot;color:#cbd5e1;text-decoration:none;margin:0 0.75rem;&quot;&gt;Pricing&lt;/a&gt;&lt;a href=&quot;#&quot; style=&quot;color:#cbd5e1;text-decoration:none;margin:0 0.75rem;&quot;&gt;Contact&lt;/a&gt;&lt;/p&gt;
-  &lt;p class=&quot;pb-footer__copy&quot; style=&quot;margin:0;font-size:0.875rem;color:#64748b;&quot;&gt;© Your Company. All rights reserved.&lt;/p&gt;
-&lt;/section&gt;</code></pre></div>
+      <p>Drops in as <code>data-pb-block="autocomplete"</code>.</p>
+      <div class="codeblock"><span class="code-lang">html</span><pre><code class="language-html">&lt;div data-pb-block=&quot;autocomplete&quot; class=&quot;pb-autocomplete&quot; data-pb-collection=&quot;&quot; data-pb-label-field=&quot;name&quot; x-data=&quot;pbAutocomplete($el)&quot; style=&quot;position:relative;font-family:inherit;max-width:24rem;&quot;&gt;
+  &lt;input type=&quot;text&quot; class=&quot;pb-autocomplete__input&quot; name=&quot;autocomplete&quot; x-model=&quot;q&quot; @input=&quot;search()&quot; @focus=&quot;open=true&quot; placeholder=&quot;Search…&quot; autocomplete=&quot;off&quot; style=&quot;width:100%;padding:0.6rem 0.8rem;border:1px solid #cbd5e1;border-radius:0.5rem;font:inherit;&quot;&gt;
+  &lt;input type=&quot;hidden&quot; class=&quot;pb-autocomplete__value&quot; :value=&quot;selectedId&quot;&gt;
+  &lt;ul class=&quot;pb-autocomplete__menu&quot; x-show=&quot;open &amp;&amp; results.length&quot; x-cloak @click.outside=&quot;open=false&quot; style=&quot;position:absolute;z-index:30;left:0;right:0;margin:0.25rem 0 0;padding:0.25rem;list-style:none;background:#fff;border:1px solid #e2e8f0;border-radius:0.5rem;box-shadow:0 12px 32px -12px rgba(2,6,23,0.35);max-height:14rem;overflow:auto;&quot;&gt;
+    &lt;template x-for=&quot;r in results&quot; :key=&quot;r.id&quot;&gt;
+      &lt;li class=&quot;pb-autocomplete__option&quot; x-text=&quot;r.label&quot; @click=&quot;pick(r)&quot; style=&quot;padding:0.5rem 0.6rem;border-radius:0.375rem;cursor:pointer;&quot;&gt;&lt;/li&gt;
+    &lt;/template&gt;
+  &lt;/ul&gt;
+&lt;/div&gt;</code></pre></div>
 
       <h2 id="settings">Settings</h2>
       <p>Everything a block can be configured to do:</p>
@@ -631,7 +636,7 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
         </div>
         <div class="setting">
           <dt class="setting__name">Styles & classes</dt>
-          <dd class="setting__body">Edit spacing, colour and layout visually in the GrapesJS editor. The wrapper carries <code>data-pb-block="footer"</code> so it imports as a labelled, editable component.</dd>
+          <dd class="setting__body">Edit spacing, colour and layout visually in the GrapesJS editor. The wrapper carries <code>data-pb-block="autocomplete"</code> so it imports as a labelled, editable component.</dd>
         </div>
       </dl>
     </article>

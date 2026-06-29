@@ -537,7 +537,7 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
           </li>
           <li>
             <details class="nav-cat">
-              <summary class="nav-cat__label">Components <span class="nav-cat__count">8</span></summary>
+              <summary class="nav-cat__label">Components <span class="nav-cat__count">15</span></summary>
               <ul class="nav-sublist">
               <li><a class="nav-sublink" href="component-card.html">Card</a></li>
               <li><a class="nav-sublink" href="component-banner.html">Banner</a></li>
@@ -547,12 +547,19 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
               <li><a class="nav-sublink" href="component-accordion.html">Accordion</a></li>
               <li><a class="nav-sublink" href="component-tooltip.html">Tooltip</a></li>
               <li><a class="nav-sublink" href="component-dropdown_menu.html">Dropdown menu</a></li>
+              <li><a class="nav-sublink" href="component-video.html">Video</a></li>
+              <li><a class="nav-sublink" href="component-breadcrumbs.html">Breadcrumbs</a></li>
+              <li><a class="nav-sublink" href="component-rating.html">Rating</a></li>
+              <li><a class="nav-sublink" href="component-progress.html">Progress bar</a></li>
+              <li><a class="nav-sublink" href="component-alert.html">Alert</a></li>
+              <li><a class="nav-sublink" href="component-avatar.html">Avatar</a></li>
+              <li><a class="nav-sublink" href="component-embed.html">Embed / iframe</a></li>
               </ul>
             </details>
           </li>
           <li>
             <details class="nav-cat">
-              <summary class="nav-cat__label">Forms <span class="nav-cat__count">8</span></summary>
+              <summary class="nav-cat__label">Forms <span class="nav-cat__count">11</span></summary>
               <ul class="nav-sublist">
               <li><a class="nav-sublink" href="component-text_input.html">Text input</a></li>
               <li><a class="nav-sublink" href="component-email_input.html">Email input</a></li>
@@ -562,15 +569,20 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
               <li><a class="nav-sublink" href="component-radio_group.html">Radio group</a></li>
               <li><a class="nav-sublink" href="component-submit_button.html">Submit button</a></li>
               <li><a class="nav-sublink" href="component-form.html">Form</a></li>
+              <li><a class="nav-sublink" href="component-date_picker.html">Date picker</a></li>
+              <li><a class="nav-sublink" href="component-file_upload.html">File upload</a></li>
+              <li><a class="nav-sublink" href="component-autocomplete.html">Autocomplete</a></li>
               </ul>
             </details>
           </li>
           <li>
             <details class="nav-cat" open>
-              <summary class="nav-cat__label">Data <span class="nav-cat__count">2</span></summary>
+              <summary class="nav-cat__label">Data <span class="nav-cat__count">4</span></summary>
               <ul class="nav-sublist">
               <li><a class="nav-sublink is-current" aria-current="page" href="component-data_table.html">Data Table</a></li>
               <li><a class="nav-sublink" href="component-list.html">List</a></li>
+              <li><a class="nav-sublink" href="component-kpi.html">Stat card</a></li>
+              <li><a class="nav-sublink" href="component-chart.html">Chart</a></li>
               </ul>
             </details>
           </li>
@@ -623,6 +635,19 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
       &lt;td class=&quot;pb-data-table__td&quot; style=&quot;padding:0.75rem 1rem;&quot;&gt;contact@globex.com&lt;/td&gt;
     &lt;/tr&gt;
   &lt;/tbody&gt;
+  &lt;tfoot class=&quot;pb-data-table__foot&quot; x-show=&quot;lastPage &gt; 1&quot; x-cloak&gt;
+    &lt;tr&gt;
+      &lt;td colspan=&quot;2&quot; style=&quot;padding:0.6rem 1rem;border-top:1px solid #e2e8f0;&quot;&gt;
+        &lt;div style=&quot;display:flex;align-items:center;justify-content:space-between;gap:1rem;color:#64748b;font-size:0.85rem;&quot;&gt;
+          &lt;span&gt;Page &lt;span x-text=&quot;page&quot;&gt;&lt;/span&gt; of &lt;span x-text=&quot;lastPage&quot;&gt;&lt;/span&gt; · &lt;span x-text=&quot;total&quot;&gt;&lt;/span&gt; records&lt;/span&gt;
+          &lt;span style=&quot;display:flex;gap:0.5rem;&quot;&gt;
+            &lt;button type=&quot;button&quot; @click=&quot;prev()&quot; :disabled=&quot;page&lt;=1&quot; style=&quot;padding:0.35rem 0.7rem;border:1px solid #e2e8f0;border-radius:0.375rem;background:#fff;cursor:pointer;&quot;&gt;Prev&lt;/button&gt;
+            &lt;button type=&quot;button&quot; @click=&quot;next()&quot; :disabled=&quot;page&gt;=lastPage&quot; style=&quot;padding:0.35rem 0.7rem;border:1px solid #e2e8f0;border-radius:0.375rem;background:#fff;cursor:pointer;&quot;&gt;Next&lt;/button&gt;
+          &lt;/span&gt;
+        &lt;/div&gt;
+      &lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tfoot&gt;
 &lt;/table&gt;</code></pre></div>
 
       <h2 id="settings">Settings</h2>
@@ -643,14 +668,6 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
         <div class="setting">
           <dt class="setting__name">Styles & classes</dt>
           <dd class="setting__body">Edit spacing, colour and layout visually in the GrapesJS editor. The wrapper carries <code>data-pb-block="data_table"</code> so it imports as a labelled, editable component.</dd>
-        </div>
-        <div class="setting">
-          <dt class="setting__name">Collection source</dt>
-          <dd class="setting__body">Set the collection in <code>x-data="pbTable('&lt;collection&gt;')"</code> — on init it fetches <code>GET /api/pb/&lt;collection&gt;</code> and exposes <code>rows</code>, <code>loading</code>, <code>error</code>.</dd>
-        </div>
-        <div class="setting">
-          <dt class="setting__name">Columns</dt>
-          <dd class="setting__body">Bind each cell with <code>x-text="row.&lt;field&gt;"</code> inside the <code>x-for</code> row template. See <a href="collections-and-data.html">Collections & Data</a>.</dd>
         </div>
       </dl>
     </article>

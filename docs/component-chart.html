@@ -3,13 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Footer — Synapse Docs</title>
+<title>Chart — Synapse Docs</title>
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
     <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
     <link rel="icon" href="/favicon-16.png" sizes="16x16" type="image/png">
     <link rel="apple-touch-icon" href="/apple-touch-icon.png">
     <meta name="theme-color" content="#0a0e1a">
-<meta name="description" content="Synapse — the self-hosted, low-code app builder for Laravel + Filament. Footer reference.">
+<meta name="description" content="Synapse — the self-hosted, low-code app builder for Laravel + Filament. Chart reference.">
 <style>
 /* Synapse documentation theme.
    Ground: deep ink #0b1020. Accent: indigo #6366f1 -> cyan #22d3ee, spent
@@ -490,7 +490,7 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
           <ul class="nav-grouplist">
             <li><a class="nav-link nav-link--overview" href="components.html">Overview</a></li>
           <li>
-            <details class="nav-cat" open>
+            <details class="nav-cat">
               <summary class="nav-cat__label">Sections <span class="nav-cat__count">13</span></summary>
               <ul class="nav-sublist">
               <li><a class="nav-sublink" href="component-navbar.html">Navbar</a></li>
@@ -505,7 +505,7 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
               <li><a class="nav-sublink" href="component-team.html">Team</a></li>
               <li><a class="nav-sublink" href="component-cta.html">Call to action</a></li>
               <li><a class="nav-sublink" href="component-contact.html">Contact</a></li>
-              <li><a class="nav-sublink is-current" aria-current="page" href="component-footer.html">Footer</a></li>
+              <li><a class="nav-sublink" href="component-footer.html">Footer</a></li>
               </ul>
             </details>
           </li>
@@ -576,13 +576,13 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
             </details>
           </li>
           <li>
-            <details class="nav-cat">
+            <details class="nav-cat" open>
               <summary class="nav-cat__label">Data <span class="nav-cat__count">4</span></summary>
               <ul class="nav-sublist">
               <li><a class="nav-sublink" href="component-data_table.html">Data Table</a></li>
               <li><a class="nav-sublink" href="component-list.html">List</a></li>
               <li><a class="nav-sublink" href="component-kpi.html">Stat card</a></li>
-              <li><a class="nav-sublink" href="component-chart.html">Chart</a></li>
+              <li><a class="nav-sublink is-current" aria-current="page" href="component-chart.html">Chart</a></li>
               </ul>
             </details>
           </li>
@@ -602,17 +602,20 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
   </aside>
   <main class="content" id="content">
     <article class="doc">
-      <p class="crumb"><a href="components.html">Components</a> <span aria-hidden="true">/</span> Sections</p>
-      <h1 id="footer">Footer</h1>
-      <p class="badges"><span class="badge badge--cat">Sections</span> <code class="badge badge--key">footer</code></p>
-      <p class="lead">A footer with links and copyright.</p>
+      <p class="crumb"><a href="components.html">Components</a> <span aria-hidden="true">/</span> Data</p>
+      <h1 id="chart">Chart</h1>
+      <p class="badges"><span class="badge badge--cat">Data</span> <code class="badge badge--key">chart</code></p>
+      <p class="lead">A chart (bar/line/donut/area) aggregated from a collection via Chart.js.</p>
 
       <h2 id="markup">Markup</h2>
-      <p>Drops in as <code>data-pb-block="footer"</code>.</p>
-      <div class="codeblock"><span class="code-lang">html</span><pre><code class="language-html">&lt;section data-pb-block=&quot;footer&quot; class=&quot;pb-footer&quot; style=&quot;padding:2.5rem 1.5rem;background:#0f172a;color:#cbd5e1;text-align:center;&quot;&gt;
-  &lt;p class=&quot;pb-footer__links&quot; style=&quot;margin:0 0 0.75rem;&quot;&gt;&lt;a href=&quot;#&quot; style=&quot;color:#cbd5e1;text-decoration:none;margin:0 0.75rem;&quot;&gt;About&lt;/a&gt;&lt;a href=&quot;#&quot; style=&quot;color:#cbd5e1;text-decoration:none;margin:0 0.75rem;&quot;&gt;Pricing&lt;/a&gt;&lt;a href=&quot;#&quot; style=&quot;color:#cbd5e1;text-decoration:none;margin:0 0.75rem;&quot;&gt;Contact&lt;/a&gt;&lt;/p&gt;
-  &lt;p class=&quot;pb-footer__copy&quot; style=&quot;margin:0;font-size:0.875rem;color:#64748b;&quot;&gt;© Your Company. All rights reserved.&lt;/p&gt;
-&lt;/section&gt;</code></pre></div>
+      <p>Drops in as <code>data-pb-block="chart"</code>.</p>
+      <div class="codeblock"><span class="code-lang">html</span><pre><code class="language-html">&lt;div data-pb-block=&quot;chart&quot; class=&quot;pb-chart&quot; data-pb-collection=&quot;&quot; data-pb-metric=&quot;count&quot; data-pb-field=&quot;&quot; data-pb-group=&quot;&quot; data-pb-date-bucket=&quot;&quot; data-pb-chart-type=&quot;bar&quot; style=&quot;font-family:inherit;border:1px solid #e2e8f0;border-radius:0.75rem;padding:1.25rem;background:#fff;max-width:40rem;&quot;&gt;
+  &lt;div class=&quot;pb-chart__title&quot; style=&quot;font-size:0.95rem;font-weight:600;color:#334155;margin-bottom:0.75rem;&quot;&gt;Chart&lt;/div&gt;
+  &lt;div class=&quot;pb-chart__canvas-wrap&quot; style=&quot;position:relative;height:18rem;&quot;&gt;
+    &lt;canvas class=&quot;pb-chart__canvas&quot;&gt;&lt;/canvas&gt;
+  &lt;/div&gt;
+  &lt;div class=&quot;pb-chart__placeholder&quot; style=&quot;color:#94a3b8;font-size:0.85rem;padding:0.5rem 0;&quot;&gt;Pick a collection in the Settings panel — the chart renders on the published page.&lt;/div&gt;
+&lt;/div&gt;</code></pre></div>
 
       <h2 id="settings">Settings</h2>
       <p>Everything a block can be configured to do:</p>
@@ -631,7 +634,7 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
         </div>
         <div class="setting">
           <dt class="setting__name">Styles & classes</dt>
-          <dd class="setting__body">Edit spacing, colour and layout visually in the GrapesJS editor. The wrapper carries <code>data-pb-block="footer"</code> so it imports as a labelled, editable component.</dd>
+          <dd class="setting__body">Edit spacing, colour and layout visually in the GrapesJS editor. The wrapper carries <code>data-pb-block="chart"</code> so it imports as a labelled, editable component.</dd>
         </div>
       </dl>
     </article>
