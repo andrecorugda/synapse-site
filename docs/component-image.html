@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Collections & Data — Synapse Docs</title>
-<meta name="description" content="Synapse — the self-hosted, low-code app builder for Laravel + Filament. Collections & Data reference.">
+<title>Image — Synapse Docs</title>
+<meta name="description" content="Synapse — the self-hosted, low-code app builder for Laravel + Filament. Image reference.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23818cf8'/%3E%3Cstop offset='1' stop-color='%2322d3ee'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M12 1.6 22.4 12 12 22.4 1.6 12Z' fill='url(%23g)'/%3E%3C/svg%3E">
 <style>
 /* Synapse documentation theme.
@@ -480,7 +480,7 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
         <li><a class="nav-link" href="architecture.html">Architecture</a></li>
         <li><a class="nav-link" href="pages-and-components.html">Pages &amp; Components</a></li>
         <li class="nav-group">
-        <details class="nav-group__d">
+        <details class="nav-group__d" open>
           <summary class="nav-group__label">Components</summary>
           <ul class="nav-grouplist">
             <li><a class="nav-link nav-link--overview" href="components.html">Overview</a></li>
@@ -505,12 +505,12 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
             </details>
           </li>
           <li>
-            <details class="nav-cat">
+            <details class="nav-cat" open>
               <summary class="nav-cat__label">Basic <span class="nav-cat__count">8</span></summary>
               <ul class="nav-sublist">
               <li><a class="nav-sublink" href="component-text.html">Text</a></li>
               <li><a class="nav-sublink" href="component-heading.html">Heading</a></li>
-              <li><a class="nav-sublink" href="component-image.html">Image</a></li>
+              <li><a class="nav-sublink is-current" aria-current="page" href="component-image.html">Image</a></li>
               <li><a class="nav-sublink" href="component-button.html">Button</a></li>
               <li><a class="nav-sublink" href="component-columns-2.html">2 Columns</a></li>
               <li><a class="nav-sublink" href="component-columns-3.html">3 Columns</a></li>
@@ -572,7 +572,7 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
           </ul>
         </details>
         </li>
-        <li><a class="nav-link is-current" aria-current="page" href="collections-and-data.html">Collections &amp; Data</a></li>
+        <li><a class="nav-link" href="collections-and-data.html">Collections &amp; Data</a></li>
         <li><a class="nav-link" href="flows.html">Flows</a></li>
         <li><a class="nav-link" href="functions-and-states.html">Functions &amp; States</a></li>
         <li><a class="nav-link" href="authentication-and-permissions.html">Auth &amp; Permissions</a></li>
@@ -585,263 +585,35 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
   </aside>
   <main class="content" id="content">
     <article class="doc">
-      <h1 id="collections-data">Collections &amp; data</h1>
-      <p>A <strong>collection</strong> is a user-defined data model. Its metadata lives in <code>page_builder_models</code> (the <code>PbModel</code>) and <code>page_builder_fields</code> (the <code>PbField</code>s), and the <code>SchemaSynchronizer</code> turns that metadata into a <strong>real database table</strong> named <code>pb_&lt;key&gt;</code> (Directus-style). Every collection automatically gets a REST API, and Flows, Functions, pages and the AI applier all read/write it through one service: <code>RecordQuery</code>.</p>
-      <h2 id="defining-a-collection">Defining a collection</h2>
-      <p>In the admin: <strong>Collections</strong> → create. A collection has:</p>
-      <div class="table-wrap"><table>
-      <thead>
-      <tr>
-      <th>Field</th>
-      <th>Notes</th>
-      </tr>
-      </thead>
-      <tbody><tr>
-      <td><code>key</code></td>
-      <td>Lowercase identifier <code>^[a-z][a-z0-9_]*$</code>. <strong>Immutable after create.</strong> Drives the physical table name.</td>
-      </tr>
-      <tr>
-      <td><code>name</code></td>
-      <td>Human label</td>
-      </tr>
-      <tr>
-      <td><code>label_singular</code> / <code>label_plural</code></td>
-      <td>Optional display labels</td>
-      </tr>
-      <tr>
-      <td><code>icon</code></td>
-      <td>Heroicon</td>
-      </tr>
-      <tr>
-      <td><code>has_timestamps</code></td>
-      <td>Add <code>created_at</code>/<code>updated_at</code> (default true)</td>
-      </tr>
-      <tr>
-      <td><code>has_soft_deletes</code></td>
-      <td>Add <code>deleted_at</code> (default false)</td>
-      </tr>
-      <tr>
-      <td><code>description</code></td>
-      <td>Optional</td>
-      </tr>
-      </tbody></table></div>
-      <p>The physical table name is <code>{data.table_prefix}{key}</code> with dashes converted to underscores — default prefix <code>pb_</code>, so collection key <code>leads</code> → table <code>pb_leads</code> (<code>PbModel::physicalTableName()</code>). Deleting a collection in the admin drops its physical table (<code>SchemaSynchronizer::dropTable()</code>).</p>
-      <h2 id="field-types">Field types</h2>
-      <p><code>src/Enums/FieldType.php</code> — the single source of truth mapping a logical type to its physical column, Eloquent cast and validation rule.</p>
-      <div class="table-wrap"><table>
-      <thead>
-      <tr>
-      <th><code>type</code></th>
-      <th>Label</th>
-      <th>Physical column</th>
-      <th>Cast</th>
-      <th>Notes</th>
-      </tr>
-      </thead>
-      <tbody><tr>
-      <td><code>string</code></td>
-      <td>Text (single line)</td>
-      <td><code>string(length)</code> (default 255)</td>
-      <td>—</td>
-      <td><code>options.length</code></td>
-      </tr>
-      <tr>
-      <td><code>text</code></td>
-      <td>Text (multi-line)</td>
-      <td><code>text</code></td>
-      <td>—</td>
-      <td></td>
-      </tr>
-      <tr>
-      <td><code>integer</code></td>
-      <td>Integer</td>
-      <td><code>bigInteger</code></td>
-      <td><code>integer</code></td>
-      <td></td>
-      </tr>
-      <tr>
-      <td><code>decimal</code></td>
-      <td>Decimal</td>
-      <td><code>decimal(precision, scale)</code> (default 12,2)</td>
-      <td><code>float</code></td>
-      <td><code>options.precision</code>, <code>options.scale</code></td>
-      </tr>
-      <tr>
-      <td><code>boolean</code></td>
-      <td>Boolean</td>
-      <td><code>boolean</code></td>
-      <td><code>boolean</code></td>
-      <td></td>
-      </tr>
-      <tr>
-      <td><code>date</code></td>
-      <td>Date</td>
-      <td><code>date</code></td>
-      <td><code>date</code></td>
-      <td></td>
-      </tr>
-      <tr>
-      <td><code>datetime</code></td>
-      <td>Date &amp; time</td>
-      <td><code>dateTime</code></td>
-      <td><code>datetime</code></td>
-      <td></td>
-      </tr>
-      <tr>
-      <td><code>json</code></td>
-      <td>JSON</td>
-      <td><code>json</code></td>
-      <td><code>array</code></td>
-      <td></td>
-      </tr>
-      <tr>
-      <td><code>select</code></td>
-      <td>Select (choices)</td>
-      <td><code>string(length)</code></td>
-      <td>—</td>
-      <td><code>options.choices</code> (string list)</td>
-      </tr>
-      <tr>
-      <td><code>relation</code></td>
-      <td>Relation (belongs to)</td>
-      <td><code>unsignedBigInteger</code> as <strong><code>{key}_id</code></strong></td>
-      <td><code>integer</code></td>
-      <td>indexed; set <code>options.relation_model</code> to the related collection key</td>
-      </tr>
-      </tbody></table></div>
-      <h3 id="field-options">Field options</h3>
-      <p>A field&#39;s <code>options</code> (JSON) tune the column and validation:</p>
-      <ul>
-      <li><code>required</code> (bool) — non-nullable + <code>required</code> validation (otherwise the column is nullable and validation is <code>nullable</code>).</li>
-      <li><code>nullable</code> (bool) — explicit override of nullability.</li>
-      <li><code>default</code> — column default (cast to the field type).</li>
-      <li><code>unique</code> (bool) — unique index.</li>
-      <li><code>index</code> (bool) — plain index (relations are always indexed).</li>
-      <li><code>length</code> (int) — for <code>string</code>/<code>select</code>.</li>
-      <li><code>precision</code> / <code>scale</code> (int) — for <code>decimal</code>.</li>
-      <li><code>choices</code> (string[]) — for <code>select</code>; adds an <code>in:</code> validation rule.</li>
-      <li><code>relation_model</code> (string) — for <code>relation</code>; the related collection key.</li>
-      </ul>
-      <blockquote>
-      <p><strong>Column naming:</strong> a <code>relation</code> field stores its foreign id as <code>{key}_id</code>; every other type uses the key verbatim. So in API payloads a relation field accepts either the field key or the <code>_id</code> column name.</p>
-      </blockquote>
-      <h2 id="schema-sync">Schema sync</h2>
-      <p><code>SchemaSynchronizer::sync(PbModel $model)</code>:</p>
-      <ul>
-      <li><strong>Create</strong> — if the table doesn&#39;t exist, creates it with <code>id</code>, each field&#39;s column, plus <code>timestamps()</code>/<code>softDeletes()</code> per the collection flags.</li>
-      <li><strong>Alter</strong> — if it exists, adds columns for new fields, adds <code>created_at</code>/<code>updated_at</code>/<code>deleted_at</code> if newly enabled, and (only when destructive sync is on) drops columns for removed fields.</li>
-      </ul>
-      <p><strong>Destructive sync is off by default.</strong> Removing a field does <strong>not</strong> drop its column unless <code>data.allow_destructive_sync</code> is true (<code>AI_PAGE_BUILDER_DATA_DESTRUCTIVE=true</code>) — a guard so a mis-edit can&#39;t destroy data. The system columns <code>id</code>, <code>created_at</code>, <code>updated_at</code>, <code>deleted_at</code> are never dropped.</p>
-      <h2 id="the-auto-rest-api">The auto REST API</h2>
-      <p>Every collection is exposed under <code>{data.api_prefix}/{model}</code> (default <code>api/pb</code>), resolved by collection key:</p>
-      <div class="table-wrap"><table>
-      <thead>
-      <tr>
-      <th>Method</th>
-      <th>Path</th>
-      <th>Action</th>
-      </tr>
-      </thead>
-      <tbody><tr>
-      <td><code>GET</code></td>
-      <td><code>/api/pb/{model}</code></td>
-      <td>List (paginated)</td>
-      </tr>
-      <tr>
-      <td><code>POST</code></td>
-      <td><code>/api/pb/{model}</code></td>
-      <td>Create</td>
-      </tr>
-      <tr>
-      <td><code>GET</code></td>
-      <td><code>/api/pb/{model}/{id}</code></td>
-      <td>Read one</td>
-      </tr>
-      <tr>
-      <td><code>PUT</code>/<code>PATCH</code></td>
-      <td><code>/api/pb/{model}/{id}</code></td>
-      <td>Update</td>
-      </tr>
-      <tr>
-      <td><code>DELETE</code></td>
-      <td><code>/api/pb/{model}/{id}</code></td>
-      <td>Delete</td>
-      </tr>
-      </tbody></table></div>
-      <p>The API middleware (<code>data.api_middleware</code>) is <code>EncryptCookies</code>, <code>StartSession</code>, <code>api</code> — so the built app&#39;s logged-in end-user (the <code>pb</code> guard) is recognised on same-origin XHR and permission + row-level rules apply. No CSRF is added, so stateless writes to <em>unrestricted</em> collections keep working. Permission enforcement happens in <code>RecordApiController</code> via <code>AccessControl</code> — see <a href="authentication-and-permissions.html">Authentication &amp; permissions</a>.</p>
-      <h3 id="query-syntax-recordquery">Query syntax (<code>RecordQuery</code>)</h3>
-      <p>Directus-style query parameters, parsed by <code>src/Services/Data/RecordQuery.php</code>.</p>
-      <p><strong>Filter</strong> — <code>filter[field][op]=value</code>:</p>
-      <div class="table-wrap"><table>
-      <thead>
-      <tr>
-      <th><code>op</code></th>
-      <th>Meaning</th>
-      </tr>
-      </thead>
-      <tbody><tr>
-      <td><code>eq</code></td>
-      <td><code>=</code> (also the shorthand: <code>filter[status]=active</code>)</td>
-      </tr>
-      <tr>
-      <td><code>neq</code></td>
-      <td><code>!=</code></td>
-      </tr>
-      <tr>
-      <td><code>gt</code> / <code>gte</code></td>
-      <td><code>&gt;</code> / <code>&gt;=</code></td>
-      </tr>
-      <tr>
-      <td><code>lt</code> / <code>lte</code></td>
-      <td><code>&lt;</code> / <code>&lt;=</code></td>
-      </tr>
-      <tr>
-      <td><code>like</code></td>
-      <td><code>LIKE &#39;%value%&#39;</code></td>
-      </tr>
-      <tr>
-      <td><code>in</code> / <code>nin</code></td>
-      <td><code>whereIn</code> / <code>whereNotIn</code> (array or comma-separated)</td>
-      </tr>
-      <tr>
-      <td><code>null</code> / <code>nnull</code></td>
-      <td><code>whereNull</code> / <code>whereNotNull</code></td>
-      </tr>
-      <tr>
-      <td><code>between</code></td>
-      <td><code>whereBetween</code> (first two values of an array)</td>
-      </tr>
-      </tbody></table></div>
-      <div class="codeblock"><pre><code>GET /api/pb/leads?filter[status][eq]=active
-      GET /api/pb/leads?filter[id][in]=1,2,3
-      GET /api/pb/leads?filter[name][like]=acme
-      GET /api/pb/leads?filter[created_at][gte]=2026-01-01</code></pre></div>
-      <p><strong>Sort</strong> — <code>sort=field,-other</code> (comma-separated; leading <code>-</code> = descending; defaults to <code>id</code> ascending):</p>
-      <div class="codeblock"><pre><code>GET /api/pb/leads?sort=name,-created_at</code></pre></div>
-      <p><strong>Fields (projection)</strong> — <code>fields=a,b,c</code> (only defined/system columns; <code>id</code> always included):</p>
-      <div class="codeblock"><pre><code>GET /api/pb/leads?fields=name,email,status</code></pre></div>
-      <p><strong>Search</strong> — <code>search=term</code> (LIKE across <code>string</code>/<code>text</code>/<code>select</code> columns):</p>
-      <div class="codeblock"><pre><code>GET /api/pb/leads?search=acme</code></pre></div>
-      <p><strong>Pagination</strong> — <code>page</code> (default 1) and <code>per_page</code> (clamped between 1 and <code>data.max_per_page</code>; default <code>data.default_per_page</code> = 25).</p>
-      <div class="codeblock"><pre><code>GET /api/pb/leads?page=2&amp;per_page=50</code></pre></div>
-      <h3 id="response-envelope">Response envelope</h3>
-      <p><code>list()</code> returns Laravel&#39;s paginator JSON:</p>
-      <div class="codeblock"><span class="code-lang">json</span><pre><code class="language-json">{
-        "data": [ { "id": 1, "name": "Acme", "...": "..." } ],
-        "meta": { "current_page": 1, "from": 1, "last_page": 5, "per_page": 25, "to": 25, "total": 125 },
-        "links": { "first": "...", "last": "...", "next": "...", "prev": null }
-      }</code></pre></div>
-      <p>Single-record verbs return <code>{ &quot;data&quot;: { ... } }</code>. <code>store</code> returns <code>201</code>; <code>destroy</code> returns <code>204</code>. A failed validation returns <code>422</code> with Laravel&#39;s error bag; a denied permission returns <code>403</code>.</p>
-      <h2 id="readingwriting-from-flows-functions-and-pages">Reading/writing from Flows, Functions and pages</h2>
-      <ul>
-      <li><strong>Flows</strong> — the <a href="flows.html#record"><code>record</code> node</a> does <code>list</code>/<code>get</code>/<code>create</code>/<code>update</code>/<code>delete</code> against a collection, going through <code>RecordQuery</code>.</li>
-      <li><strong>Functions</strong> — a <code>php</code>-runtime <a href="functions-and-states.html">Function</a> can call <code>RecordQuery</code> directly (or use the <code>record</code> node).</li>
-      <li><strong>Pages</strong> — the <a href="pages-and-components.html#data-tables-with-pbtable"><code>data_table</code> block / <code>pbTable</code></a> fetches the list endpoint; a <code>data-pb-record=&quot;&lt;collection&gt;&quot;</code> form POSTs a create.</li>
-      </ul>
-      <p>Every one of these paths funnels through <code>RecordQuery</code>, so validation, column mapping (field key ↔ <code>_id</code>), and the row-level permission filter are applied consistently.</p>
-      <h2 id="validation">Validation</h2>
-      <p><code>RecordQuery::validate()</code> builds rules from each field&#39;s <code>FieldType::validationRules($options)</code>. Input may be keyed by field key <strong>or</strong> physical column name (relations accept <code>manager</code> or <code>manager_id</code>). Updates validate in <em>partial</em> mode (only present fields; <code>required</code> is relaxed). Unmapped keys are dropped.</p>
-      <p>Next: <a href="flows.html">Flows</a>.</p>
+      <p class="crumb"><a href="components.html">Components</a> <span aria-hidden="true">/</span> Basic</p>
+      <h1 id="image">Image</h1>
+      <p class="badges"><span class="badge badge--cat">Basic</span> <code class="badge badge--key">image</code></p>
+      <p class="lead">An image.</p>
+
+      <h2 id="markup">Markup</h2>
+      <p>Drops in as <code>data-pb-block="image"</code>.</p>
+      <div class="codeblock"><span class="code-lang">html</span><pre><code class="language-html">&lt;img alt=&quot;&quot; style=&quot;max-width:100%;&quot;&gt;</code></pre></div>
+
+      <h2 id="settings">Settings</h2>
+      <p>Everything a block can be configured to do:</p>
+      <dl class="settings">
+        <div class="setting">
+          <dt class="setting__name">Bind to State</dt>
+          <dd class="setting__body">Drive content reactively from a <a href="functions-and-states.html">State</a> with declarative Alpine — <code>x-text</code>, <code>x-show</code> or <code>x-model</code> over <code>$store.app.&lt;stateKey&gt;</code>.</dd>
+        </div>
+        <div class="setting">
+          <dt class="setting__name">On event → run a Flow</dt>
+          <dd class="setting__body">Wire an interaction to a <a href="flows.html">Flow</a>: set <code>data-pb-flow="&lt;slug&gt;"</code> and <code>data-pb-flow-event="click|submit|hover|change|…"</code>. The flow's returned actions update the page.</dd>
+        </div>
+        <div class="setting">
+          <dt class="setting__name">Link to a page</dt>
+          <dd class="setting__body">Navigate to another published page on click with <code>data-pb-page="&lt;slug&gt;"</code>.</dd>
+        </div>
+        <div class="setting">
+          <dt class="setting__name">Styles & classes</dt>
+          <dd class="setting__body">Edit spacing, colour and layout visually in the GrapesJS editor. The wrapper carries <code>data-pb-block="image"</code> so it imports as a labelled, editable component.</dd>
+        </div>
+      </dl>
     </article>
     <footer class="doc-footer">
       <p>Synapse — App Builder · self-hosted, low-code, inside your Laravel admin.</p>

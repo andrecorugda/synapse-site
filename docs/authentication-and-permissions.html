@@ -154,6 +154,109 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
   font-weight: 600;
 }
 
+/* ---- Collapsible Components group in the sidebar ---- */
+.nav-group { list-style: none; }
+.nav-group__d > summary,
+.nav-cat > summary { cursor: pointer; list-style: none; }
+.nav-group__d > summary::-webkit-details-marker,
+.nav-cat > summary::-webkit-details-marker { display: none; }
+
+.nav-group__label {
+  display: flex; align-items: center; gap: 0.5rem;
+  padding: 0.5rem 0.7rem;
+  color: var(--text-soft);
+  border-radius: 7px;
+  font-size: 0.92rem;
+}
+.nav-group__label::before {
+  content: ""; width: 0; height: 0;
+  border-left: 5px solid currentColor;
+  border-top: 4px solid transparent; border-bottom: 4px solid transparent;
+  transition: transform 0.15s ease; flex: none;
+}
+.nav-group__d[open] > .nav-group__label::before { transform: rotate(90deg); }
+.nav-group__label:hover { background: var(--panel-2); color: var(--head); }
+
+.nav-grouplist { list-style: none; margin: 0.15rem 0 0.3rem; padding: 0; display: flex; flex-direction: column; gap: 1px; }
+
+.nav-link--overview { padding-left: 1.35rem; font-size: 0.88rem; }
+
+.nav-cat { margin-left: 0.35rem; }
+.nav-cat__label {
+  display: flex; align-items: center; gap: 0.45rem;
+  padding: 0.4rem 0.7rem 0.4rem 0.95rem;
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase;
+  border-radius: 7px;
+}
+.nav-cat__label::before {
+  content: ""; width: 0; height: 0;
+  border-left: 4px solid currentColor;
+  border-top: 3px solid transparent; border-bottom: 3px solid transparent;
+  transition: transform 0.15s ease; flex: none;
+}
+.nav-cat[open] > .nav-cat__label::before { transform: rotate(90deg); }
+.nav-cat__label:hover { color: var(--text-soft); }
+.nav-cat__count { color: var(--border-2); font-size: 0.66rem; }
+
+.nav-sublist { list-style: none; margin: 0 0 0.25rem; padding: 0; display: flex; flex-direction: column; gap: 1px; }
+.nav-sublink {
+  display: block;
+  padding: 0.35rem 0.7rem 0.35rem 1.5rem;
+  color: var(--text-soft);
+  border-radius: 7px;
+  font-size: 0.86rem;
+  border-left: 2px solid transparent;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.nav-sublink:hover { background: var(--panel-2); color: var(--head); text-decoration: none; }
+.nav-sublink.is-current {
+  color: var(--head); background: var(--panel-2);
+  border-image: var(--accent-grad) 1; font-weight: 600;
+}
+
+/* ---- Components reference page bits ---- */
+.crumb { font-size: 0.85rem; color: var(--muted); margin: 0 0 0.5rem; }
+.crumb a { color: var(--text-soft); }
+.crumb span { margin: 0 0.4rem; color: var(--border-2); }
+.badges { display: flex; align-items: center; gap: 0.5rem; margin: 0 0 1rem; }
+.badge {
+  display: inline-block; padding: 0.15rem 0.6rem; border-radius: 999px;
+  font-size: 0.74rem; font-weight: 600; letter-spacing: 0.02em;
+}
+.badge--cat {
+  color: var(--head);
+  background: rgba(99,102,241,0.16);
+  border: 1px solid var(--border-2);
+}
+.badge--key {
+  font-family: var(--mono); font-size: 0.78rem;
+  background: var(--panel-2); border: 1px solid var(--border); color: #d7def0;
+  border-radius: 5px; padding: 0.12em 0.5em;
+}
+.doc .lead { color: var(--text-soft); font-size: 1.05rem; }
+.muted-note { color: var(--muted); font-size: 0.9rem; }
+.cat-count {
+  font-family: var(--mono); font-size: 0.7rem; font-weight: 500;
+  color: var(--muted); vertical-align: middle;
+  background: var(--panel-2); border: 1px solid var(--border);
+  border-radius: 999px; padding: 0.05rem 0.5rem; margin-left: 0.5rem;
+}
+
+.settings { margin: 1.1rem 0; display: flex; flex-direction: column; gap: 0; }
+.setting {
+  display: grid; grid-template-columns: 13rem 1fr; gap: 1rem;
+  padding: 0.9rem 0; border-top: 1px solid var(--border);
+}
+.setting:last-child { border-bottom: 1px solid var(--border); }
+.setting__name { color: var(--head); font-weight: 600; font-size: 0.94rem; margin: 0; }
+.setting__body { margin: 0; color: var(--text); }
+.setting__body code { white-space: normal; }
+@media (max-width: 620px) {
+  .setting { grid-template-columns: 1fr; gap: 0.3rem; }
+}
+
 /* ---- Content ---- */
 .content {
   min-width: 0;
@@ -375,11 +478,104 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
         <li><a class="nav-link" href="index.html">Overview</a></li>
         <li><a class="nav-link" href="installation.html">Installation</a></li>
         <li><a class="nav-link" href="architecture.html">Architecture</a></li>
-        <li><a class="nav-link" href="pages-and-components.html">Pages & Components</a></li>
-        <li><a class="nav-link" href="collections-and-data.html">Collections & Data</a></li>
+        <li><a class="nav-link" href="pages-and-components.html">Pages &amp; Components</a></li>
+        <li class="nav-group">
+        <details class="nav-group__d">
+          <summary class="nav-group__label">Components</summary>
+          <ul class="nav-grouplist">
+            <li><a class="nav-link nav-link--overview" href="components.html">Overview</a></li>
+          <li>
+            <details class="nav-cat">
+              <summary class="nav-cat__label">Sections <span class="nav-cat__count">13</span></summary>
+              <ul class="nav-sublist">
+              <li><a class="nav-sublink" href="component-navbar.html">Navbar</a></li>
+              <li><a class="nav-sublink" href="component-hero.html">Hero</a></li>
+              <li><a class="nav-sublink" href="component-features.html">Features</a></li>
+              <li><a class="nav-sublink" href="component-logos.html">Logo cloud</a></li>
+              <li><a class="nav-sublink" href="component-stats.html">Stats</a></li>
+              <li><a class="nav-sublink" href="component-gallery.html">Gallery</a></li>
+              <li><a class="nav-sublink" href="component-pricing.html">Pricing</a></li>
+              <li><a class="nav-sublink" href="component-testimonial.html">Testimonial</a></li>
+              <li><a class="nav-sublink" href="component-faq.html">FAQ</a></li>
+              <li><a class="nav-sublink" href="component-team.html">Team</a></li>
+              <li><a class="nav-sublink" href="component-cta.html">Call to action</a></li>
+              <li><a class="nav-sublink" href="component-contact.html">Contact</a></li>
+              <li><a class="nav-sublink" href="component-footer.html">Footer</a></li>
+              </ul>
+            </details>
+          </li>
+          <li>
+            <details class="nav-cat">
+              <summary class="nav-cat__label">Basic <span class="nav-cat__count">8</span></summary>
+              <ul class="nav-sublist">
+              <li><a class="nav-sublink" href="component-text.html">Text</a></li>
+              <li><a class="nav-sublink" href="component-heading.html">Heading</a></li>
+              <li><a class="nav-sublink" href="component-image.html">Image</a></li>
+              <li><a class="nav-sublink" href="component-button.html">Button</a></li>
+              <li><a class="nav-sublink" href="component-columns-2.html">2 Columns</a></li>
+              <li><a class="nav-sublink" href="component-columns-3.html">3 Columns</a></li>
+              <li><a class="nav-sublink" href="component-spacer.html">Spacer</a></li>
+              <li><a class="nav-sublink" href="component-divider.html">Divider</a></li>
+              </ul>
+            </details>
+          </li>
+          <li>
+            <details class="nav-cat">
+              <summary class="nav-cat__label">Shapes <span class="nav-cat__count">4</span></summary>
+              <ul class="nav-sublist">
+              <li><a class="nav-sublink" href="component-shape-wave.html">Wave</a></li>
+              <li><a class="nav-sublink" href="component-shape-slant.html">Slant</a></li>
+              <li><a class="nav-sublink" href="component-shape-tilt.html">Tilt</a></li>
+              <li><a class="nav-sublink" href="component-shape-curve.html">Curve</a></li>
+              </ul>
+            </details>
+          </li>
+          <li>
+            <details class="nav-cat">
+              <summary class="nav-cat__label">Components <span class="nav-cat__count">8</span></summary>
+              <ul class="nav-sublist">
+              <li><a class="nav-sublink" href="component-card.html">Card</a></li>
+              <li><a class="nav-sublink" href="component-banner.html">Banner</a></li>
+              <li><a class="nav-sublink" href="component-modal.html">Modal</a></li>
+              <li><a class="nav-sublink" href="component-drawer.html">Drawer</a></li>
+              <li><a class="nav-sublink" href="component-tabs.html">Tabs</a></li>
+              <li><a class="nav-sublink" href="component-accordion.html">Accordion</a></li>
+              <li><a class="nav-sublink" href="component-tooltip.html">Tooltip</a></li>
+              <li><a class="nav-sublink" href="component-dropdown_menu.html">Dropdown menu</a></li>
+              </ul>
+            </details>
+          </li>
+          <li>
+            <details class="nav-cat">
+              <summary class="nav-cat__label">Forms <span class="nav-cat__count">8</span></summary>
+              <ul class="nav-sublist">
+              <li><a class="nav-sublink" href="component-text_input.html">Text input</a></li>
+              <li><a class="nav-sublink" href="component-email_input.html">Email input</a></li>
+              <li><a class="nav-sublink" href="component-textarea.html">Textarea</a></li>
+              <li><a class="nav-sublink" href="component-select.html">Select</a></li>
+              <li><a class="nav-sublink" href="component-checkbox.html">Checkbox</a></li>
+              <li><a class="nav-sublink" href="component-radio_group.html">Radio group</a></li>
+              <li><a class="nav-sublink" href="component-submit_button.html">Submit button</a></li>
+              <li><a class="nav-sublink" href="component-form.html">Form</a></li>
+              </ul>
+            </details>
+          </li>
+          <li>
+            <details class="nav-cat">
+              <summary class="nav-cat__label">Data <span class="nav-cat__count">2</span></summary>
+              <ul class="nav-sublist">
+              <li><a class="nav-sublink" href="component-data_table.html">Data Table</a></li>
+              <li><a class="nav-sublink" href="component-list.html">List</a></li>
+              </ul>
+            </details>
+          </li>
+          </ul>
+        </details>
+        </li>
+        <li><a class="nav-link" href="collections-and-data.html">Collections &amp; Data</a></li>
         <li><a class="nav-link" href="flows.html">Flows</a></li>
-        <li><a class="nav-link" href="functions-and-states.html">Functions & States</a></li>
-        <li><a class="nav-link is-current" aria-current="page" href="authentication-and-permissions.html">Auth & Permissions</a></li>
+        <li><a class="nav-link" href="functions-and-states.html">Functions &amp; States</a></li>
+        <li><a class="nav-link is-current" aria-current="page" href="authentication-and-permissions.html">Auth &amp; Permissions</a></li>
         <li><a class="nav-link" href="email.html">Email</a></li>
         <li><a class="nav-link" href="ai.html">AI</a></li>
         <li><a class="nav-link" href="configuration.html">Configuration</a></li>
