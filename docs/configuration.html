@@ -256,27 +256,25 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
   white-space: pre;
 }
 
-/* Mermaid diagrams rendered as plain styled source */
-.diagram {
+/* Mermaid diagrams — drawn client-side into the <pre class="mermaid">.
+   The container scrolls horizontally if a graph is wider than the measure,
+   so the page body never scrolls sideways. Before Mermaid runs, the raw
+   source is hidden to avoid a flash of unstyled text. */
+.doc pre.mermaid {
   margin: 1.4rem 0;
-  border: 1px dashed var(--border-2);
+  padding: 1.1rem 1.15rem;
+  border: 1px solid var(--border-2);
   border-radius: 10px;
   background: var(--ink-2);
-  overflow: hidden;
+  overflow-x: auto;
+  text-align: center;
+  line-height: normal;
+  /* hide pre-render source text; Mermaid reveals the SVG once parsed */
+  color: transparent;
+  font-size: 0; white-space: normal;
 }
-.diagram figcaption {
-  font-family: var(--mono);
-  font-size: 0.66rem; letter-spacing: 0.14em; text-transform: uppercase;
-  color: var(--muted);
-  padding: 0.55rem 1rem;
-  border-bottom: 1px solid var(--border);
-  background: rgba(129,140,248,0.05);
-}
-.diagram .diagram-src { margin: 0; padding: 1rem 1.15rem; overflow-x: auto; }
-.diagram .diagram-src code {
-  font-family: var(--mono); font-size: 0.8rem; line-height: 1.55;
-  color: var(--text-soft); white-space: pre;
-}
+.doc pre.mermaid[data-processed="true"] { color: inherit; }
+.doc pre.mermaid svg { max-width: 100%; height: auto; display: inline-block; }
 
 /* Tables — scroll horizontally on overflow */
 .table-wrap {

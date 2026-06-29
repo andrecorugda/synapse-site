@@ -256,27 +256,25 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
   white-space: pre;
 }
 
-/* Mermaid diagrams rendered as plain styled source */
-.diagram {
+/* Mermaid diagrams — drawn client-side into the <pre class="mermaid">.
+   The container scrolls horizontally if a graph is wider than the measure,
+   so the page body never scrolls sideways. Before Mermaid runs, the raw
+   source is hidden to avoid a flash of unstyled text. */
+.doc pre.mermaid {
   margin: 1.4rem 0;
-  border: 1px dashed var(--border-2);
+  padding: 1.1rem 1.15rem;
+  border: 1px solid var(--border-2);
   border-radius: 10px;
   background: var(--ink-2);
-  overflow: hidden;
+  overflow-x: auto;
+  text-align: center;
+  line-height: normal;
+  /* hide pre-render source text; Mermaid reveals the SVG once parsed */
+  color: transparent;
+  font-size: 0; white-space: normal;
 }
-.diagram figcaption {
-  font-family: var(--mono);
-  font-size: 0.66rem; letter-spacing: 0.14em; text-transform: uppercase;
-  color: var(--muted);
-  padding: 0.55rem 1rem;
-  border-bottom: 1px solid var(--border);
-  background: rgba(129,140,248,0.05);
-}
-.diagram .diagram-src { margin: 0; padding: 1rem 1.15rem; overflow-x: auto; }
-.diagram .diagram-src code {
-  font-family: var(--mono); font-size: 0.8rem; line-height: 1.55;
-  color: var(--text-soft); white-space: pre;
-}
+.doc pre.mermaid[data-processed="true"] { color: inherit; }
+.doc pre.mermaid svg { max-width: 100%; height: auto; display: inline-block; }
 
 /* Tables — scroll horizontally on overflow */
 .table-wrap {
@@ -461,44 +459,44 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
       <li><strong><code>AppBuilderService</code> / <code>BuildPlanValidator</code> / <code>BuildPlanApplier</code> / <code>HtmlSanitizer</code></strong> — the AI layer.</li>
       </ul>
       <h2 id="request-lifecycle-a-published-page-a-flow">Request lifecycle — a published page + a flow</h2>
-      <figure class="diagram"><figcaption>Diagram (Mermaid source)</figcaption><pre class="diagram-src"><code>flowchart TD
+      <pre class="mermaid">flowchart TD
           subgraph Admin["Filament admin (host-auth)"]
               Author["🧑‍💻 Author"]
               Editor["GrapesJS editor"]
-              Author --&gt; Editor
-              Editor -- "save (PageDataMapper.split)" --&gt; PageRow[("pages row:\nproject_data + html + css")]
+              Author --> Editor
+              Editor -- "save (PageDataMapper.split)" --> PageRow[("pages row:\nproject_data + html + css")]
           end
       
-          Visitor["👥 Visitor"] -- "GET /p/{slug}" --&gt; RPC["RenderPageController"]
-          RPC -- "requires_auth?" --&gt; Guard{"pb guard"}
-          Guard -- "not logged in" --&gt; Login["/login (AuthController)"]
-          Guard -- "ok / public" --&gt; PR["PageRenderer (cached)"]
-          PageRow --&gt; PR
-          States[("variables → VariableStore")] -- "seed \$store.app" --&gt; PR
-          PR --&gt; Page["Rendered HTML + Alpine store + flow-runtime.js"]
+          Visitor["👥 Visitor"] -- "GET /p/{slug}" --> RPC["RenderPageController"]
+          RPC -- "requires_auth?" --> Guard{"pb guard"}
+          Guard -- "not logged in" --> Login["/login (AuthController)"]
+          Guard -- "ok / public" --> PR["PageRenderer (cached)"]
+          PageRow --> PR
+          States[("variables → VariableStore")] -- "seed \$store.app" --> PR
+          PR --> Page["Rendered HTML + Alpine store + flow-runtime.js"]
       
-          Page -- "click [data-pb-flow] / submit" --&gt; FlowEP["POST /pb-flow/{slug}\n(FlowController, rate-limited)"]
-          FlowEP --&gt; FM["FlowManager → FlowRunner"]
-          FM -- "walks definition.nodes" --&gt; Nodes["record · http · ai_invoke · function · condition · set_variable · send_email · result"]
-          Nodes -- "read/write" --&gt; Coll[("pb_&lt;key&gt; tables (RecordQuery)")]
-          FM -- "actions[]" --&gt; Page
-          Page -- "applyAction: setHtml/notify/redirect/setState…" --&gt; DOM["DOM + \$store.app updates"]
-          Coll -- "created/updated/deleted (RecordObserver)" --&gt; Disp["FlowDispatcher → collection-triggered flows"]</code></pre></figure>
+          Page -- "click [data-pb-flow] / submit" --> FlowEP["POST /pb-flow/{slug}\n(FlowController, rate-limited)"]
+          FlowEP --> FM["FlowManager → FlowRunner"]
+          FM -- "walks definition.nodes" --> Nodes["record · http · ai_invoke · function · condition · set_variable · send_email · result"]
+          Nodes -- "read/write" --> Coll[("pb_#lt;key#gt; tables (RecordQuery)")]
+          FM -- "actions[]" --> Page
+          Page -- "applyAction: setHtml/notify/redirect/setState…" --> DOM["DOM + \$store.app updates"]
+          Coll -- "created/updated/deleted (RecordObserver)" --> Disp["FlowDispatcher → collection-triggered flows"]</pre>
       <p><strong>The loop in one line:</strong> <em>event → flow → read/write data + set state → bound components re-render.</em></p>
       <h2 id="ai-lifecycle-describe-plan-apply">AI lifecycle — describe → plan → apply</h2>
       <p>The AI never writes files or runs code. It produces a <strong>Build Plan</strong> (a typed JSON object); a validator checks it; a human approves; the applier writes it through the same services everything else uses.</p>
-      <figure class="diagram"><figcaption>Diagram (Mermaid source)</figcaption><pre class="diagram-src"><code>flowchart LR
-          Brief["🧑‍💻 Brief / chat turn"] --&gt; ABS["AppBuilderService.generate()"]
-          Ctx["AppContextBuilder\n(what exists now)"] --&gt; ABS
-          SP["SystemPromptBuilder\n(blocks · field types · nodes)\nseeded as app_builder integration"] --&gt; GW["AI OpenRouter Gateway"]
-          ABS --&gt; GW
-          GW --&gt; Raw["model reply (JSON)"]
-          Raw --&gt; EP["extractPlan()"] --&gt; Plan["Build Plan\n(collections·states·functions·flows·pages·settings)"]
-          Plan --&gt; Val["BuildPlanValidator\n(slugs, field types, node types)"]
-          Val --&gt; Review["👀 Human review (Build with AI / chat)"]
-          Review -- "Apply" --&gt; Applier["BuildPlanApplier (idempotent)"]
-          Applier -- "sanitize page html" --&gt; San["HtmlSanitizer"]
-          Applier -- "upsert by key/slug" --&gt; Rows[("the same package + pb_&lt;key&gt; tables")]</code></pre></figure>
+      <pre class="mermaid">flowchart LR
+          Brief["🧑‍💻 Brief / chat turn"] --> ABS["AppBuilderService.generate()"]
+          Ctx["AppContextBuilder\n(what exists now)"] --> ABS
+          SP["SystemPromptBuilder\n(blocks · field types · nodes)\nseeded as app_builder integration"] --> GW["AI OpenRouter Gateway"]
+          ABS --> GW
+          GW --> Raw["model reply (JSON)"]
+          Raw --> EP["extractPlan()"] --> Plan["Build Plan\n(collections·states·functions·flows·pages·settings)"]
+          Plan --> Val["BuildPlanValidator\n(slugs, field types, node types)"]
+          Val --> Review["👀 Human review (Build with AI / chat)"]
+          Review -- "Apply" --> Applier["BuildPlanApplier (idempotent)"]
+          Applier -- "sanitize page html" --> San["HtmlSanitizer"]
+          Applier -- "upsert by key/slug" --> Rows[("the same package + pb_#lt;key#gt; tables")]</pre>
       <p>Because the applier upserts by <code>key</code>/<code>slug</code>, <strong>refining</strong> an app is just re-applying a plan that references existing items — the floating chat threads the conversation so the model keeps context across turns. See <a href="ai.html">AI</a>.</p>
       <h2 id="everything-is-data-why-it-matters">&quot;Everything is data&quot; — why it matters</h2>
       <ul>
@@ -587,6 +585,13 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
     if (e.target.closest('a')) setOpen(false);
   });
 })();
+</script>
+<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+  mermaid.initialize({ startOnLoad: true, theme: 'base', themeVariables: {
+    darkMode: true, background: '#0b1020', primaryColor: '#141a2e', primaryTextColor: '#e7ecf6',
+    primaryBorderColor: '#6366f1', lineColor: '#5b6585', clusterBkg: 'rgba(99,102,241,0.06)',
+    clusterBorder: 'rgba(148,163,184,0.25)', fontFamily: 'ui-sans-serif, system-ui, sans-serif' } });
 </script>
 </body>
 </html>
