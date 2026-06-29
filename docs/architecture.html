@@ -622,7 +622,7 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
       </tr>
       <tr>
       <td><strong>Collections (data)</strong></td>
-      <td><code>page_builder_models</code> + <code>page_builder_fields</code> metadata → generated <code>pb_&lt;key&gt;</code> table</td>
+      <td><code>page_builder_models</code> + <code>page_builder_fields</code> metadata → generated <code>pb_&lt;key&gt;</code> table (managed) or an existing table it maps to (external)</td>
       <td><code>PbModelResource</code> + <code>SchemaSynchronizer</code></td>
       <td>REST API, Flows, Functions, pages</td>
       </tr>
@@ -646,7 +646,7 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
       </tr>
       <tr>
       <td><strong>Auth &amp; permissions</strong></td>
-      <td><code>page_builder_users</code> / <code>_roles</code> / <code>_permissions</code> rows</td>
+      <td><code>page_builder_users</code> / <code>_roles</code> / <code>_permissions</code> / <code>_password_resets</code> / <code>_user_invites</code> rows</td>
       <td><code>PbUser</code>/<code>PbRole</code> resources</td>
       <td><code>pb</code> guard + <code>AccessControl</code></td>
       </tr>
@@ -661,11 +661,16 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
       <p>All registered in <code>AiPageBuilderServiceProvider</code>:</p>
       <ul>
       <li><strong><code>PageRenderer</code></strong> — assembles and caches the final HTML for a published page.</li>
-      <li><strong><code>SchemaSynchronizer</code></strong> (<code>Services\Data</code>) — turns a <code>PbModel</code> + its fields into a real <code>pb_&lt;key&gt;</code> table; alters it as fields change.</li>
+      <li><strong><code>SchemaSynchronizer</code></strong> (<code>Services\Data</code>) — turns a <code>PbModel</code> + its fields into a real <code>pb_&lt;key&gt;</code> table; alters it as fields change. It manages <strong>managed</strong> collections only — an <strong>external</strong> collection maps onto an existing table and is never created, altered or dropped.</li>
       <li><strong><code>RecordQuery</code></strong> (<code>Services\Data</code>) — the single CRUD + query gateway for collection records (used by the API, flows, functions, the AI applier and Filament alike).</li>
       <li><strong><code>VariableStore</code></strong> (<code>Services\Data</code>) — read/write persistent States.</li>
       <li><strong><code>Settings</code></strong> — key/value builder settings (home page, SMTP), with encrypted values for secrets.</li>
       <li><strong><code>AccessControl</code></strong> — the opt-in permission engine for the built app&#39;s end-users.</li>
+      <li><strong><code>Auth\AuthSettings</code></strong> — the resolved end-user auth policy (admin&#39;s <code>auth.*</code> settings over config defaults); the one source of truth read by the auth controllers, route gates and login view.</li>
+      <li><strong><code>Auth\SocialUserResolver</code></strong> — enforces SSO policy server-side (domain/org allow-lists) and maps a provider identity to a local <code>PbUser</code>.</li>
+      <li><strong><code>Auth\TwoFactorService</code></strong> — TOTP + email one-time codes + single-use recovery codes for the <code>pb</code> guard (enrolment, login challenge, admin reset).</li>
+      <li><strong><code>Auth\InviteService</code></strong> — creates, emails and redeems end-user invitations; tokens stored hashed, plaintext only in the emailed link.</li>
+      <li><strong><code>CredentialStore</code></strong> — resolves a stored credential by key into the HTTP headers that authenticate an outgoing flow request, so secrets are referenced by key, not inlined.</li>
       <li><strong><code>MediaLibrary</code></strong> — uploads + GrapesJS asset list.</li>
       <li><strong><code>PageBuilderMailer</code></strong> — an isolated SMTP transport (never the host mailer).</li>
       <li><strong><code>FlowRunner</code> / <code>FlowManager</code> / <code>FlowDispatcher</code> / <code>NodeRegistry</code></strong> — the automation engine.</li>
@@ -742,6 +747,31 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
       <td>Login / logout / me</td>
       <td><code>GET|POST /login</code>, <code>POST /pb-logout</code>, <code>GET /pb-auth/me</code></td>
       <td><code>AuthController</code></td>
+      </tr>
+      <tr>
+      <td>Forgot / reset password</td>
+      <td><code>GET|POST /login/forgot</code>, <code>GET|POST /login/reset</code></td>
+      <td><code>PasswordResetController</code></td>
+      </tr>
+      <tr>
+      <td>Self-registration</td>
+      <td><code>GET|POST /login/register</code></td>
+      <td><code>RegistrationController</code></td>
+      </tr>
+      <tr>
+      <td>SSO redirect / callback</td>
+      <td><code>GET /login/sso/{provider}</code>, <code>GET /login/sso/{provider}/callback</code></td>
+      <td><code>SocialAuthController</code></td>
+      </tr>
+      <tr>
+      <td>Two-factor (login challenge + setup)</td>
+      <td><code>GET|POST /login/two-factor</code>, <code>GET|POST /login/two-factor/setup</code></td>
+      <td><code>TwoFactorController</code></td>
+      </tr>
+      <tr>
+      <td>Accept invitation</td>
+      <td><code>GET|POST /login/invite/{token}</code></td>
+      <td><code>InviteController</code></td>
       </tr>
       <tr>
       <td>Data REST API</td>

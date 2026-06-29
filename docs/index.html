@@ -646,11 +646,11 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
       </tr>
       <tr>
       <td><a href="collections-and-data.html">collections-and-data.md</a></td>
-      <td>Collections → <code>pb_&lt;key&gt;</code> tables, field types, the auto REST API, the <code>filter</code>/<code>sort</code>/<code>search</code>/paginate syntax, schema sync.</td>
+      <td>Collections → <code>pb_&lt;key&gt;</code> tables, managed vs. <strong>external</strong> data sources (mapping an existing table), field types, the auto REST API, <strong>API tokens &amp; API docs</strong>, the <code>filter</code>/<code>sort</code>/<code>search</code>/paginate syntax, schema sync.</td>
       </tr>
       <tr>
       <td><a href="flows.html">flows.md</a></td>
-      <td>The flow engine: triggers, every node type and its config, <code>FlowContext</code> interpolation, the public run endpoint, cron.</td>
+      <td>The flow engine: triggers, every node type and its config, <code>FlowContext</code> interpolation, the public run endpoint, cron <strong>Schedules</strong>, and <strong>Credentials</strong> (secrets referenced by key in <code>http</code> nodes).</td>
       </tr>
       <tr>
       <td><a href="functions-and-states.html">functions-and-states.md</a></td>
@@ -658,7 +658,35 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
       </tr>
       <tr>
       <td><a href="authentication-and-permissions.html">authentication-and-permissions.md</a></td>
-      <td>The built app&#39;s users/roles/permissions, the <code>pb</code> guard, opt-in gating, row-level rules, component visibility.</td>
+      <td>The built app&#39;s users/roles/permissions, the <code>pb</code> guard, opt-in gating, row-level rules, component visibility, plus password reset, self-registration, SSO, two-factor, invitations and record ownership.</td>
+      </tr>
+      <tr>
+      <td><a href="authentication-and-permissions.html">Identity &amp; Auth</a></td>
+      <td>End-user identity beyond login: password reset, self-registration, SSO (Google / Microsoft / GitHub), two-factor (TOTP + email codes), and the <code>auth.*</code> policy on the Identity &amp; Auth screen.</td>
+      </tr>
+      <tr>
+      <td><a href="authentication-and-permissions.html">Invites</a></td>
+      <td>Invite end-users by email; hashed single-use tokens, the public accept flow, onboarding/approval policy.</td>
+      </tr>
+      <tr>
+      <td><a href="flows.html">Credentials</a></td>
+      <td>Stored secrets referenced by key from <code>http</code> flow nodes, resolved into request headers so secrets are never inlined.</td>
+      </tr>
+      <tr>
+      <td><a href="flows.html">Schedules</a></td>
+      <td>Cron schedules that fire flows on a recurring basis.</td>
+      </tr>
+      <tr>
+      <td><a href="collections-and-data.html">API tokens &amp; API docs</a></td>
+      <td>Bearer tokens that authenticate the <code>pb</code> guard on the auto REST API, plus the generated per-collection endpoint reference.</td>
+      </tr>
+      <tr>
+      <td><a href="configuration.html">App import / export</a></td>
+      <td>Move a built app between environments as data — export the rows, import them elsewhere.</td>
+      </tr>
+      <tr>
+      <td><a href="configuration.html">Synapse Settings</a></td>
+      <td>The in-app settings screen: home page, SMTP, auth policy and other key/value builder settings (secrets encrypted).</td>
       </tr>
       <tr>
       <td><a href="email.html">email.md</a></td>
@@ -670,7 +698,7 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
       </tr>
       <tr>
       <td><a href="configuration.html">configuration.md</a></td>
-      <td>A table of <strong>every</strong> key in <code>config/ai-page-builder.php</code>, with env var, default and meaning.</td>
+      <td>A table of <strong>every</strong> key in <code>config/ai-page-builder.php</code>, with env var, default and meaning; the in-app <strong>Synapse Settings</strong> screen and <strong>app import/export</strong>.</td>
       </tr>
       <tr>
       <td><a href="extending.html">extending.md</a></td>

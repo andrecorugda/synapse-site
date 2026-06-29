@@ -603,9 +603,9 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
   <main class="content" id="content">
     <article class="doc">
       <h1 id="email">Email</h1>
-      <p>Synapse sends email through its <strong>own isolated SMTP transport</strong> — never the host app&#39;s mailer or global mail config. The transport is configured in the admin <strong>Settings</strong> screen, the body of an email is any page tagged <code>kind=email</code>, and a <a href="flows.html#send_email"><code>send_email</code> flow node</a> fires it. This keeps a built app&#39;s email fully self-contained and portable across host apps.</p>
+      <p>Synapse sends email through its <strong>own isolated SMTP transport</strong> — never the host app&#39;s mailer or global mail config. The transport is configured in the admin <strong>Settings</strong> screen, the body of an email is any page tagged <code>kind=email</code>, and a <a href="flows.html#send_email"><code>send_email</code> flow node</a> fires it (reset, invitation and 2FA emails use the same transport). This keeps a built app&#39;s email fully self-contained and portable across host apps.</p>
       <h2 id="smtp-settings">SMTP settings</h2>
-      <p>Configured on the <strong>Settings</strong> admin page (<code>PageBuilderSettings</code>) and stored via the <code>Settings</code> service in <code>page_builder_settings</code>. Keys:</p>
+      <p>Configured on the <strong>Synapse Settings → Email</strong> tab and stored via the <code>Settings</code> service in <code>page_builder_settings</code>. Keys:</p>
       <div class="table-wrap"><table>
       <thead>
       <tr>

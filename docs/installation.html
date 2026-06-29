@@ -648,6 +648,31 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
         <figcaption>One of the bundled demos you get from <code>synapse:install-demo</code>.</figcaption>
       </figure>
       <p>The AI layer is optional and additive. It is unlocked by installing the <a href="https://github.com/andrecorugda/ai-openrouter-gateway" target="_blank" rel="noopener noreferrer">AI OpenRouter Gateway</a> (<code>andrecorugda/ai-openrouter-gateway</code>); without it, everything else works and you build by hand.</p>
+      <p>Several end-user auth features are also gated behind optional packages — install them only if you need the feature (each is <code>class_exists</code>-guarded, so an absent package simply hides its feature):</p>
+      <div class="table-wrap"><table>
+      <thead>
+      <tr>
+      <th>Package</th>
+      <th>Unlocks</th>
+      </tr>
+      </thead>
+      <tbody><tr>
+      <td><code>andrecorugda/ai-openrouter-gateway</code></td>
+      <td>The AI build path (metered, versioned prompt, cost caps). Auto-detected.</td>
+      </tr>
+      <tr>
+      <td><code>laravel/socialite</code></td>
+      <td>SSO sign-in (Google, GitHub) for the built app&#39;s end-users.</td>
+      </tr>
+      <tr>
+      <td><code>socialiteproviders/microsoft</code></td>
+      <td>Microsoft / Azure AD SSO (with tenant restriction), on top of Socialite.</td>
+      </tr>
+      <tr>
+      <td><code>pragmarx/google2fa</code></td>
+      <td>Authenticator-app (TOTP) two-factor sign-in. Email-OTP 2FA needs no extra package.</td>
+      </tr>
+      </tbody></table></div>
       <h2 id="1-require-the-package">1. Require the package</h2>
       <div class="codeblock"><span class="code-lang">bash</span><pre><code class="language-bash">composer require andrecorugda/synapse</code></pre></div>
       <p>The service provider <code>Andre\AiPageBuilder\AiPageBuilderServiceProvider</code> and the <code>PageBuilder</code> facade alias are auto-discovered (see <code>composer.json</code> → <code>extra.laravel</code>).</p>
@@ -655,7 +680,7 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
       <p>This package uses Spatie&#39;s package tools with <strong>publish-based</strong> migrations (<code>hasMigrations(...)</code>), so you publish the migration files into your app and then migrate:</p>
       <div class="codeblock"><span class="code-lang">bash</span><pre><code class="language-bash">php artisan vendor:publish --tag="ai-page-builder-migrations"
       php artisan migrate</code></pre></div>
-      <p>The migrations create these tables (logical names — the physical names are configurable in <code>config/ai-page-builder.php</code> → <code>database.tables</code>):</p>
+      <p>The migrations create these <strong>15</strong> tables (logical names — the physical names are configurable in <code>config/ai-page-builder.php</code> → <code>database.tables</code>):</p>
       <div class="table-wrap"><table>
       <thead>
       <tr>
@@ -668,6 +693,11 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
       <td><code>pages</code></td>
       <td><code>pages</code></td>
       <td>Pages and email templates</td>
+      </tr>
+      <tr>
+      <td><code>page_revisions</code></td>
+      <td><code>page_revisions</code></td>
+      <td>Saved page revision history</td>
       </tr>
       <tr>
       <td><code>media</code></td>
@@ -724,6 +754,16 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
       <td><code>page_builder_permissions</code></td>
       <td>The built app&#39;s permissions</td>
       </tr>
+      <tr>
+      <td><code>password_resets</code></td>
+      <td><code>page_builder_password_resets</code></td>
+      <td>Forgot/reset password tokens</td>
+      </tr>
+      <tr>
+      <td><code>user_invites</code></td>
+      <td><code>page_builder_user_invites</code></td>
+      <td>End-user invitations (invite-only registration)</td>
+      </tr>
       </tbody></table></div>
       <blockquote>
       <p>The <strong>Collections</strong> you define later create their own physical tables named <code>pb_&lt;key&gt;</code> (see <a href="collections-and-data.html">Collections &amp; data</a>). Those are not migrated — they are synced on demand.</p>
@@ -738,11 +778,16 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
           return $panel
               -&gt;plugin(AiPageBuilderPlugin::make());
       }</code></pre></div>
-      <p><code>AiPageBuilderPlugin::make()</code> registers a <strong>Content</strong> navigation group (configurable) with these resources and pages:</p>
+      <p><code>AiPageBuilderPlugin::make()</code> registers its resources and pages across <strong>six</strong> purpose-grouped navigation groups (every label is configurable — rename or merge them via <code>filament.navigation_groups</code>, see <a href="configuration.html#filament">Configuration → filament</a>):</p>
       <ul>
-      <li><strong>Resources</strong> — Pages, Media, Flows, Functions, States (Variables), Collections (PbModels), App Users, Roles.</li>
-      <li><strong>Pages</strong> — <em>Build with AI</em>, <em>Settings</em>.</li>
+      <li><strong>Content</strong> — Pages, Partials, Media.</li>
+      <li><strong>Data</strong> — Collections, States.</li>
+      <li><strong>Automation</strong> — Flows, Functions, Schedules.</li>
+      <li><strong>Access</strong> — Users, Roles, Invites.</li>
+      <li><strong>Developer</strong> — Credentials, API Tokens, API Docs, App import/export.</li>
+      <li><strong>System</strong> — Settings, Theme.</li>
       </ul>
+      <p>The Settings entry uses the nav label <strong>Settings</strong>; its page title is <strong>Synapse Settings</strong> (that&#39;s where the runtime <a href="configuration.html#auth-the-built-apps-own-auth">Identity &amp; Auth</a> choices live).</p>
       <p>(<code>getId()</code> is <code>ai-page-builder</code>. See <code>src/Filament/AiPageBuilderPlugin.php</code>.)</p>
       <h2 id="4-optional-unlock-ai-generation">4. Optional — unlock AI generation</h2>
       <div class="codeblock"><span class="code-lang">bash</span><pre><code class="language-bash">composer require andrecorugda/ai-openrouter-gateway</code></pre></div>
@@ -781,7 +826,7 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
       <p>Re-run the publish with <code>--force</code> after upgrading the package to refresh the vendored copies.</p>
       <h2 id="7-verify">7. Verify</h2>
       <ul>
-      <li>Visit your Filament panel → the <strong>Content</strong> group should list the resources above.</li>
+      <li>Visit your Filament panel → the six groups above (<strong>Content</strong>, <strong>Data</strong>, <strong>Automation</strong>, <strong>Access</strong>, <strong>Developer</strong>, <strong>System</strong>) should list their resources and pages.</li>
       <li>A published page renders at <code>/{render_prefix}/{slug}</code> (default <code>/p/{slug}</code>). See <a href="pages-and-components.html">Pages &amp; components</a>.</li>
       <li>Quality scripts: <code>composer test</code> (Pest), <code>composer lint</code> (Pint), <code>composer analyse</code> (PHPStan/larastan).</li>
       </ul>

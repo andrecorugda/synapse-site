@@ -714,6 +714,15 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
       $html = PageBuilder::render($page);   // fully-rendered (cached) HTML for a published Page
       PageBuilder::forget($page-&gt;slug);      // bust the render cache for a slug</code></pre></div>
       <p>For data, flows and AI, use the dedicated services directly (<code>RecordQuery</code>, <code>FlowManager</code>, <code>BuildPlanApplier</code>, etc.) as shown throughout these docs.</p>
+      <h2 id="optional-dependencies-real-code-env">Optional dependencies &amp; real-code / env</h2>
+      <p>Some end-user auth features depend on packages that ship as <strong>suggested</strong> (not required) dependencies. Each is <code>class_exists</code>-guarded — when the package is absent the feature is simply hidden, so the core builder never hard-fails:</p>
+      <ul>
+      <li><strong>SSO</strong> needs <code>laravel/socialite</code> (and <code>socialiteproviders/microsoft</code> for the Microsoft / Azure AD driver), plus the per-provider env vars — <code>AI_PAGE_BUILDER_{GOOGLE,MICROSOFT,GITHUB}_ENABLED</code> / <code>_CLIENT_ID</code> / <code>_CLIENT_SECRET</code> / <code>_REDIRECT</code> (see <a href="configuration.html#auth-providers">Configuration → SSO providers</a>). A provider only appears on the login page when enabled, credentialed, <em>and</em> Socialite is installed.</li>
+      <li><strong>TOTP two-factor</strong> (authenticator app) needs <code>pragmarx/google2fa</code>; without it the <code>totp</code> method is silently dropped and only email-OTP 2FA is offered. Email OTP needs no extra package.</li>
+      </ul>
+      <blockquote>
+      <p><strong><code>APP_URL</code> must be your real public HTTPS domain.</strong> Password-reset emails, end-user invites, and SSO OAuth callbacks all build <em>absolute</em> links off <code>APP_URL</code>. If it is left at <code>http://localhost</code> (or any wrong host), reset/invite links and the SSO redirect/callback will point at the wrong place and fail. Set it correctly before enabling reset, invites or SSO.</p>
+      </blockquote>
       <hr>
       <p>That&#39;s the tour. Back to the <a href="index.html">docs index</a>.</p>
     </article>

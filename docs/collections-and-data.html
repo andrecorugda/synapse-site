@@ -612,7 +612,7 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
   <main class="content" id="content">
     <article class="doc">
       <h1 id="collections-data">Collections &amp; data</h1>
-      <p>A <strong>collection</strong> is a user-defined data model. Its metadata lives in <code>page_builder_models</code> (the <code>PbModel</code>) and <code>page_builder_fields</code> (the <code>PbField</code>s), and the <code>SchemaSynchronizer</code> turns that metadata into a <strong>real database table</strong> named <code>pb_&lt;key&gt;</code> (Directus-style). Every collection automatically gets a REST API, and Flows, Functions, pages and the AI applier all read/write it through one service: <code>RecordQuery</code>.</p>
+      <p>A <strong>collection</strong> is a user-defined data model. Its metadata lives in <code>page_builder_models</code> (the <code>PbModel</code>) and <code>page_builder_fields</code> (the <code>PbField</code>s). A collection is either <strong>managed</strong> — the package owns the table and the <code>SchemaSynchronizer</code> turns its metadata into a <strong>real database table</strong> named <code>pb_&lt;key&gt;</code> (Directus-style) — or <strong>external</strong>, mapping an existing table on any configured connection that the package reads but never creates (see <a href="#external-data-sources">External data sources</a>). Either way every collection automatically gets a REST API, and Flows, Functions, pages and the AI applier all read/write it through one service: <code>RecordQuery</code>.</p>
       <figure class="doc-shot">
         <div class="doc-shot-bar"><i></i><i></i><i></i><span class="doc-shot-url">admin / collections / products</span></div>
         <img src="../assets/img/screens/collections.webp" width="1600" height="1000" loading="lazy" decoding="async" alt="A Products collection and its typed fields in the Synapse admin.">
@@ -656,7 +656,7 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
       <td>Optional</td>
       </tr>
       </tbody></table></div>
-      <p>The physical table name is <code>{data.table_prefix}{key}</code> with dashes converted to underscores — default prefix <code>pb_</code>, so collection key <code>leads</code> → table <code>pb_leads</code> (<code>PbModel::physicalTableName()</code>). Deleting a collection in the admin drops its physical table (<code>SchemaSynchronizer::dropTable()</code>).</p>
+      <p>For a <strong>managed</strong> collection the physical table name is <code>{data.table_prefix}{key}</code> with dashes converted to underscores — default prefix <code>pb_</code>, so collection key <code>leads</code> → table <code>pb_leads</code> (<code>PbModel::physicalTableName()</code>). Deleting a managed collection in the admin drops its physical table (<code>SchemaSynchronizer::dropTable()</code>); an <a href="#external-data-sources">external</a> collection&#39;s table is <strong>never</strong> dropped — <code>dropTable()</code> returns early for external sources, removing only the collection&#39;s metadata.</p>
       <h2 id="field-types">Field types</h2>
       <p><code>src/Enums/FieldType.php</code> — the single source of truth mapping a logical type to its physical column, Eloquent cast and validation rule.</p>
       <div class="table-wrap"><table>
@@ -737,7 +737,7 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
       <td>Relation (belongs to)</td>
       <td><code>unsignedBigInteger</code> as <strong><code>{key}_id</code></strong></td>
       <td><code>integer</code></td>
-      <td>indexed; set <code>options.relation_model</code> to the related collection key</td>
+      <td>indexed; set <code>options.relation_model</code> to the related collection key, or to <a href="#record-ownership">App users</a> (the <code>__users</code> sentinel)</td>
       </tr>
       </tbody></table></div>
       <h3 id="field-options">Field options</h3>
@@ -751,7 +751,7 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
       <li><code>length</code> (int) — for <code>string</code>/<code>select</code>.</li>
       <li><code>precision</code> / <code>scale</code> (int) — for <code>decimal</code>.</li>
       <li><code>choices</code> (string[]) — for <code>select</code>; adds an <code>in:</code> validation rule.</li>
-      <li><code>relation_model</code> (string) — for <code>relation</code>; the related collection key.</li>
+      <li><code>relation_model</code> (string) — for <code>relation</code>; the related collection key, or the <code>__users</code> sentinel to relate to <a href="#record-ownership">App users</a>.</li>
       </ul>
       <blockquote>
       <p><strong>Column naming:</strong> a <code>relation</code> field stores its foreign id as <code>{key}_id</code>; every other type uses the key verbatim. So in API payloads a relation field accepts either the field key or the <code>_id</code> column name.</p>
@@ -763,6 +763,53 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
       <li><strong>Alter</strong> — if it exists, adds columns for new fields, adds <code>created_at</code>/<code>updated_at</code>/<code>deleted_at</code> if newly enabled, and (only when destructive sync is on) drops columns for removed fields.</li>
       </ul>
       <p><strong>Destructive sync is off by default.</strong> Removing a field does <strong>not</strong> drop its column unless <code>data.allow_destructive_sync</code> is true (<code>AI_PAGE_BUILDER_DATA_DESTRUCTIVE=true</code>) — a guard so a mis-edit can&#39;t destroy data. The system columns <code>id</code>, <code>created_at</code>, <code>updated_at</code>, <code>deleted_at</code> are never dropped.</p>
+      <h2 id="external-data-sources">External data sources</h2>
+      <figure class="doc-shot">
+        <div class="doc-shot-bar"><i></i><i></i><i></i><span class="doc-shot-url">admin / collections / new</span></div>
+        <img src="../assets/img/screens/external-source-form.png" width="1440" height="900" loading="lazy" decoding="async" alt="The Synapse collection form with Source set to External: a Connection dropdown, an Existing-table field, and a Read-only toggle.">
+        <figcaption>Map an existing table: pick a connection, name the table, and Synapse reads it through the same data layer — never altering it.</figcaption>
+      </figure>
+      <p>A collection&#39;s <strong>Source</strong> (<code>source_type</code>) decides who owns the underlying table:</p>
+      <ul>
+      <li><strong>Managed</strong> (<code>PbModel::SOURCE_MANAGED</code>, the default) — the package owns the table. <code>SchemaSynchronizer</code> creates and keeps <code>pb_&lt;key&gt;</code> in sync from the field definitions, as described above.</li>
+      <li><strong>External</strong> (<code>PbModel::SOURCE_EXTERNAL</code>) — the collection maps to an <strong>existing</strong> table on any configured database connection. You set <code>source_connection</code> (a Laravel <code>database.connections</code> key) and <code>table_name</code>; the package reads the table through the <em>same</em> data layer but <strong>never creates, alters, or drops it</strong>.</li>
+      </ul>
+      <p>An external collection is read through exactly the same paths as a managed one — the REST API, the <code>data_table</code> / <code>chart</code> / <code>autocomplete</code> blocks, Flows, and the permission + row-ownership rules all apply unchanged. The only difference is at the schema layer: <code>SchemaSynchronizer::sync()</code> and <code>dropTable()</code> both return early when <code>PbModel::isExternal()</code> is true, so the package never touches the table&#39;s structure or existence.</p>
+      <blockquote>
+      <p><strong>Read-only by default.</strong> <code>is_read_only</code> blocks writes through the data layer; when you switch a collection to External the admin form turns the read-only toggle on automatically (you can re-enable writes deliberately). <code>PbModel::isReadOnly()</code> is consulted before any create/update/delete.</p>
+      </blockquote>
+      <p>For an external collection, <strong>Fields describe the columns that already exist</strong> — they drive projection, casts, validation and display, but the package will <strong>not</strong> create them. Define a field per column you want to expose. The records connection is resolved by <code>PbModel::dataConnection()</code>: the configured <code>source_connection</code> for external collections, otherwise the package&#39;s own data connection.</p>
+      <div class="table-wrap"><table>
+      <thead>
+      <tr>
+      <th>Column</th>
+      <th>Notes</th>
+      </tr>
+      </thead>
+      <tbody><tr>
+      <td><code>source_type</code></td>
+      <td><code>managed</code> | <code>external</code> (default <code>managed</code>)</td>
+      </tr>
+      <tr>
+      <td><code>source_connection</code></td>
+      <td>External only — the <code>database.connections</code> key the existing table lives on</td>
+      </tr>
+      <tr>
+      <td><code>table_name</code></td>
+      <td>External only — the existing table to map</td>
+      </tr>
+      <tr>
+      <td><code>is_read_only</code></td>
+      <td>Block writes through the data layer (defaults on for external)</td>
+      </tr>
+      </tbody></table></div>
+      <p>Defined by <code>add_external_source_to_page_builder_models_table</code>; surfaced in the admin by <code>PbModelResource</code>.</p>
+      <h2 id="record-ownership">Record ownership &amp; user relations</h2>
+      <p>A <code>relation</code> field doesn&#39;t only point at other collections — it can target the built app&#39;s <strong>users</strong>. Selecting <strong>App users</strong> in the field&#39;s <em>Belongs to</em> dropdown stores the sentinel <code>relation_model = __users</code> (<code>PbUser::RELATION_TARGET</code>), and is the first option offered for every relation field.</p>
+      <p>Because ownership is just a named relation rather than a special column, a record can relate to several users in distinct roles — name the field for its role (e.g. <code>author</code>, <code>approver</code>, <code>assignee</code>), each stored as its own <code>{key}_id</code> foreign id to a <code>PbUser</code>. Expanding the relation resolves the related user:</p>
+      <div class="codeblock"><pre><code>GET /api/pb/articles?expand=author,approver</code></pre></div>
+      <p>The user&#39;s <code>password</code> (and <code>remember_token</code>) are hidden from the expanded payload (<code>PbUser::$hidden</code>). <code>RecordQuery::relationTarget()</code> resolves the <code>__users</code> sentinel to the <code>PbUser</code> model for both exists-validation and the expand lookup, so a user relation behaves exactly like a collection relation.</p>
+      <p>These owner fields are what the row-level permission filter keys off: a rule such as <code>{"author_id":"$CURRENT_USER"}</code> scopes a collection to the logged-in user&#39;s own records — see <a href="authentication-and-permissions.html">Authentication &amp; permissions</a>.</p>
       <h2 id="the-auto-rest-api">The auto REST API</h2>
       <p>Every collection is exposed under <code>{data.api_prefix}/{model}</code> (default <code>api/pb</code>), resolved by collection key:</p>
       <div class="table-wrap"><table>

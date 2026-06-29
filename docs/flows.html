@@ -704,10 +704,10 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
       <li><code>criteria</code> — optional; the changed record must satisfy <strong>all</strong> conditions (AND). Same operator set as <code>RecordQuery</code> filters (<code>eq</code>, <code>neq</code>, <code>gt</code>, <code>gte</code>, <code>lt</code>, <code>lte</code>, <code>like</code>, <code>in</code>, <code>nin</code>, <code>null</code>, <code>nnull</code>); a bare scalar means <code>eq</code>.</li>
       </ul>
       <p>The flow receives <code>input = { &quot;event&quot;: &quot;...&quot;, &quot;collection&quot;: &quot;...&quot;, &quot;record&quot;: { ...the row... } }</code>, so a node reads the changed field as <code>{{ input.record.&lt;field&gt; }}</code>. A re-entrancy guard (<code>MAX_DEPTH = 3</code>) prevents infinite loops when a flow writes to its own triggering collection; dispatch never throws (failures are logged) so the originating DB write always succeeds.</p>
-      <h3 id="cron-trigger">Cron trigger</h3>
-      <p>Runs on a schedule you control. Schedule the command (see <a href="installation.html#5-schedule-cron-flows-optional">Installation</a>):</p>
+      <h3 id="cron-trigger">Cron / schedule trigger</h3>
+      <p>Runs on a schedule you control. The simplest form runs <em>every</em> active flow with <code>trigger_type = cron</code> (empty input), isolating per-flow failures, via the command (see <a href="installation.html#5-schedule-cron-flows-optional">Installation</a>):</p>
       <div class="codeblock"><span class="code-lang">bash</span><pre><code class="language-bash">php artisan ai-page-builder:run-cron-flows</code></pre></div>
-      <p>It runs every active flow with <code>trigger_type = cron</code> (empty input), isolating per-flow failures.</p>
+      <p>For per-flow crons defined from the UI, use the <strong>Schedules</strong> resource (Developer group). Each <code>Schedule</code> row pairs a cron expression with a target — a flow or a function addressed by slug — plus optional <code>args</code> and a timezone. The package&#39;s <code>ai-page-builder:run-schedules</code> command (registered to run every minute) evaluates due rows through <code>ScheduleRunner</code> and fires the matching flow. Dynamic crons therefore live in the database, not in code.</p>
       <h3 id="api-trigger">API trigger</h3>
       <p>Run over HTTP via the public endpoint below.</p>
       <h2 id="the-public-run-endpoint">The public run endpoint</h2>
@@ -754,11 +754,19 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
       <div class="codeblock"><span class="code-lang">json</span><pre><code class="language-json">{ "type": "condition", "config": { "left": "{{ vars.count }}", "op": "gt", "right": "0" } }</code></pre></div>
       <p><code>op</code>: <code>equals</code> | <code>not_equals</code> | <code>contains</code> | <code>gt</code> | <code>lt</code> | <code>empty</code> | <code>not_empty</code>.</p>
       <h3 id="http_request"><code>http_request</code></h3>
-      <p>Call an external endpoint.</p>
+      <p>Call an external endpoint. Pick a stored <a href="#credentials">Credential</a> by key with <code>config.credential</code> and its auth header is merged in — so the secret stays out of the flow definition.</p>
       <div class="codeblock"><span class="code-lang">json</span><pre><code class="language-json">{ "type": "http_request", "config": {
         "method": "post",
         "url": "https://api.example.com/hook",
-        "headers": { "Authorization": "Bearer {{ states.api_key }}" },
+        "credential": "example-api",
+        "body": { "name": "{{ input.name }}" },
+        "output": "http"
+      } }</code></pre></div>
+      <p>In the flow editor the HTTP Request node renders a <strong>Credential (auth)</strong> dropdown of the stored credentials (or <em>— none —</em>); choosing one sets <code>config.credential</code> to its key. <code>CredentialStore::headers($key)</code> turns that into the right header (<code>Authorization: Bearer …</code>, an API-key header, or Basic auth) and those <strong>credential headers take precedence</strong> over any inline ones. Inline <code>headers</code> still work and can be used alongside (or instead of) a credential:</p>
+      <div class="codeblock"><span class="code-lang">json</span><pre><code class="language-json">{ "type": "http_request", "config": {
+        "method": "post",
+        "url": "https://api.example.com/hook",
+        "headers": { "X-Trace": "{{ input.id }}" },
         "body": { "name": "{{ input.name }}" },
         "output": "http"
       } }</code></pre></div>
@@ -800,6 +808,29 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
         { "type": "removeClass", "target": "#box", "class": "loading" }
       ] } }</code></pre></div>
       <p>The <code>result</code> node accepts exactly these action types: <code>setHtml</code>, <code>setText</code>, <code>notify</code>, <code>redirect</code>, <code>addClass</code>, <code>removeClass</code>. (The page runtime <em>also</em> understands <code>setState</code>/<code>setStates</code> when present in an actions array, but the <code>result</code> node only emits the six above.)</p>
+      <h2 id="credentials">Credentials store</h2>
+      <p>Secrets an HTTP Request node needs — bearer tokens, API keys, basic-auth passwords — live in the <strong>Credentials</strong> resource (Developer group), not inline in the flow definition. Each <code>Credential</code> has a <code>key</code> (how a node references it), a <code>type</code>, and a <code>secret</code> that is stored <strong>encrypted at rest</strong> (the accessor decrypts on read; a decrypt failure yields <code>null</code> rather than throwing).</p>
+      <div class="table-wrap"><table>
+      <thead>
+      <tr>
+      <th><code>type</code></th>
+      <th>Header applied</th>
+      </tr>
+      </thead>
+      <tbody><tr>
+      <td><code>bearer</code></td>
+      <td><code>Authorization: Bearer &lt;secret&gt;</code></td>
+      </tr>
+      <tr>
+      <td><code>api_key</code></td>
+      <td><code>&lt;meta.header_name&gt;: &lt;secret&gt;</code> (default header <code>X-API-Key</code>)</td>
+      </tr>
+      <tr>
+      <td><code>basic</code></td>
+      <td><code>Authorization: Basic base64(&lt;meta.username&gt;:&lt;secret&gt;)</code></td>
+      </tr>
+      </tbody></table></div>
+      <p>The HTTP Request node picks one from its <strong>Credential (auth)</strong> dropdown (see <a href="#http_request"><code>http_request</code></a>); <code>CredentialStore</code> resolves the key to these headers at run time and merges them over any inline headers. The lookup is best-effort: an unknown key, a missing table on a fresh install, or an undecryptable secret all degrade to <em>no auth</em> rather than crashing the run.</p>
       <h2 id="flowcontext-interpolation">FlowContext &amp; interpolation</h2>
       <p><code>src/Flow/FlowContext.php</code> carries a run&#39;s state: <code>input</code> (trigger data), <code>vars</code> (accumulated by nodes), <code>actions</code> (returned to the page), <code>steps</code> (telemetry).</p>
       <p>Any string in a node config is interpolated with <code>{{ path }}</code> tokens (token pattern <code>[a-zA-Z0-9_.]+</code>), resolved against these roots:</p>

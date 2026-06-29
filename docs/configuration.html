@@ -901,6 +901,8 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
       </tr>
       </tbody></table></div>
       <h2 id="auth-the-built-apps-own-auth"><code>auth</code> — the built app&#39;s own auth</h2>
+      <p>Synapse ships its own identity layer for the app you build — users, roles and permissions kept apart from the host app&#39;s auth. The keys below are <strong>install-time defaults</strong> only. Almost everything here is runtime-overridable by the admin on <strong>Synapse Settings → Identity &amp; Auth</strong>, and the admin&#39;s saved choice always wins. The package reads these through <code>Auth\AuthSettings</code> (which merges the stored settings over the config), never via <code>config()</code> directly — so treat the config values as the <em>initial</em> state, not the live one.</p>
+      <h3 id="auth-core">Core</h3>
       <div class="table-wrap"><table>
       <thead>
       <tr>
@@ -934,7 +936,188 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
       <td><code>/</code></td>
       <td>Post-login redirect / default home</td>
       </tr>
+      <tr>
+      <td><code>auth.password_login</code></td>
+      <td><code>AI_PAGE_BUILDER_PASSWORD_LOGIN</code></td>
+      <td><code>true</code></td>
+      <td>Allow email + password sign-in. Turn off for SSO-only apps</td>
+      </tr>
       </tbody></table></div>
+      <h3 id="auth-registration">Registration &amp; reset</h3>
+      <div class="table-wrap"><table>
+      <thead>
+      <tr>
+      <th>Key</th>
+      <th>Env</th>
+      <th>Default</th>
+      <th>Meaning</th>
+      </tr>
+      </thead>
+      <tbody><tr>
+      <td><code>auth.registration.enabled</code></td>
+      <td><code>AI_PAGE_BUILDER_REGISTRATION</code></td>
+      <td><code>false</code></td>
+      <td>Allow self-registration (disabled by default — safer)</td>
+      </tr>
+      <tr>
+      <td><code>auth.registration.mode</code></td>
+      <td><code>AI_PAGE_BUILDER_REGISTRATION_MODE</code></td>
+      <td><code>approval</code></td>
+      <td><code>open</code> (use immediately) | <code>approval</code> (admin approves; <code>status=pending</code>) | <code>invite_only</code> (no public sign-up; admins send invites)</td>
+      </tr>
+      <tr>
+      <td><code>auth.registration.default_role</code></td>
+      <td><code>AI_PAGE_BUILDER_REGISTRATION_ROLE</code></td>
+      <td><code>null</code></td>
+      <td>Role slug assigned to a newly-registered user (<code>null</code> = no role)</td>
+      </tr>
+      <tr>
+      <td><code>auth.registration.allowed_email_domains</code></td>
+      <td><code>AI_PAGE_BUILDER_REGISTRATION_DOMAINS</code></td>
+      <td><code>[]</code></td>
+      <td>Comma-separated allow-list of email domains (e.g. <code>acme.com</code>); empty = any</td>
+      </tr>
+      <tr>
+      <td><code>auth.reset.token_ttl</code></td>
+      <td><code>AI_PAGE_BUILDER_RESET_TTL</code></td>
+      <td><code>3600</code></td>
+      <td>Forgot/reset password token lifetime (seconds)</td>
+      </tr>
+      </tbody></table></div>
+      <h3 id="auth-providers">SSO providers</h3>
+      <p>Optional — requires <code>laravel/socialite</code> (and <code>socialiteproviders/microsoft</code> for the Microsoft driver). A provider only appears on the login page when it is <strong>enabled</strong> <em>and</em> has a client id/secret <em>and</em> Socialite is installed. The per-provider <code>enabled</code> flag and the org/domain/tenant restrictions are also runtime-overridable on the Identity &amp; Auth screen.</p>
+      <div class="table-wrap"><table>
+      <thead>
+      <tr>
+      <th>Key</th>
+      <th>Env</th>
+      <th>Default</th>
+      <th>Meaning</th>
+      </tr>
+      </thead>
+      <tbody><tr>
+      <td><code>auth.providers.google.enabled</code></td>
+      <td><code>AI_PAGE_BUILDER_GOOGLE_ENABLED</code></td>
+      <td><code>false</code></td>
+      <td>Offer Google sign-in</td>
+      </tr>
+      <tr>
+      <td><code>auth.providers.google.client_id</code></td>
+      <td><code>AI_PAGE_BUILDER_GOOGLE_CLIENT_ID</code></td>
+      <td><code>null</code></td>
+      <td>Google OAuth client id</td>
+      </tr>
+      <tr>
+      <td><code>auth.providers.google.client_secret</code></td>
+      <td><code>AI_PAGE_BUILDER_GOOGLE_CLIENT_SECRET</code></td>
+      <td><code>null</code></td>
+      <td>Google OAuth client secret</td>
+      </tr>
+      <tr>
+      <td><code>auth.providers.google.redirect</code></td>
+      <td><code>AI_PAGE_BUILDER_GOOGLE_REDIRECT</code></td>
+      <td><code>null</code></td>
+      <td>OAuth callback URL (absolute; built off <code>APP_URL</code> if relative)</td>
+      </tr>
+      <tr>
+      <td><code>auth.providers.google.allowed_domains</code></td>
+      <td><code>AI_PAGE_BUILDER_GOOGLE_DOMAINS</code></td>
+      <td><code>[]</code></td>
+      <td>Comma-separated Google Workspace hosted domains (e.g. <code>acme.com</code>); empty = any Google account</td>
+      </tr>
+      <tr>
+      <td><code>auth.providers.microsoft.enabled</code></td>
+      <td><code>AI_PAGE_BUILDER_MICROSOFT_ENABLED</code></td>
+      <td><code>false</code></td>
+      <td>Offer Microsoft / Azure AD sign-in</td>
+      </tr>
+      <tr>
+      <td><code>auth.providers.microsoft.client_id</code></td>
+      <td><code>AI_PAGE_BUILDER_MICROSOFT_CLIENT_ID</code></td>
+      <td><code>null</code></td>
+      <td>Microsoft OAuth client id</td>
+      </tr>
+      <tr>
+      <td><code>auth.providers.microsoft.client_secret</code></td>
+      <td><code>AI_PAGE_BUILDER_MICROSOFT_CLIENT_SECRET</code></td>
+      <td><code>null</code></td>
+      <td>Microsoft OAuth client secret</td>
+      </tr>
+      <tr>
+      <td><code>auth.providers.microsoft.redirect</code></td>
+      <td><code>AI_PAGE_BUILDER_MICROSOFT_REDIRECT</code></td>
+      <td><code>null</code></td>
+      <td>OAuth callback URL (absolute; built off <code>APP_URL</code> if relative)</td>
+      </tr>
+      <tr>
+      <td><code>auth.providers.microsoft.tenant</code></td>
+      <td><code>AI_PAGE_BUILDER_MICROSOFT_TENANT</code></td>
+      <td><code>null</code></td>
+      <td>Restrict to a specific Azure AD tenant id (single-org login)</td>
+      </tr>
+      <tr>
+      <td><code>auth.providers.microsoft.allowed_domains</code></td>
+      <td><code>AI_PAGE_BUILDER_MICROSOFT_DOMAINS</code></td>
+      <td><code>[]</code></td>
+      <td>Comma-separated email domains; empty = any</td>
+      </tr>
+      <tr>
+      <td><code>auth.providers.github.enabled</code></td>
+      <td><code>AI_PAGE_BUILDER_GITHUB_ENABLED</code></td>
+      <td><code>false</code></td>
+      <td>Offer GitHub sign-in</td>
+      </tr>
+      <tr>
+      <td><code>auth.providers.github.client_id</code></td>
+      <td><code>AI_PAGE_BUILDER_GITHUB_CLIENT_ID</code></td>
+      <td><code>null</code></td>
+      <td>GitHub OAuth client id</td>
+      </tr>
+      <tr>
+      <td><code>auth.providers.github.client_secret</code></td>
+      <td><code>AI_PAGE_BUILDER_GITHUB_CLIENT_SECRET</code></td>
+      <td><code>null</code></td>
+      <td>GitHub OAuth client secret</td>
+      </tr>
+      <tr>
+      <td><code>auth.providers.github.redirect</code></td>
+      <td><code>AI_PAGE_BUILDER_GITHUB_REDIRECT</code></td>
+      <td><code>null</code></td>
+      <td>OAuth callback URL (absolute; built off <code>APP_URL</code> if relative)</td>
+      </tr>
+      <tr>
+      <td><code>auth.providers.github.allowed_orgs</code></td>
+      <td><code>AI_PAGE_BUILDER_GITHUB_ORGS</code></td>
+      <td><code>[]</code></td>
+      <td>Comma-separated GitHub orgs (e.g. <code>acme-inc</code>); empty = any GitHub account</td>
+      </tr>
+      </tbody></table></div>
+      <h3 id="auth-two-factor">Two-factor</h3>
+      <div class="table-wrap"><table>
+      <thead>
+      <tr>
+      <th>Key</th>
+      <th>Env</th>
+      <th>Default</th>
+      <th>Meaning</th>
+      </tr>
+      </thead>
+      <tbody><tr>
+      <td><code>auth.two_factor.enabled</code></td>
+      <td><code>AI_PAGE_BUILDER_2FA</code></td>
+      <td><code>true</code></td>
+      <td>Allow two-factor sign-in (runtime-overridable on the Identity &amp; Auth screen)</td>
+      </tr>
+      <tr>
+      <td><code>auth.two_factor.methods</code></td>
+      <td>—</td>
+      <td><code>['totp', 'email']</code></td>
+      <td>Offered methods. <code>email</code> OTP needs no extra package; <code>totp</code> (authenticator app) requires <code>pragmarx/google2fa</code> and is silently dropped when that package is absent</td>
+      </tr>
+      </tbody></table></div>
+      <blockquote>
+      <p><strong>Install-time defaults vs. runtime.</strong> Every value in this <code>auth</code> section is a starting point baked in at install. Once the app is running, the admin&#39;s choices on <strong>Synapse Settings → Identity &amp; Auth</strong> (stored under the same dotted keys, e.g. <code>auth.password_login</code>) take precedence — they are read back through <code>Auth\AuthSettings</code>. Set the env vars to seed a sensible default for a fresh install; use the settings screen to change behaviour on a live one.</p>
+      </blockquote>
       <h2 id="media"><code>media</code></h2>
       <div class="table-wrap"><table>
       <thead>
@@ -1111,14 +1294,62 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
       <tbody><tr>
       <td><code>filament.navigation_group</code></td>
       <td><code>Content</code></td>
-      <td>Navigation group for all resources/pages</td>
+      <td>Legacy single-group fallback (kept for backward compat)</td>
       </tr>
       <tr>
       <td><code>filament.navigation_sort</code></td>
       <td><code>10</code></td>
       <td>Base navigation sort (resources offset from it)</td>
       </tr>
+      <tr>
+      <td><code>filament.navigation_groups</code></td>
+      <td>see below</td>
+      <td>Label for each of the six purpose-grouped menu sections, rendered in this order</td>
+      </tr>
       </tbody></table></div>
+      <p>The package groups its resources and pages by purpose into six navigation groups. <code>navigation_groups</code> maps each internal key to the label shown in the Filament sidebar:</p>
+      <div class="table-wrap"><table>
+      <thead>
+      <tr>
+      <th>Key</th>
+      <th>Default label</th>
+      <th>Holds</th>
+      </tr>
+      </thead>
+      <tbody><tr>
+      <td><code>content</code></td>
+      <td><code>Content</code></td>
+      <td>Pages, Partials, Media</td>
+      </tr>
+      <tr>
+      <td><code>data</code></td>
+      <td><code>Data</code></td>
+      <td>Collections, States</td>
+      </tr>
+      <tr>
+      <td><code>automation</code></td>
+      <td><code>Automation</code></td>
+      <td>Flows, Functions, Schedules</td>
+      </tr>
+      <tr>
+      <td><code>access</code></td>
+      <td><code>Access</code></td>
+      <td>Users, Roles, Invites</td>
+      </tr>
+      <tr>
+      <td><code>developer</code></td>
+      <td><code>Developer</code></td>
+      <td>Credentials, API tokens, API docs, import/export</td>
+      </tr>
+      <tr>
+      <td><code>system</code></td>
+      <td><code>System</code></td>
+      <td>Settings, Theme</td>
+      </tr>
+      </tbody></table></div>
+      <blockquote>
+      <p><strong>Rename or merge groups.</strong> Override a label to <em>rename</em> a group (e.g. set <code>automation</code> to <code>"Workflows"</code>). Set two or more keys to the <em>same</em> label to <em>merge</em> them — e.g. point every key at <code>"Synapse"</code> to fold the whole package under one group in a busy host panel.</p>
+      </blockquote>
       <p>Next: <a href="extending.html">Extending</a>.</p>
     </article>
     <footer class="doc-footer">
