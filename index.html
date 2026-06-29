@@ -163,10 +163,13 @@
     transition: transform .15s ease, box-shadow .2s ease, background .2s ease, border-color .2s ease;
     white-space: nowrap;
   }
-  .syn-btn-primary { background: var(--syn-grad); color: #060912; box-shadow: 0 8px 26px -8px rgba(99,102,241,0.7); }
-  .syn-btn-primary:hover { transform: translateY(-1px); box-shadow: 0 12px 32px -8px rgba(99,102,241,0.85); }
-  .syn-btn-ghost { background: rgba(255,255,255,0.04); color: var(--syn-haze); border-color: var(--syn-line); }
-  .syn-btn-ghost:hover { background: rgba(255,255,255,0.08); border-color: var(--syn-indigo); color: var(--syn-white); }
+  /* Double class (.syn-btn.syn-btn-*) so the button's own colours win over
+     contextual `a { color }` rules in the nav / mobile menu / footer —
+     otherwise the gradient CTA's label rendered grey and low-contrast at rest. */
+  .syn-btn.syn-btn-primary { background: var(--syn-grad); color: #060912; font-weight: 700; box-shadow: 0 8px 26px -8px rgba(99,102,241,0.7); }
+  .syn-btn.syn-btn-primary:hover { transform: translateY(-1px); box-shadow: 0 14px 34px -8px rgba(99,102,241,0.9); }
+  .syn-btn.syn-btn-ghost { background: rgba(255,255,255,0.04); color: var(--syn-haze); border-color: var(--syn-line); }
+  .syn-btn.syn-btn-ghost:hover { background: rgba(255,255,255,0.08); border-color: var(--syn-indigo); color: var(--syn-white); }
   .syn-btn-block { width: 100%; }
 
   .syn-hamburger { display: none; background: none; border: 1px solid var(--syn-line); border-radius: 10px; padding: 8px; cursor: pointer; color: var(--syn-haze); }
