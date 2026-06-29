@@ -365,6 +365,35 @@
     .syn-anim, .syn-reveal { opacity: 1 !important; transform: none !important; }
   }
   .syn-root a:focus-visible, .syn-root button:focus-visible { outline: 2px solid var(--syn-cyan); outline-offset: 3px; border-radius: 8px; }
+
+  /* ---- Product showcase (screenshots) ---- */
+  .syn-show { display: grid; gap: clamp(54px, 8vw, 92px); margin-top: clamp(34px, 5vw, 56px); }
+  .syn-show-row { display: grid; grid-template-columns: 0.82fr 1.18fr; gap: clamp(26px, 5vw, 60px); align-items: center; }
+  .syn-show-row.rev .syn-show-copy { order: 2; }
+  .syn-show-row.rev .syn-shot { order: 1; }
+  .syn-show-copy h3 { font-size: clamp(21px, 2.6vw, 28px); line-height: 1.16; letter-spacing: -0.02em; margin: 13px 0 10px; }
+  .syn-show-copy p { color: var(--syn-haze); font-size: 16px; line-height: 1.62; }
+  .syn-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+  .syn-chips span { font-family: var(--syn-mono); font-size: 12px; color: var(--syn-haze); padding: 5px 10px; border: 1px solid var(--syn-line); border-radius: 999px; background: rgba(255,255,255,0.02); }
+  .syn-shot { border-radius: 14px; border: 1px solid var(--syn-line); background: #0b1124; overflow: hidden; box-shadow: 0 36px 90px -34px rgba(2,6,23,0.95), 0 0 0 1px rgba(99,102,241,0.06); transition: transform .4s cubic-bezier(.2,.7,.2,1), box-shadow .4s cubic-bezier(.2,.7,.2,1); margin: 0; }
+  .syn-shot:hover { transform: translateY(-4px); box-shadow: 0 44px 110px -34px rgba(2,6,23,0.95), 0 0 0 1px rgba(99,102,241,0.2); }
+  .syn-shot-bar { display: flex; align-items: center; gap: 7px; padding: 10px 14px; border-bottom: 1px solid var(--syn-line); background: rgba(255,255,255,0.025); }
+  .syn-shot-bar i { width: 11px; height: 11px; border-radius: 50%; flex: none; }
+  .syn-shot-bar i:nth-of-type(1) { background: #ff5f57; }
+  .syn-shot-bar i:nth-of-type(2) { background: #febc2e; }
+  .syn-shot-bar i:nth-of-type(3) { background: #28c840; }
+  .syn-shot-url { margin-left: 10px; font-family: var(--syn-mono); font-size: 12px; color: var(--syn-mist); letter-spacing: .02em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .syn-shot img { display: block; width: 100%; height: auto; }
+  .syn-show-duo { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(18px, 3vw, 30px); margin-top: clamp(30px, 5vw, 48px); }
+  .syn-show-duo figure { margin: 0; }
+  .syn-show-cap { margin-top: 12px; text-align: center; color: var(--syn-mist); font-size: 14px; }
+  .syn-show-cap b { color: var(--syn-haze); font-weight: 650; }
+  @media (max-width: 820px) {
+    .syn-show-row, .syn-show-row.rev { grid-template-columns: 1fr; gap: 22px; }
+    .syn-show-row.rev .syn-show-copy { order: 1; }
+    .syn-show-row.rev .syn-shot { order: 2; }
+    .syn-show-duo { grid-template-columns: 1fr; }
+  }
 </style>
 
 <div class="syn-root" x-data="{ mobile: false, mode: 'plan', step: 1 }">
@@ -500,6 +529,96 @@
         </article>
 
       </div>
+    </div>
+  </section>
+
+  <!-- ============================================ SEE IT IN ACTION -->
+  <section class="syn-section" id="syn-tour" style="padding-top:0;">
+    <div class="syn-wrap">
+      <div class="syn-head syn-reveal">
+        <span class="syn-eyebrow">See it in action</span>
+        <h2>One admin. Every layer of your app.</h2>
+        <p>Real screens from a running Synapse install — the visual builder, the AI companion, the flow engine and your data, all inside the Filament panel you already run.</p>
+      </div>
+
+      <div class="syn-show">
+
+        <div class="syn-show-row syn-reveal">
+          <div class="syn-show-copy">
+            <span class="syn-eyebrow">Visual builder</span>
+            <h3>Design pages on a real canvas.</h3>
+            <p>Drag sections and components into a live GrapesJS canvas, style them in place, then bind them to your data and publish — no separate front-end project to maintain.</p>
+            <div class="syn-chips"><span>grapesjs</span><span>drag &amp; drop</span><span>live preview</span></div>
+          </div>
+          <figure class="syn-shot">
+            <div class="syn-shot-bar"><i></i><i></i><i></i><span class="syn-shot-url">admin / pages / edit</span></div>
+            <img src="assets/img/screens/editor.webp" width="1600" height="1000" loading="lazy" decoding="async" alt="The Synapse visual page builder: a block palette on the left, a live canvas editing a dark landing page in the centre, and style controls on the right.">
+          </figure>
+        </div>
+
+        <div class="syn-show-row rev syn-reveal">
+          <div class="syn-show-copy">
+            <span class="syn-eyebrow">AI companion</span>
+            <h3>Describe it. Review the plan. Build.</h3>
+            <p>Chat in plain language and Synapse proposes collections, pages, flows and settings as a reviewable plan — apply it in one click, then keep refining by chatting.</p>
+            <div class="syn-chips"><span>ask</span><span>plan</span><span>build</span></div>
+          </div>
+          <figure class="syn-shot">
+            <div class="syn-shot-bar"><i></i><i></i><i></i><span class="syn-shot-url">Build with AI</span></div>
+            <img src="assets/img/screens/chat.webp" width="1600" height="1000" loading="lazy" decoding="async" alt="The floating Build with AI chat: a help-desk request, and the AI's proposed changes — a tickets collection, a state, a flow and two pages — with an Apply changes button.">
+          </figure>
+        </div>
+
+        <div class="syn-show-row syn-reveal">
+          <div class="syn-show-copy">
+            <span class="syn-eyebrow">Flow engine</span>
+            <h3>Automate on a node canvas.</h3>
+            <p>Wire triggers to actions — set state, call a function, branch on a condition, send email — on an n8n-style canvas. Flows fire on data events, clicks, forms or cron.</p>
+            <div class="syn-chips"><span>triggers</span><span>conditions</span><span>email</span></div>
+          </div>
+          <figure class="syn-shot">
+            <div class="syn-shot-bar"><i></i><i></i><i></i><span class="syn-shot-url">admin / flows / edit</span></div>
+            <img src="assets/img/screens/flow.webp" width="1600" height="1000" loading="lazy" decoding="async" alt="The Synapse flow editor: a node graph wiring a Trigger to Set State, a Condition, a Function and Send Email, with a palette of node types across the top.">
+          </figure>
+        </div>
+
+        <div class="syn-show-row rev syn-reveal">
+          <div class="syn-show-copy">
+            <span class="syn-eyebrow">Your data</span>
+            <h3>Typed tables with an instant API.</h3>
+            <p>Define collections and fields in the UI — Synapse creates real database tables and a secured REST API over every one, ready for your pages, flows and functions to use.</p>
+            <div class="syn-chips"><span>real tables</span><span>typed fields</span><span>REST</span></div>
+          </div>
+          <figure class="syn-shot">
+            <div class="syn-shot-bar"><i></i><i></i><i></i><span class="syn-shot-url">admin / collections / products</span></div>
+            <img src="assets/img/screens/collections.webp" width="1600" height="1000" loading="lazy" decoding="async" alt="A Products collection in Synapse showing its typed fields — name, sku, category, price (decimal), quantity (integer) and supplier email — with required flags.">
+          </figure>
+        </div>
+
+      </div>
+
+      <div class="syn-head syn-reveal" style="margin-top:clamp(52px,8vw,84px);">
+        <span class="syn-eyebrow">And your users get this</span>
+        <h2>Apps that look shipped, not scaffolded.</h2>
+        <p>Everything above publishes to polished, responsive pages — a marketing site and a role-gated inventory dashboard, both built entirely in Synapse and bundled as demos you can install with one command.</p>
+      </div>
+      <div class="syn-show-duo syn-reveal">
+        <figure>
+          <div class="syn-shot">
+            <div class="syn-shot-bar"><i></i><i></i><i></i><span class="syn-shot-url">nimbus.app</span></div>
+            <img src="assets/img/screens/nimbus.webp" width="1600" height="1000" loading="lazy" decoding="async" alt="A published marketing landing page built in Synapse: a dark hero reading 'Project management, finally calm' beside a mock task board.">
+          </div>
+          <figcaption class="syn-show-cap"><b>Marketing site</b> — a published page, exported to static HTML</figcaption>
+        </figure>
+        <figure>
+          <div class="syn-shot">
+            <div class="syn-shot-bar"><i></i><i></i><i></i><span class="syn-shot-url">app / inventory</span></div>
+            <img src="assets/img/screens/inventory.webp" width="1600" height="1000" loading="lazy" decoding="async" alt="A role-gated inventory dashboard built in Synapse: KPI cards for total SKUs, low stock, inventory value and categories above a filterable products table with status badges.">
+          </div>
+          <figcaption class="syn-show-cap"><b>Inventory app</b> — collections, auth &amp; live data</figcaption>
+        </figure>
+      </div>
+
     </div>
   </section>
 

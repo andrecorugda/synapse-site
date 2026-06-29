@@ -455,6 +455,15 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
   .topbar-links a { font-size: 0.82rem; }
 }
 
+
+  /* ---- Screenshot frame ---- */
+  .doc-shot { margin: 26px 0 32px; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; background: var(--panel); box-shadow: 0 24px 60px -28px rgba(2,6,23,0.9); }
+  .doc-shot-bar { display: flex; align-items: center; gap: 6px; padding: 9px 13px; border-bottom: 1px solid var(--border); background: rgba(255,255,255,0.02); }
+  .doc-shot-bar i { width: 10px; height: 10px; border-radius: 50%; flex: none; }
+  .doc-shot-bar i:nth-of-type(1){ background:#ff5f57; } .doc-shot-bar i:nth-of-type(2){ background:#febc2e; } .doc-shot-bar i:nth-of-type(3){ background:#28c840; }
+  .doc-shot-url { margin-left: 9px; font-family: var(--mono); font-size: 12px; color: var(--muted); }
+  .doc-shot img { display: block; width: 100%; height: auto; }
+  .doc-shot figcaption { padding: 10px 14px; font-size: 13px; color: var(--muted); border-top: 1px solid var(--border); }
 </style>
 </head>
 <body>
@@ -587,6 +596,11 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
     <article class="doc">
       <h1 id="flows">Flows</h1>
       <p>A <strong>flow</strong> is the automation engine — an n8n-style graph of nodes that runs in response to a trigger. A flow is a row in <code>page_builder_flows</code>; its graph lives in the <code>definition</code> column. The visual canvas (Drawflow) edits it; <code>FlowRunner</code> executes it; <code>FlowManager</code> records each run to <code>page_builder_flow_runs</code>.</p>
+      <figure class="doc-shot">
+        <div class="doc-shot-bar"><i></i><i></i><i></i><span class="doc-shot-url">admin / flows / edit</span></div>
+        <img src="../assets/img/screens/flow.webp" width="1600" height="1000" loading="lazy" decoding="async" alt="A flow's node graph in the Synapse flow editor, wiring a trigger to actions.">
+        <figcaption>A flow on the node canvas: trigger → set state → condition → function → email.</figcaption>
+      </figure>
       <h2 id="the-flow-model">The Flow model</h2>
       <p><code>src/Models/Flow.php</code>. Route key <code>slug</code>; soft-deletes; scope <code>active()</code> (where <code>is_active = true</code>).</p>
       <div class="table-wrap"><table>

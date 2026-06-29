@@ -455,6 +455,15 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
   .topbar-links a { font-size: 0.82rem; }
 }
 
+
+  /* ---- Screenshot frame ---- */
+  .doc-shot { margin: 26px 0 32px; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; background: var(--panel); box-shadow: 0 24px 60px -28px rgba(2,6,23,0.9); }
+  .doc-shot-bar { display: flex; align-items: center; gap: 6px; padding: 9px 13px; border-bottom: 1px solid var(--border); background: rgba(255,255,255,0.02); }
+  .doc-shot-bar i { width: 10px; height: 10px; border-radius: 50%; flex: none; }
+  .doc-shot-bar i:nth-of-type(1){ background:#ff5f57; } .doc-shot-bar i:nth-of-type(2){ background:#febc2e; } .doc-shot-bar i:nth-of-type(3){ background:#28c840; }
+  .doc-shot-url { margin-left: 9px; font-family: var(--mono); font-size: 12px; color: var(--muted); }
+  .doc-shot img { display: block; width: 100%; height: auto; }
+  .doc-shot figcaption { padding: 10px 14px; font-size: 13px; color: var(--muted); border-top: 1px solid var(--border); }
 </style>
 </head>
 <body>
@@ -587,6 +596,11 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
     <article class="doc">
       <h1 id="collections-data">Collections &amp; data</h1>
       <p>A <strong>collection</strong> is a user-defined data model. Its metadata lives in <code>page_builder_models</code> (the <code>PbModel</code>) and <code>page_builder_fields</code> (the <code>PbField</code>s), and the <code>SchemaSynchronizer</code> turns that metadata into a <strong>real database table</strong> named <code>pb_&lt;key&gt;</code> (Directus-style). Every collection automatically gets a REST API, and Flows, Functions, pages and the AI applier all read/write it through one service: <code>RecordQuery</code>.</p>
+      <figure class="doc-shot">
+        <div class="doc-shot-bar"><i></i><i></i><i></i><span class="doc-shot-url">admin / collections / products</span></div>
+        <img src="../assets/img/screens/collections.webp" width="1600" height="1000" loading="lazy" decoding="async" alt="A Products collection and its typed fields in the Synapse admin.">
+        <figcaption>A collection's typed fields — each one becomes a real database column.</figcaption>
+      </figure>
       <h2 id="defining-a-collection">Defining a collection</h2>
       <p>In the admin: <strong>Collections</strong> → create. A collection has:</p>
       <div class="table-wrap"><table>

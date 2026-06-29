@@ -455,6 +455,15 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
   .topbar-links a { font-size: 0.82rem; }
 }
 
+
+  /* ---- Screenshot frame ---- */
+  .doc-shot { margin: 26px 0 32px; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; background: var(--panel); box-shadow: 0 24px 60px -28px rgba(2,6,23,0.9); }
+  .doc-shot-bar { display: flex; align-items: center; gap: 6px; padding: 9px 13px; border-bottom: 1px solid var(--border); background: rgba(255,255,255,0.02); }
+  .doc-shot-bar i { width: 10px; height: 10px; border-radius: 50%; flex: none; }
+  .doc-shot-bar i:nth-of-type(1){ background:#ff5f57; } .doc-shot-bar i:nth-of-type(2){ background:#febc2e; } .doc-shot-bar i:nth-of-type(3){ background:#28c840; }
+  .doc-shot-url { margin-left: 9px; font-family: var(--mono); font-size: 12px; color: var(--muted); }
+  .doc-shot img { display: block; width: 100%; height: auto; }
+  .doc-shot figcaption { padding: 10px 14px; font-size: 13px; color: var(--muted); border-top: 1px solid var(--border); }
 </style>
 </head>
 <body>
@@ -587,6 +596,11 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
     <article class="doc">
       <h1 id="ai">AI</h1>
       <p>The AI layer is <strong>optional and additive</strong> — the builder is fully usable by hand. When enabled, you describe an app (or a change) in plain language; the model returns a structured, validated <strong>Build Plan</strong>; you review it; and an idempotent applier writes it through the same services everything else uses. The AI never writes files or runs code.</p>
+      <figure class="doc-shot">
+        <div class="doc-shot-bar"><i></i><i></i><i></i><span class="doc-shot-url">Build with AI</span></div>
+        <img src="../assets/img/screens/chat.webp" width="1600" height="1000" loading="lazy" decoding="async" alt="The Build with AI chat proposing an app as a reviewable plan with an Apply button.">
+        <figcaption>The AI proposes changes as a plan you review before applying.</figcaption>
+      </figure>
       <h2 id="requirements">Requirements</h2>
       <p>AI generation requires the <strong>AI OpenRouter Gateway</strong> (<code>andrecorugda/ai-openrouter-gateway</code>) — it carries the API key, the model, metering/cost caps and conversation threads. Install it and set a key:</p>
       <div class="codeblock"><span class="code-lang">bash</span><pre><code class="language-bash">composer require andrecorugda/ai-openrouter-gateway
