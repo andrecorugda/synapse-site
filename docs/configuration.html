@@ -4,12 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Configuration — Synapse Docs</title>
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-    <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
-    <link rel="icon" href="/favicon-16.png" sizes="16x16" type="image/png">
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-    <meta name="theme-color" content="#0a0e1a">
 <meta name="description" content="Synapse — the self-hosted, low-code app builder for Laravel + Filament. Configuration reference.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23818cf8'/%3E%3Cstop offset='1' stop-color='%2322d3ee'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M12 1.6 22.4 12 12 22.4 1.6 12Z' fill='url(%23g)'/%3E%3C/svg%3E">
 <style>
 /* Synapse documentation theme.
    Ground: deep ink #0b1020. Accent: indigo #6366f1 -> cyan #22d3ee, spent
@@ -467,9 +463,8 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
   <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="sidebar">
     <span class="bars" aria-hidden="true"></span>
   </button>
-  <a class="brand" href="/"><svg class="mark-glyph" viewBox="0 0 32 32" aria-hidden="true" width="20" height="20"><defs><linearGradient id="syn-g" x1="0" y1="0" x2="32" y2="32"><stop offset="0" stop-color="#818cf8"/><stop offset="1" stop-color="#22d3ee"/></linearGradient></defs><path d="M16 3l11.3 6.5v13L16 29 4.7 22.5v-13L16 3z" fill="none" stroke="url(#syn-g)" stroke-width="1.6"/><circle cx="16" cy="16" r="3" fill="url(#syn-g)"/><circle cx="16" cy="6.5" r="1.6" fill="#22d3ee"/><circle cx="24.5" cy="11.5" r="1.6" fill="#818cf8"/><circle cx="24.5" cy="20.5" r="1.6" fill="#22d3ee"/><circle cx="7.5" cy="11.5" r="1.6" fill="#818cf8"/><path d="M16 13V6.5M18.6 14.5l5.9-3M18.6 17.5l5.9 3M13.4 14.5l-5.9-3" stroke="url(#syn-g)" stroke-width="1.2" opacity=".7"/></svg><span class="brand-name">Synapse</span></a>
+  <a class="brand" href="index.html"><svg class="mark-glyph" viewBox="0 0 24 24" aria-hidden="true" width="20" height="20"><defs><linearGradient id="syn-g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#818cf8"/><stop offset="1" stop-color="#22d3ee"/></linearGradient></defs><path d="M12 1.6 22.4 12 12 22.4 1.6 12Z" fill="url(#syn-g)"/></svg><span class="brand-name">Synapse</span></a>
   <nav class="topbar-links" aria-label="Project links">
-    <a href="/">Home</a>
     <a href="https://github.com/andrecorugda/synapse-app-builder" target="_blank" rel="noopener noreferrer">GitHub</a>
     <a href="https://packagist.org/packages/andrecorugda/synapse" target="_blank" rel="noopener noreferrer">Packagist</a>
   </nav>
@@ -485,7 +480,7 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
         <li><a class="nav-link" href="architecture.html">Architecture</a></li>
         <li><a class="nav-link" href="pages-and-components.html">Pages &amp; Components</a></li>
         <li class="nav-group">
-        <details class="nav-group__d" open>
+        <details class="nav-group__d">
           <summary class="nav-group__label">Components</summary>
           <ul class="nav-grouplist">
             <li><a class="nav-link nav-link--overview" href="components.html">Overview</a></li>
@@ -597,6 +592,7 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
         <li><a class="nav-link" href="ai.html">AI</a></li>
         <li><a class="nav-link is-current" aria-current="page" href="configuration.html">Configuration</a></li>
         <li><a class="nav-link" href="extending.html">Extending</a></li>
+        <li><a class="nav-link" href="extending-flows.html">Extending Flows</a></li>
       </ul>
     </nav>
   </aside>
@@ -901,8 +897,6 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
       </tr>
       </tbody></table></div>
       <h2 id="auth-the-built-apps-own-auth"><code>auth</code> — the built app&#39;s own auth</h2>
-      <p>Synapse ships its own identity layer for the app you build — users, roles and permissions kept apart from the host app&#39;s auth. The keys below are <strong>install-time defaults</strong> only. Almost everything here is runtime-overridable by the admin on <strong>Synapse Settings → Identity &amp; Auth</strong>, and the admin&#39;s saved choice always wins. The package reads these through <code>Auth\AuthSettings</code> (which merges the stored settings over the config), never via <code>config()</code> directly — so treat the config values as the <em>initial</em> state, not the live one.</p>
-      <h3 id="auth-core">Core</h3>
       <div class="table-wrap"><table>
       <thead>
       <tr>
@@ -936,188 +930,7 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
       <td><code>/</code></td>
       <td>Post-login redirect / default home</td>
       </tr>
-      <tr>
-      <td><code>auth.password_login</code></td>
-      <td><code>AI_PAGE_BUILDER_PASSWORD_LOGIN</code></td>
-      <td><code>true</code></td>
-      <td>Allow email + password sign-in. Turn off for SSO-only apps</td>
-      </tr>
       </tbody></table></div>
-      <h3 id="auth-registration">Registration &amp; reset</h3>
-      <div class="table-wrap"><table>
-      <thead>
-      <tr>
-      <th>Key</th>
-      <th>Env</th>
-      <th>Default</th>
-      <th>Meaning</th>
-      </tr>
-      </thead>
-      <tbody><tr>
-      <td><code>auth.registration.enabled</code></td>
-      <td><code>AI_PAGE_BUILDER_REGISTRATION</code></td>
-      <td><code>false</code></td>
-      <td>Allow self-registration (disabled by default — safer)</td>
-      </tr>
-      <tr>
-      <td><code>auth.registration.mode</code></td>
-      <td><code>AI_PAGE_BUILDER_REGISTRATION_MODE</code></td>
-      <td><code>approval</code></td>
-      <td><code>open</code> (use immediately) | <code>approval</code> (admin approves; <code>status=pending</code>) | <code>invite_only</code> (no public sign-up; admins send invites)</td>
-      </tr>
-      <tr>
-      <td><code>auth.registration.default_role</code></td>
-      <td><code>AI_PAGE_BUILDER_REGISTRATION_ROLE</code></td>
-      <td><code>null</code></td>
-      <td>Role slug assigned to a newly-registered user (<code>null</code> = no role)</td>
-      </tr>
-      <tr>
-      <td><code>auth.registration.allowed_email_domains</code></td>
-      <td><code>AI_PAGE_BUILDER_REGISTRATION_DOMAINS</code></td>
-      <td><code>[]</code></td>
-      <td>Comma-separated allow-list of email domains (e.g. <code>acme.com</code>); empty = any</td>
-      </tr>
-      <tr>
-      <td><code>auth.reset.token_ttl</code></td>
-      <td><code>AI_PAGE_BUILDER_RESET_TTL</code></td>
-      <td><code>3600</code></td>
-      <td>Forgot/reset password token lifetime (seconds)</td>
-      </tr>
-      </tbody></table></div>
-      <h3 id="auth-providers">SSO providers</h3>
-      <p>Optional — requires <code>laravel/socialite</code> (and <code>socialiteproviders/microsoft</code> for the Microsoft driver). A provider only appears on the login page when it is <strong>enabled</strong> <em>and</em> has a client id/secret <em>and</em> Socialite is installed. The per-provider <code>enabled</code> flag and the org/domain/tenant restrictions are also runtime-overridable on the Identity &amp; Auth screen.</p>
-      <div class="table-wrap"><table>
-      <thead>
-      <tr>
-      <th>Key</th>
-      <th>Env</th>
-      <th>Default</th>
-      <th>Meaning</th>
-      </tr>
-      </thead>
-      <tbody><tr>
-      <td><code>auth.providers.google.enabled</code></td>
-      <td><code>AI_PAGE_BUILDER_GOOGLE_ENABLED</code></td>
-      <td><code>false</code></td>
-      <td>Offer Google sign-in</td>
-      </tr>
-      <tr>
-      <td><code>auth.providers.google.client_id</code></td>
-      <td><code>AI_PAGE_BUILDER_GOOGLE_CLIENT_ID</code></td>
-      <td><code>null</code></td>
-      <td>Google OAuth client id</td>
-      </tr>
-      <tr>
-      <td><code>auth.providers.google.client_secret</code></td>
-      <td><code>AI_PAGE_BUILDER_GOOGLE_CLIENT_SECRET</code></td>
-      <td><code>null</code></td>
-      <td>Google OAuth client secret</td>
-      </tr>
-      <tr>
-      <td><code>auth.providers.google.redirect</code></td>
-      <td><code>AI_PAGE_BUILDER_GOOGLE_REDIRECT</code></td>
-      <td><code>null</code></td>
-      <td>OAuth callback URL (absolute; built off <code>APP_URL</code> if relative)</td>
-      </tr>
-      <tr>
-      <td><code>auth.providers.google.allowed_domains</code></td>
-      <td><code>AI_PAGE_BUILDER_GOOGLE_DOMAINS</code></td>
-      <td><code>[]</code></td>
-      <td>Comma-separated Google Workspace hosted domains (e.g. <code>acme.com</code>); empty = any Google account</td>
-      </tr>
-      <tr>
-      <td><code>auth.providers.microsoft.enabled</code></td>
-      <td><code>AI_PAGE_BUILDER_MICROSOFT_ENABLED</code></td>
-      <td><code>false</code></td>
-      <td>Offer Microsoft / Azure AD sign-in</td>
-      </tr>
-      <tr>
-      <td><code>auth.providers.microsoft.client_id</code></td>
-      <td><code>AI_PAGE_BUILDER_MICROSOFT_CLIENT_ID</code></td>
-      <td><code>null</code></td>
-      <td>Microsoft OAuth client id</td>
-      </tr>
-      <tr>
-      <td><code>auth.providers.microsoft.client_secret</code></td>
-      <td><code>AI_PAGE_BUILDER_MICROSOFT_CLIENT_SECRET</code></td>
-      <td><code>null</code></td>
-      <td>Microsoft OAuth client secret</td>
-      </tr>
-      <tr>
-      <td><code>auth.providers.microsoft.redirect</code></td>
-      <td><code>AI_PAGE_BUILDER_MICROSOFT_REDIRECT</code></td>
-      <td><code>null</code></td>
-      <td>OAuth callback URL (absolute; built off <code>APP_URL</code> if relative)</td>
-      </tr>
-      <tr>
-      <td><code>auth.providers.microsoft.tenant</code></td>
-      <td><code>AI_PAGE_BUILDER_MICROSOFT_TENANT</code></td>
-      <td><code>null</code></td>
-      <td>Restrict to a specific Azure AD tenant id (single-org login)</td>
-      </tr>
-      <tr>
-      <td><code>auth.providers.microsoft.allowed_domains</code></td>
-      <td><code>AI_PAGE_BUILDER_MICROSOFT_DOMAINS</code></td>
-      <td><code>[]</code></td>
-      <td>Comma-separated email domains; empty = any</td>
-      </tr>
-      <tr>
-      <td><code>auth.providers.github.enabled</code></td>
-      <td><code>AI_PAGE_BUILDER_GITHUB_ENABLED</code></td>
-      <td><code>false</code></td>
-      <td>Offer GitHub sign-in</td>
-      </tr>
-      <tr>
-      <td><code>auth.providers.github.client_id</code></td>
-      <td><code>AI_PAGE_BUILDER_GITHUB_CLIENT_ID</code></td>
-      <td><code>null</code></td>
-      <td>GitHub OAuth client id</td>
-      </tr>
-      <tr>
-      <td><code>auth.providers.github.client_secret</code></td>
-      <td><code>AI_PAGE_BUILDER_GITHUB_CLIENT_SECRET</code></td>
-      <td><code>null</code></td>
-      <td>GitHub OAuth client secret</td>
-      </tr>
-      <tr>
-      <td><code>auth.providers.github.redirect</code></td>
-      <td><code>AI_PAGE_BUILDER_GITHUB_REDIRECT</code></td>
-      <td><code>null</code></td>
-      <td>OAuth callback URL (absolute; built off <code>APP_URL</code> if relative)</td>
-      </tr>
-      <tr>
-      <td><code>auth.providers.github.allowed_orgs</code></td>
-      <td><code>AI_PAGE_BUILDER_GITHUB_ORGS</code></td>
-      <td><code>[]</code></td>
-      <td>Comma-separated GitHub orgs (e.g. <code>acme-inc</code>); empty = any GitHub account</td>
-      </tr>
-      </tbody></table></div>
-      <h3 id="auth-two-factor">Two-factor</h3>
-      <div class="table-wrap"><table>
-      <thead>
-      <tr>
-      <th>Key</th>
-      <th>Env</th>
-      <th>Default</th>
-      <th>Meaning</th>
-      </tr>
-      </thead>
-      <tbody><tr>
-      <td><code>auth.two_factor.enabled</code></td>
-      <td><code>AI_PAGE_BUILDER_2FA</code></td>
-      <td><code>true</code></td>
-      <td>Allow two-factor sign-in (runtime-overridable on the Identity &amp; Auth screen)</td>
-      </tr>
-      <tr>
-      <td><code>auth.two_factor.methods</code></td>
-      <td>—</td>
-      <td><code>['totp', 'email']</code></td>
-      <td>Offered methods. <code>email</code> OTP needs no extra package; <code>totp</code> (authenticator app) requires <code>pragmarx/google2fa</code> and is silently dropped when that package is absent</td>
-      </tr>
-      </tbody></table></div>
-      <blockquote>
-      <p><strong>Install-time defaults vs. runtime.</strong> Every value in this <code>auth</code> section is a starting point baked in at install. Once the app is running, the admin&#39;s choices on <strong>Synapse Settings → Identity &amp; Auth</strong> (stored under the same dotted keys, e.g. <code>auth.password_login</code>) take precedence — they are read back through <code>Auth\AuthSettings</code>. Set the env vars to seed a sensible default for a fresh install; use the settings screen to change behaviour on a live one.</p>
-      </blockquote>
       <h2 id="media"><code>media</code></h2>
       <div class="table-wrap"><table>
       <thead>
@@ -1294,62 +1107,14 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
       <tbody><tr>
       <td><code>filament.navigation_group</code></td>
       <td><code>Content</code></td>
-      <td>Legacy single-group fallback (kept for backward compat)</td>
+      <td>Navigation group for all resources/pages</td>
       </tr>
       <tr>
       <td><code>filament.navigation_sort</code></td>
       <td><code>10</code></td>
       <td>Base navigation sort (resources offset from it)</td>
       </tr>
-      <tr>
-      <td><code>filament.navigation_groups</code></td>
-      <td>see below</td>
-      <td>Label for each of the six purpose-grouped menu sections, rendered in this order</td>
-      </tr>
       </tbody></table></div>
-      <p>The package groups its resources and pages by purpose into six navigation groups. <code>navigation_groups</code> maps each internal key to the label shown in the Filament sidebar:</p>
-      <div class="table-wrap"><table>
-      <thead>
-      <tr>
-      <th>Key</th>
-      <th>Default label</th>
-      <th>Holds</th>
-      </tr>
-      </thead>
-      <tbody><tr>
-      <td><code>content</code></td>
-      <td><code>Content</code></td>
-      <td>Pages, Partials, Media</td>
-      </tr>
-      <tr>
-      <td><code>data</code></td>
-      <td><code>Data</code></td>
-      <td>Collections, States</td>
-      </tr>
-      <tr>
-      <td><code>automation</code></td>
-      <td><code>Automation</code></td>
-      <td>Flows, Functions, Schedules</td>
-      </tr>
-      <tr>
-      <td><code>access</code></td>
-      <td><code>Access</code></td>
-      <td>Users, Roles, Invites</td>
-      </tr>
-      <tr>
-      <td><code>developer</code></td>
-      <td><code>Developer</code></td>
-      <td>Credentials, API tokens, API docs, import/export</td>
-      </tr>
-      <tr>
-      <td><code>system</code></td>
-      <td><code>System</code></td>
-      <td>Settings, Theme</td>
-      </tr>
-      </tbody></table></div>
-      <blockquote>
-      <p><strong>Rename or merge groups.</strong> Override a label to <em>rename</em> a group (e.g. set <code>automation</code> to <code>"Workflows"</code>). Set two or more keys to the <em>same</em> label to <em>merge</em> them — e.g. point every key at <code>"Synapse"</code> to fold the whole package under one group in a busy host panel.</p>
-      </blockquote>
       <p>Next: <a href="extending.html">Extending</a>.</p>
     </article>
     <footer class="doc-footer">

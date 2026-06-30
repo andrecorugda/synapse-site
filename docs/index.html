@@ -4,12 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Synapse Documentation</title>
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-    <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
-    <link rel="icon" href="/favicon-16.png" sizes="16x16" type="image/png">
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-    <meta name="theme-color" content="#0a0e1a">
 <meta name="description" content="Synapse — the self-hosted, low-code app builder for Laravel + Filament. Overview reference.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23818cf8'/%3E%3Cstop offset='1' stop-color='%2322d3ee'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M12 1.6 22.4 12 12 22.4 1.6 12Z' fill='url(%23g)'/%3E%3C/svg%3E">
 <style>
 /* Synapse documentation theme.
    Ground: deep ink #0b1020. Accent: indigo #6366f1 -> cyan #22d3ee, spent
@@ -467,9 +463,8 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
   <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="sidebar">
     <span class="bars" aria-hidden="true"></span>
   </button>
-  <a class="brand" href="/"><svg class="mark-glyph" viewBox="0 0 32 32" aria-hidden="true" width="20" height="20"><defs><linearGradient id="syn-g" x1="0" y1="0" x2="32" y2="32"><stop offset="0" stop-color="#818cf8"/><stop offset="1" stop-color="#22d3ee"/></linearGradient></defs><path d="M16 3l11.3 6.5v13L16 29 4.7 22.5v-13L16 3z" fill="none" stroke="url(#syn-g)" stroke-width="1.6"/><circle cx="16" cy="16" r="3" fill="url(#syn-g)"/><circle cx="16" cy="6.5" r="1.6" fill="#22d3ee"/><circle cx="24.5" cy="11.5" r="1.6" fill="#818cf8"/><circle cx="24.5" cy="20.5" r="1.6" fill="#22d3ee"/><circle cx="7.5" cy="11.5" r="1.6" fill="#818cf8"/><path d="M16 13V6.5M18.6 14.5l5.9-3M18.6 17.5l5.9 3M13.4 14.5l-5.9-3" stroke="url(#syn-g)" stroke-width="1.2" opacity=".7"/></svg><span class="brand-name">Synapse</span></a>
+  <a class="brand" href="index.html"><svg class="mark-glyph" viewBox="0 0 24 24" aria-hidden="true" width="20" height="20"><defs><linearGradient id="syn-g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#818cf8"/><stop offset="1" stop-color="#22d3ee"/></linearGradient></defs><path d="M12 1.6 22.4 12 12 22.4 1.6 12Z" fill="url(#syn-g)"/></svg><span class="brand-name">Synapse</span></a>
   <nav class="topbar-links" aria-label="Project links">
-    <a href="/">Home</a>
     <a href="https://github.com/andrecorugda/synapse-app-builder" target="_blank" rel="noopener noreferrer">GitHub</a>
     <a href="https://packagist.org/packages/andrecorugda/synapse" target="_blank" rel="noopener noreferrer">Packagist</a>
   </nav>
@@ -485,7 +480,7 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
         <li><a class="nav-link" href="architecture.html">Architecture</a></li>
         <li><a class="nav-link" href="pages-and-components.html">Pages &amp; Components</a></li>
         <li class="nav-group">
-        <details class="nav-group__d" open>
+        <details class="nav-group__d">
           <summary class="nav-group__label">Components</summary>
           <ul class="nav-grouplist">
             <li><a class="nav-link nav-link--overview" href="components.html">Overview</a></li>
@@ -597,6 +592,7 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
         <li><a class="nav-link" href="ai.html">AI</a></li>
         <li><a class="nav-link" href="configuration.html">Configuration</a></li>
         <li><a class="nav-link" href="extending.html">Extending</a></li>
+        <li><a class="nav-link" href="extending-flows.html">Extending Flows</a></li>
       </ul>
     </nav>
   </aside>
@@ -612,17 +608,18 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
       <li><a href="architecture.html">Architecture</a> — the mental model in five minutes.</li>
       <li><a href="pages-and-components.html">Pages &amp; components</a> — build and publish pages.</li>
       <li><a href="collections-and-data.html">Collections &amp; data</a> — your own data tables.</li>
-      <li><a href="flows.html">Flows</a> — make things happen on clicks and data events.</li>
+      <li><a href="flows.html">Flows</a> — make things happen on clicks and data events (including atomic <a href="flows.html#transaction">transaction</a> + <a href="flows.html#loop">loop</a> automations).</li>
       <li><a href="ai.html">AI</a> — describe an app, review the plan, apply it, refine by chat.</li>
       </ol>
       <p><strong>Developer / integrator</strong> — you embed Synapse in a host app, extend it, or self-host its assets:</p>
       <ol>
       <li><a href="installation.html">Installation</a> and <a href="configuration.html">Configuration</a> — full env + config reference.</li>
       <li><a href="architecture.html">Architecture</a> — services, models, the request lifecycle.</li>
-      <li><a href="functions-and-states.html">Functions &amp; States</a> — runtimes, the reactive store.</li>
+      <li><a href="functions-and-states.html">Functions &amp; States</a> — runtimes, the eval-free helper library, the reactive store.</li>
       <li><a href="authentication-and-permissions.html">Authentication &amp; permissions</a> — the <code>pb</code> guard, opt-in permission model, row-level rules.</li>
       <li><a href="email.html">Email</a> — the isolated SMTP transport and templates.</li>
       <li><a href="extending.html">Extending</a> — swap models, register custom flow nodes/blocks, the <code>AiInvoker</code> contract, observers.</li>
+      <li><a href="extending-flows.html">Extending flow nodes &amp; helpers</a> — the <code>PageBuilder::registerNode/registerHelper</code> seam, the capability catalogue, MCP/AI exposure.</li>
       </ol>
       <h2 id="all-pages">All pages</h2>
       <div class="table-wrap"><table>
@@ -646,47 +643,19 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
       </tr>
       <tr>
       <td><a href="collections-and-data.html">collections-and-data.md</a></td>
-      <td>Collections → <code>pb_&lt;key&gt;</code> tables, managed vs. <strong>external</strong> data sources (mapping an existing table), field types, the auto REST API, <strong>API tokens &amp; API docs</strong>, the <code>filter</code>/<code>sort</code>/<code>search</code>/paginate syntax, schema sync.</td>
+      <td>Collections → <code>pb_&lt;key&gt;</code> tables, field types, the auto REST API, the <code>filter</code>/<code>sort</code>/<code>search</code>/paginate syntax, schema sync.</td>
       </tr>
       <tr>
       <td><a href="flows.html">flows.md</a></td>
-      <td>The flow engine: triggers, every node type and its config, <code>FlowContext</code> interpolation, the public run endpoint, cron <strong>Schedules</strong>, and <strong>Credentials</strong> (secrets referenced by key in <code>http</code> nodes).</td>
+      <td>The flow engine: triggers, every node type and its config (including the atomic <code>transaction</code> + <code>loop</code> control-flow nodes), the searchable node drawer, <code>FlowContext</code> interpolation, the public run endpoint, cron.</td>
       </tr>
       <tr>
       <td><a href="functions-and-states.html">functions-and-states.md</a></td>
-      <td>Functions (expression / callable / PHP) and States (the persistent reactive store).</td>
+      <td>Functions (expression / callable / PHP) and the eval-free <code>db.* / ui.* / auth.* / util.*</code> helper library; States (the persistent reactive store).</td>
       </tr>
       <tr>
       <td><a href="authentication-and-permissions.html">authentication-and-permissions.md</a></td>
-      <td>The built app&#39;s users/roles/permissions, the <code>pb</code> guard, opt-in gating, row-level rules, component visibility, plus password reset, self-registration, SSO, two-factor, invitations and record ownership.</td>
-      </tr>
-      <tr>
-      <td><a href="authentication-and-permissions.html">Identity &amp; Auth</a></td>
-      <td>End-user identity beyond login: password reset, self-registration, SSO (Google / Microsoft / GitHub), two-factor (TOTP + email codes), and the <code>auth.*</code> policy on the Identity &amp; Auth screen.</td>
-      </tr>
-      <tr>
-      <td><a href="authentication-and-permissions.html">Invites</a></td>
-      <td>Invite end-users by email; hashed single-use tokens, the public accept flow, onboarding/approval policy.</td>
-      </tr>
-      <tr>
-      <td><a href="flows.html">Credentials</a></td>
-      <td>Stored secrets referenced by key from <code>http</code> flow nodes, resolved into request headers so secrets are never inlined.</td>
-      </tr>
-      <tr>
-      <td><a href="flows.html">Schedules</a></td>
-      <td>Cron schedules that fire flows on a recurring basis.</td>
-      </tr>
-      <tr>
-      <td><a href="collections-and-data.html">API tokens &amp; API docs</a></td>
-      <td>Bearer tokens that authenticate the <code>pb</code> guard on the auto REST API, plus the generated per-collection endpoint reference.</td>
-      </tr>
-      <tr>
-      <td><a href="configuration.html">App import / export</a></td>
-      <td>Move a built app between environments as data — export the rows, import them elsewhere.</td>
-      </tr>
-      <tr>
-      <td><a href="configuration.html">Synapse Settings</a></td>
-      <td>The in-app settings screen: home page, SMTP, auth policy and other key/value builder settings (secrets encrypted).</td>
+      <td>The built app&#39;s users/roles/permissions, the <code>pb</code> guard, opt-in gating, row-level rules, component visibility.</td>
       </tr>
       <tr>
       <td><a href="email.html">email.md</a></td>
@@ -698,11 +667,15 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
       </tr>
       <tr>
       <td><a href="configuration.html">configuration.md</a></td>
-      <td>A table of <strong>every</strong> key in <code>config/ai-page-builder.php</code>, with env var, default and meaning; the in-app <strong>Synapse Settings</strong> screen and <strong>app import/export</strong>.</td>
+      <td>A table of <strong>every</strong> key in <code>config/ai-page-builder.php</code>, with env var, default and meaning.</td>
       </tr>
       <tr>
       <td><a href="extending.html">extending.md</a></td>
       <td>Swapping models, custom flow nodes, custom blocks, the <code>AiInvoker</code> contract, events/observers.</td>
+      </tr>
+      <tr>
+      <td><a href="extending-flows.html">extending-flows.md</a></td>
+      <td>The public <code>PageBuilder::registerNode/registerHelper</code> API, the merged capability catalogue, and MCP/AI tool exposure (<code>ai-page-builder:capabilities</code>).</td>
       </tr>
       </tbody></table></div>
       <h2 id="conventions-used-in-these-docs">Conventions used in these docs</h2>

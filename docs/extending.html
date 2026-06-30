@@ -4,12 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Extending — Synapse Docs</title>
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-    <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
-    <link rel="icon" href="/favicon-16.png" sizes="16x16" type="image/png">
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-    <meta name="theme-color" content="#0a0e1a">
 <meta name="description" content="Synapse — the self-hosted, low-code app builder for Laravel + Filament. Extending reference.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23818cf8'/%3E%3Cstop offset='1' stop-color='%2322d3ee'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M12 1.6 22.4 12 12 22.4 1.6 12Z' fill='url(%23g)'/%3E%3C/svg%3E">
 <style>
 /* Synapse documentation theme.
    Ground: deep ink #0b1020. Accent: indigo #6366f1 -> cyan #22d3ee, spent
@@ -467,9 +463,8 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
   <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="sidebar">
     <span class="bars" aria-hidden="true"></span>
   </button>
-  <a class="brand" href="/"><svg class="mark-glyph" viewBox="0 0 32 32" aria-hidden="true" width="20" height="20"><defs><linearGradient id="syn-g" x1="0" y1="0" x2="32" y2="32"><stop offset="0" stop-color="#818cf8"/><stop offset="1" stop-color="#22d3ee"/></linearGradient></defs><path d="M16 3l11.3 6.5v13L16 29 4.7 22.5v-13L16 3z" fill="none" stroke="url(#syn-g)" stroke-width="1.6"/><circle cx="16" cy="16" r="3" fill="url(#syn-g)"/><circle cx="16" cy="6.5" r="1.6" fill="#22d3ee"/><circle cx="24.5" cy="11.5" r="1.6" fill="#818cf8"/><circle cx="24.5" cy="20.5" r="1.6" fill="#22d3ee"/><circle cx="7.5" cy="11.5" r="1.6" fill="#818cf8"/><path d="M16 13V6.5M18.6 14.5l5.9-3M18.6 17.5l5.9 3M13.4 14.5l-5.9-3" stroke="url(#syn-g)" stroke-width="1.2" opacity=".7"/></svg><span class="brand-name">Synapse</span></a>
+  <a class="brand" href="index.html"><svg class="mark-glyph" viewBox="0 0 24 24" aria-hidden="true" width="20" height="20"><defs><linearGradient id="syn-g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#818cf8"/><stop offset="1" stop-color="#22d3ee"/></linearGradient></defs><path d="M12 1.6 22.4 12 12 22.4 1.6 12Z" fill="url(#syn-g)"/></svg><span class="brand-name">Synapse</span></a>
   <nav class="topbar-links" aria-label="Project links">
-    <a href="/">Home</a>
     <a href="https://github.com/andrecorugda/synapse-app-builder" target="_blank" rel="noopener noreferrer">GitHub</a>
     <a href="https://packagist.org/packages/andrecorugda/synapse" target="_blank" rel="noopener noreferrer">Packagist</a>
   </nav>
@@ -485,7 +480,7 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
         <li><a class="nav-link" href="architecture.html">Architecture</a></li>
         <li><a class="nav-link" href="pages-and-components.html">Pages &amp; Components</a></li>
         <li class="nav-group">
-        <details class="nav-group__d" open>
+        <details class="nav-group__d">
           <summary class="nav-group__label">Components</summary>
           <ul class="nav-grouplist">
             <li><a class="nav-link nav-link--overview" href="components.html">Overview</a></li>
@@ -597,6 +592,7 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
         <li><a class="nav-link" href="ai.html">AI</a></li>
         <li><a class="nav-link" href="configuration.html">Configuration</a></li>
         <li><a class="nav-link is-current" aria-current="page" href="extending.html">Extending</a></li>
+        <li><a class="nav-link" href="extending-flows.html">Extending Flows</a></li>
       </ul>
     </nav>
   </aside>
@@ -661,6 +657,9 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
           $registry-&gt;register(new \App\Flow\SlackNotifyNode);
       });</code></pre></div>
       <p><code>run()</code> should: read <code>config</code> (interpolating strings via <code>$context-&gt;interpolate()</code> / <code>interpolateDeep()</code>), do its work, optionally <code>$context-&gt;set(&#39;&lt;output&gt;&#39;, $value)</code> or <code>$context-&gt;addAction([...])</code>, and return the next node ids. The new type immediately becomes valid in the <a href="ai.html#validation"><code>BuildPlanValidator</code></a> and is described to the AI by <a href="ai.html#the-code-generated-system-prompt"><code>SystemPromptBuilder</code></a> (add a <code>NODE_HINTS</code> entry by extending that class if you want a tailored prompt hint; unknown types still appear with a generic hint).</p>
+      <blockquote>
+      <p>The simpler, modern path is the <code>PageBuilder::registerNode($handler)</code> facade (it resolves to this same <code>NodeRegistry</code>). Implement <code>ProvidesNodeDefinition</code> alongside <code>FlowNodeHandler</code> and your node carries its own drawer/MCP metadata (label, category, typed inputs, output handles) and shows up in the canvas drawer and the <a href="extending-flows.html#mcp-ai-exposure">capability catalogue</a> automatically. See <strong><a href="extending-flows.html">Extending flow nodes &amp; helpers</a></strong> for the full walkthrough — that page is the canonical reference for nodes <em>and</em> function helpers.</p>
+      </blockquote>
       <h2 id="registering-a-callable-function">Registering a callable Function</h2>
       <p>The <code>callable</code> Function runtime looks its <code>body</code> up in the <code>FunctionRegistry</code>. Register callables at boot:</p>
       <div class="codeblock"><span class="code-lang">php</span><pre><code class="language-php">use Andre\AiPageBuilder\Flow\FunctionRegistry;
@@ -680,7 +679,7 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
       </ul>
       <p>Keep the <code>data-pb-block=&quot;&lt;key&gt;&quot;</code> convention on any block you want imported as a labelled, editable component and recognized by the validator. See <a href="pages-and-components.html#the-block-vocabulary">Pages → block vocabulary</a>.</p>
       <h2 id="the-aiinvoker-contract">The <code>AiInvoker</code> contract</h2>
-      <p>The flow engine and the AI companion don&#39;t hard-depend on the gateway — they depend on <code>Andre\AiPageBuilder\Flow\Contracts\AiInvoker</code>:</p>
+      <p>The flow engine and the AI app builder don&#39;t hard-depend on the gateway — they depend on <code>Andre\AiPageBuilder\Flow\Contracts\AiInvoker</code>:</p>
       <div class="codeblock"><span class="code-lang">php</span><pre><code class="language-php">interface AiInvoker
       {
           public function available(): bool;
@@ -708,21 +707,17 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
       <h3 id="standard-model-events">Standard model events</h3>
       <p>The package&#39;s own models (<code>Page</code>, <code>Flow</code>, etc.) are ordinary Eloquent models — hook their lifecycle events as usual (e.g. via a subclass per <a href="#swapping-a-model">Swapping a model</a>, or <code>Page::saved(...)</code>). The render cache is already busted on page save/delete by the package.</p>
       <h2 id="the-pagebuilder-facade">The <code>PageBuilder</code> facade</h2>
-      <p>The package registers a <code>PageBuilder</code> facade (auto-aliased via <code>composer.json</code> → <code>extra.laravel.aliases</code>), fronting <code>PageBuilderManager</code>. It currently exposes page rendering:</p>
+      <p>The package registers a <code>PageBuilder</code> facade (auto-aliased via <code>composer.json</code> → <code>extra.laravel.aliases</code>), fronting <code>PageBuilderManager</code>. It exposes page rendering plus the extensibility seam:</p>
       <div class="codeblock"><span class="code-lang">php</span><pre><code class="language-php">use Andre\AiPageBuilder\Facades\PageBuilder;
       
       $html = PageBuilder::render($page);   // fully-rendered (cached) HTML for a published Page
-      PageBuilder::forget($page-&gt;slug);      // bust the render cache for a slug</code></pre></div>
+      PageBuilder::forget($page-&gt;slug);      // bust the render cache for a slug
+      
+      PageBuilder::registerNode($handler);             // add a custom flow node
+      PageBuilder::registerHelper($definition, $fn);   // add a custom function helper
+      PageBuilder::capabilities();                      // the merged node+helper catalogue (MCP/AI tool list)</code></pre></div>
+      <p>See <a href="extending-flows.html">Extending flow nodes &amp; helpers</a> for the full node/helper registration walkthrough and the MCP/AI capability catalogue.</p>
       <p>For data, flows and AI, use the dedicated services directly (<code>RecordQuery</code>, <code>FlowManager</code>, <code>BuildPlanApplier</code>, etc.) as shown throughout these docs.</p>
-      <h2 id="optional-dependencies-real-code-env">Optional dependencies &amp; real-code / env</h2>
-      <p>Some end-user auth features depend on packages that ship as <strong>suggested</strong> (not required) dependencies. Each is <code>class_exists</code>-guarded — when the package is absent the feature is simply hidden, so the core builder never hard-fails:</p>
-      <ul>
-      <li><strong>SSO</strong> needs <code>laravel/socialite</code> (and <code>socialiteproviders/microsoft</code> for the Microsoft / Azure AD driver), plus the per-provider env vars — <code>AI_PAGE_BUILDER_{GOOGLE,MICROSOFT,GITHUB}_ENABLED</code> / <code>_CLIENT_ID</code> / <code>_CLIENT_SECRET</code> / <code>_REDIRECT</code> (see <a href="configuration.html#auth-providers">Configuration → SSO providers</a>). A provider only appears on the login page when enabled, credentialed, <em>and</em> Socialite is installed.</li>
-      <li><strong>TOTP two-factor</strong> (authenticator app) needs <code>pragmarx/google2fa</code>; without it the <code>totp</code> method is silently dropped and only email-OTP 2FA is offered. Email OTP needs no extra package.</li>
-      </ul>
-      <blockquote>
-      <p><strong><code>APP_URL</code> must be your real public HTTPS domain.</strong> Password-reset emails, end-user invites, and SSO OAuth callbacks all build <em>absolute</em> links off <code>APP_URL</code>. If it is left at <code>http://localhost</code> (or any wrong host), reset/invite links and the SSO redirect/callback will point at the wrong place and fail. Set it correctly before enabling reset, invites or SSO.</p>
-      </blockquote>
       <hr>
       <p>That&#39;s the tour. Back to the <a href="index.html">docs index</a>.</p>
     </article>

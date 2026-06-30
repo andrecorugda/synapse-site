@@ -4,12 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Architecture — Synapse Docs</title>
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-    <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
-    <link rel="icon" href="/favicon-16.png" sizes="16x16" type="image/png">
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-    <meta name="theme-color" content="#0a0e1a">
 <meta name="description" content="Synapse — the self-hosted, low-code app builder for Laravel + Filament. Architecture reference.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23818cf8'/%3E%3Cstop offset='1' stop-color='%2322d3ee'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M12 1.6 22.4 12 12 22.4 1.6 12Z' fill='url(%23g)'/%3E%3C/svg%3E">
 <style>
 /* Synapse documentation theme.
    Ground: deep ink #0b1020. Accent: indigo #6366f1 -> cyan #22d3ee, spent
@@ -467,9 +463,8 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
   <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="sidebar">
     <span class="bars" aria-hidden="true"></span>
   </button>
-  <a class="brand" href="/"><svg class="mark-glyph" viewBox="0 0 32 32" aria-hidden="true" width="20" height="20"><defs><linearGradient id="syn-g" x1="0" y1="0" x2="32" y2="32"><stop offset="0" stop-color="#818cf8"/><stop offset="1" stop-color="#22d3ee"/></linearGradient></defs><path d="M16 3l11.3 6.5v13L16 29 4.7 22.5v-13L16 3z" fill="none" stroke="url(#syn-g)" stroke-width="1.6"/><circle cx="16" cy="16" r="3" fill="url(#syn-g)"/><circle cx="16" cy="6.5" r="1.6" fill="#22d3ee"/><circle cx="24.5" cy="11.5" r="1.6" fill="#818cf8"/><circle cx="24.5" cy="20.5" r="1.6" fill="#22d3ee"/><circle cx="7.5" cy="11.5" r="1.6" fill="#818cf8"/><path d="M16 13V6.5M18.6 14.5l5.9-3M18.6 17.5l5.9 3M13.4 14.5l-5.9-3" stroke="url(#syn-g)" stroke-width="1.2" opacity=".7"/></svg><span class="brand-name">Synapse</span></a>
+  <a class="brand" href="index.html"><svg class="mark-glyph" viewBox="0 0 24 24" aria-hidden="true" width="20" height="20"><defs><linearGradient id="syn-g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#818cf8"/><stop offset="1" stop-color="#22d3ee"/></linearGradient></defs><path d="M12 1.6 22.4 12 12 22.4 1.6 12Z" fill="url(#syn-g)"/></svg><span class="brand-name">Synapse</span></a>
   <nav class="topbar-links" aria-label="Project links">
-    <a href="/">Home</a>
     <a href="https://github.com/andrecorugda/synapse-app-builder" target="_blank" rel="noopener noreferrer">GitHub</a>
     <a href="https://packagist.org/packages/andrecorugda/synapse" target="_blank" rel="noopener noreferrer">Packagist</a>
   </nav>
@@ -485,7 +480,7 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
         <li><a class="nav-link is-current" aria-current="page" href="architecture.html">Architecture</a></li>
         <li><a class="nav-link" href="pages-and-components.html">Pages &amp; Components</a></li>
         <li class="nav-group">
-        <details class="nav-group__d" open>
+        <details class="nav-group__d">
           <summary class="nav-group__label">Components</summary>
           <ul class="nav-grouplist">
             <li><a class="nav-link nav-link--overview" href="components.html">Overview</a></li>
@@ -597,6 +592,7 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
         <li><a class="nav-link" href="ai.html">AI</a></li>
         <li><a class="nav-link" href="configuration.html">Configuration</a></li>
         <li><a class="nav-link" href="extending.html">Extending</a></li>
+        <li><a class="nav-link" href="extending-flows.html">Extending Flows</a></li>
       </ul>
     </nav>
   </aside>
@@ -622,7 +618,7 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
       </tr>
       <tr>
       <td><strong>Collections (data)</strong></td>
-      <td><code>page_builder_models</code> + <code>page_builder_fields</code> metadata → generated <code>pb_&lt;key&gt;</code> table (managed) or an existing table it maps to (external)</td>
+      <td><code>page_builder_models</code> + <code>page_builder_fields</code> metadata → generated <code>pb_&lt;key&gt;</code> table</td>
       <td><code>PbModelResource</code> + <code>SchemaSynchronizer</code></td>
       <td>REST API, Flows, Functions, pages</td>
       </tr>
@@ -646,7 +642,7 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
       </tr>
       <tr>
       <td><strong>Auth &amp; permissions</strong></td>
-      <td><code>page_builder_users</code> / <code>_roles</code> / <code>_permissions</code> / <code>_password_resets</code> / <code>_user_invites</code> rows</td>
+      <td><code>page_builder_users</code> / <code>_roles</code> / <code>_permissions</code> rows</td>
       <td><code>PbUser</code>/<code>PbRole</code> resources</td>
       <td><code>pb</code> guard + <code>AccessControl</code></td>
       </tr>
@@ -661,16 +657,11 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
       <p>All registered in <code>AiPageBuilderServiceProvider</code>:</p>
       <ul>
       <li><strong><code>PageRenderer</code></strong> — assembles and caches the final HTML for a published page.</li>
-      <li><strong><code>SchemaSynchronizer</code></strong> (<code>Services\Data</code>) — turns a <code>PbModel</code> + its fields into a real <code>pb_&lt;key&gt;</code> table; alters it as fields change. It manages <strong>managed</strong> collections only — an <strong>external</strong> collection maps onto an existing table and is never created, altered or dropped.</li>
+      <li><strong><code>SchemaSynchronizer</code></strong> (<code>Services\Data</code>) — turns a <code>PbModel</code> + its fields into a real <code>pb_&lt;key&gt;</code> table; alters it as fields change.</li>
       <li><strong><code>RecordQuery</code></strong> (<code>Services\Data</code>) — the single CRUD + query gateway for collection records (used by the API, flows, functions, the AI applier and Filament alike).</li>
       <li><strong><code>VariableStore</code></strong> (<code>Services\Data</code>) — read/write persistent States.</li>
       <li><strong><code>Settings</code></strong> — key/value builder settings (home page, SMTP), with encrypted values for secrets.</li>
       <li><strong><code>AccessControl</code></strong> — the opt-in permission engine for the built app&#39;s end-users.</li>
-      <li><strong><code>Auth\AuthSettings</code></strong> — the resolved end-user auth policy (admin&#39;s <code>auth.*</code> settings over config defaults); the one source of truth read by the auth controllers, route gates and login view.</li>
-      <li><strong><code>Auth\SocialUserResolver</code></strong> — enforces SSO policy server-side (domain/org allow-lists) and maps a provider identity to a local <code>PbUser</code>.</li>
-      <li><strong><code>Auth\TwoFactorService</code></strong> — TOTP + email one-time codes + single-use recovery codes for the <code>pb</code> guard (enrolment, login challenge, admin reset).</li>
-      <li><strong><code>Auth\InviteService</code></strong> — creates, emails and redeems end-user invitations; tokens stored hashed, plaintext only in the emailed link.</li>
-      <li><strong><code>CredentialStore</code></strong> — resolves a stored credential by key into the HTTP headers that authenticate an outgoing flow request, so secrets are referenced by key, not inlined.</li>
       <li><strong><code>MediaLibrary</code></strong> — uploads + GrapesJS asset list.</li>
       <li><strong><code>PageBuilderMailer</code></strong> — an isolated SMTP transport (never the host mailer).</li>
       <li><strong><code>FlowRunner</code> / <code>FlowManager</code> / <code>FlowDispatcher</code> / <code>NodeRegistry</code></strong> — the automation engine.</li>
@@ -747,31 +738,6 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
       <td>Login / logout / me</td>
       <td><code>GET|POST /login</code>, <code>POST /pb-logout</code>, <code>GET /pb-auth/me</code></td>
       <td><code>AuthController</code></td>
-      </tr>
-      <tr>
-      <td>Forgot / reset password</td>
-      <td><code>GET|POST /login/forgot</code>, <code>GET|POST /login/reset</code></td>
-      <td><code>PasswordResetController</code></td>
-      </tr>
-      <tr>
-      <td>Self-registration</td>
-      <td><code>GET|POST /login/register</code></td>
-      <td><code>RegistrationController</code></td>
-      </tr>
-      <tr>
-      <td>SSO redirect / callback</td>
-      <td><code>GET /login/sso/{provider}</code>, <code>GET /login/sso/{provider}/callback</code></td>
-      <td><code>SocialAuthController</code></td>
-      </tr>
-      <tr>
-      <td>Two-factor (login challenge + setup)</td>
-      <td><code>GET|POST /login/two-factor</code>, <code>GET|POST /login/two-factor/setup</code></td>
-      <td><code>TwoFactorController</code></td>
-      </tr>
-      <tr>
-      <td>Accept invitation</td>
-      <td><code>GET|POST /login/invite/{token}</code></td>
-      <td><code>InviteController</code></td>
       </tr>
       <tr>
       <td>Data REST API</td>

@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Checkbox — Synapse Docs</title>
-<meta name="description" content="Synapse — the self-hosted, low-code app builder for Laravel + Filament. Checkbox reference.">
+<title>Extending Flows — Synapse Docs</title>
+<meta name="description" content="Synapse — the self-hosted, low-code app builder for Laravel + Filament. Extending Flows reference.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23818cf8'/%3E%3Cstop offset='1' stop-color='%2322d3ee'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M12 1.6 22.4 12 12 22.4 1.6 12Z' fill='url(%23g)'/%3E%3C/svg%3E">
 <style>
 /* Synapse documentation theme.
@@ -480,7 +480,7 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
         <li><a class="nav-link" href="architecture.html">Architecture</a></li>
         <li><a class="nav-link" href="pages-and-components.html">Pages &amp; Components</a></li>
         <li class="nav-group">
-        <details class="nav-group__d" open>
+        <details class="nav-group__d">
           <summary class="nav-group__label">Components</summary>
           <ul class="nav-grouplist">
             <li><a class="nav-link nav-link--overview" href="components.html">Overview</a></li>
@@ -553,14 +553,14 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
             </details>
           </li>
           <li>
-            <details class="nav-cat" open>
+            <details class="nav-cat">
               <summary class="nav-cat__label">Forms <span class="nav-cat__count">11</span></summary>
               <ul class="nav-sublist">
               <li><a class="nav-sublink" href="component-text_input.html">Text input</a></li>
               <li><a class="nav-sublink" href="component-email_input.html">Email input</a></li>
               <li><a class="nav-sublink" href="component-textarea.html">Textarea</a></li>
               <li><a class="nav-sublink" href="component-select.html">Select</a></li>
-              <li><a class="nav-sublink is-current" aria-current="page" href="component-checkbox.html">Checkbox</a></li>
+              <li><a class="nav-sublink" href="component-checkbox.html">Checkbox</a></li>
               <li><a class="nav-sublink" href="component-radio_group.html">Radio group</a></li>
               <li><a class="nav-sublink" href="component-submit_button.html">Submit button</a></li>
               <li><a class="nav-sublink" href="component-form.html">Form</a></li>
@@ -592,52 +592,169 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
         <li><a class="nav-link" href="ai.html">AI</a></li>
         <li><a class="nav-link" href="configuration.html">Configuration</a></li>
         <li><a class="nav-link" href="extending.html">Extending</a></li>
-        <li><a class="nav-link" href="extending-flows.html">Extending Flows</a></li>
+        <li><a class="nav-link is-current" aria-current="page" href="extending-flows.html">Extending Flows</a></li>
       </ul>
     </nav>
   </aside>
   <main class="content" id="content">
     <article class="doc">
-      <p class="crumb"><a href="components.html">Components</a> <span aria-hidden="true">/</span> Forms</p>
-      <h1 id="checkbox">Checkbox</h1>
-      <p class="badges"><span class="badge badge--cat">Forms</span> <code class="badge badge--key">checkbox</code></p>
-      <p class="lead">A single labelled checkbox.</p>
-
-      <h2 id="markup">Markup</h2>
-      <p>Drops in as <code>data-pb-block="checkbox"</code>.</p>
-      <div class="codeblock"><span class="code-lang">html</span><pre><code class="language-html">&lt;label data-pb-block=&quot;checkbox&quot; class=&quot;pb-checkbox&quot; style=&quot;display:flex;align-items:center;gap:0.6rem;max-width:24rem;font-family:inherit;color:#0f172a;font-size:0.9375rem;cursor:pointer;&quot;&gt;
-  &lt;input type=&quot;checkbox&quot; name=&quot;agree&quot; value=&quot;yes&quot; class=&quot;pb-checkbox__control&quot; style=&quot;width:1.1rem;height:1.1rem;outline-offset:2px;cursor:pointer;&quot;&gt;
-  &lt;span class=&quot;pb-checkbox__label&quot;&gt;I agree to the terms&lt;/span&gt;
-&lt;/label&gt;</code></pre></div>
-
-      <h2 id="settings">Settings</h2>
-      <p>Everything a block can be configured to do:</p>
-      <dl class="settings">
-        <div class="setting">
-          <dt class="setting__name">Bind to State</dt>
-          <dd class="setting__body">Drive content reactively from a <a href="functions-and-states.html">State</a> with declarative Alpine — <code>x-text</code>, <code>x-show</code> or <code>x-model</code> over <code>$store.app.&lt;stateKey&gt;</code>.</dd>
-        </div>
-        <div class="setting">
-          <dt class="setting__name">On event → run a Flow</dt>
-          <dd class="setting__body">Wire an interaction to a <a href="flows.html">Flow</a>: set <code>data-pb-flow="&lt;slug&gt;"</code> and <code>data-pb-flow-event="click|submit|hover|change|…"</code>. The flow's returned actions update the page.</dd>
-        </div>
-        <div class="setting">
-          <dt class="setting__name">Link to a page</dt>
-          <dd class="setting__body">Navigate to another published page on click with <code>data-pb-page="&lt;slug&gt;"</code>.</dd>
-        </div>
-        <div class="setting">
-          <dt class="setting__name">Styles & classes</dt>
-          <dd class="setting__body">Edit spacing, colour and layout visually in the GrapesJS editor. The wrapper carries <code>data-pb-block="checkbox"</code> so it imports as a labelled, editable component.</dd>
-        </div>
-        <div class="setting">
-          <dt class="setting__name">Field name</dt>
-          <dd class="setting__body">The control's <code>name</code> maps to a <a href="collections-and-data.html">collection</a> field key — the runtime collects it on submit of the surrounding <a href="component-form.html">Form</a>.</dd>
-        </div>
-        <div class="setting">
-          <dt class="setting__name">Validation</dt>
-          <dd class="setting__body">Mark it <code>required</code>; the collection field's type and options (e.g. <code>email</code>, <code>select</code> choices) drive server-side validation.</dd>
-        </div>
-      </dl>
+      <h1 id="extending-flow-nodes-helpers">Extending flow nodes &amp; helpers</h1>
+      <p><a href="index.html">← Docs index</a> · see also <a href="extending.html">Extending</a>, <a href="flows.html">Flows</a>, <a href="functions-and-states.html">Functions</a></p>
+      <p>The flow engine is open. A host app or third-party package can add its own <strong>flow nodes</strong> (steps on the canvas) and <strong>function helpers</strong> (callables in the expression sandbox) without forking Synapse. Anything you register shows up automatically in:</p>
+      <ul>
+      <li>the builder UI — nodes in the canvas drawer, helpers in the function-editor dropdown;</li>
+      <li>the validator and the AI app builder (a registered node <code>type</code> is a valid node);</li>
+      <li>the <strong>capability catalogue</strong> — <code>PageBuilder::capabilities()</code> and the <code>ai-page-builder:capabilities</code> command — which is the MCP/AI tool listing.</li>
+      </ul>
+      <p>No core change is required.</p>
+      <h2 id="the-registration-seam">The registration seam</h2>
+      <p>Two facade methods, both meant to be called from a service provider&#39;s <code>boot()</code>:</p>
+      <div class="codeblock"><span class="code-lang">php</span><pre><code class="language-php">use Andre\AiPageBuilder\Facades\PageBuilder;
+      
+      PageBuilder::registerNode($handler);             // a FlowNodeHandler instance
+      PageBuilder::registerHelper($definition, $fn);   // a CapabilityDefinition + callable
+      PageBuilder::capabilities();                      // read back the merged catalogue</code></pre></div>
+      <p>These resolve to the <code>NodeRegistry</code> / <code>HelperRegistry</code> singletons, so register at boot time (before a flow runs or the drawer renders).</p>
+      <h2 id="a-write-a-custom-node">(a) Write a custom node</h2>
+      <p>A node type is a class implementing <code>FlowNodeHandler</code>. Implement <code>ProvidesNodeDefinition</code> too so it carries its own drawer/MCP metadata (label, category, description, usage, typed inputs, output handles). A handler <strong>without</strong> a definition still works — the registry synthesizes a minimal entry so it stays discoverable — but a definition is what makes it first-class.</p>
+      <div class="codeblock"><span class="code-lang">php</span><pre><code class="language-php">namespace App\Flow;
+      
+      use Andre\AiPageBuilder\Capabilities\CapabilityCategory;
+      use Andre\AiPageBuilder\Capabilities\CapabilityDefinition;
+      use Andre\AiPageBuilder\Capabilities\CapabilityInput;
+      use Andre\AiPageBuilder\Flow\Contracts\FlowNodeHandler;
+      use Andre\AiPageBuilder\Flow\Contracts\ProvidesNodeDefinition;
+      use Andre\AiPageBuilder\Flow\FlowContext;
+      use Illuminate\Support\Str;
+      
+      class SlugifyNode implements FlowNodeHandler, ProvidesNodeDefinition
+      {
+          /** The node's `type` in a flow definition. */
+          public function type(): string
+          {
+              return 'slugify';
+          }
+      
+          /**
+           * @param  array&lt;string,mixed&gt;  $node  the node def: { type, config, next }
+           * @return array&lt;int,string&gt;           next node ids
+           */
+          public function run(array $node, FlowContext $context): array
+          {
+              $config = (array) ($node['config'] ?? []);
+      
+              // Interpolate {{ ... }} placeholders in the configured text.
+              $text = (string) $context-&gt;interpolateDeep((string) ($config['text'] ?? ''));
+              $output = (string) ($config['output'] ?? 'slug');
+      
+              // Do the work, then expose the result to downstream nodes.
+              $context-&gt;set($output, Str::slug($text));
+      
+              // Hand control to whatever this node connects to.
+              return (array) ($node['next'] ?? []);
+          }
+      
+          public function definition(): CapabilityDefinition
+          {
+              return new CapabilityDefinition(
+                  key: $this-&gt;type(),
+                  label: 'Slugify',
+                  category: CapabilityCategory::Util,
+                  description: 'Turns a string into a URL-safe slug and stores it in a context variable.',
+                  usage: 'text "{{ input.title }}", output "slug" → exposes {{ vars.slug }} downstream.',
+                  icon: 'link',
+                  inputs: [
+                      new CapabilityInput('text', 'Text', 'expression', required: true, help: 'The string to slugify (interpolated).'),
+                      new CapabilityInput('output', 'Context variable', 'string', default: 'slug', help: 'Context var to receive the slug.'),
+                  ],
+                  outputHandles: ['next'],
+              );
+          }
+      }</code></pre></div>
+      <p><code>run()</code> reads <code>config</code> (interpolate strings via <code>$context-&gt;interpolate()</code> / <code>interpolateDeep()</code>), does its work, optionally <code>$context-&gt;set(&#39;&lt;output&gt;&#39;, $value)</code> or <code>$context-&gt;addAction([...])</code>, and returns the next node ids.</p>
+      <h2 id="b-register-the-node-from-a-service-provider">(b) Register the node from a service provider</h2>
+      <div class="codeblock"><span class="code-lang">php</span><pre><code class="language-php">namespace App\Providers;
+      
+      use Andre\AiPageBuilder\Facades\PageBuilder;
+      use App\Flow\SlugifyNode;
+      use Illuminate\Support\ServiceProvider;
+      
+      class FlowExtensionsServiceProvider extends ServiceProvider
+      {
+          public function boot(): void
+          {
+              PageBuilder::registerNode(new SlugifyNode);
+          }
+      }</code></pre></div>
+      <p>If your node has constructor dependencies, resolve it from the container: <code>PageBuilder::registerNode(app(SlugifyNode::class));</code>.</p>
+      <h2 id="c-write-register-a-custom-helper">(c) Write &amp; register a custom helper</h2>
+      <p>A helper is a <code>CapabilityDefinition</code> (kind <code>helper</code>) paired with a callable. The definition&#39;s <code>key</code> is the name the helper is callable by inside the <a href="functions-and-states.html">expression sandbox</a>; the callable receives the helper&#39;s arguments positionally.</p>
+      <div class="codeblock"><span class="code-lang">php</span><pre><code class="language-php">use Andre\AiPageBuilder\Capabilities\CapabilityCategory;
+      use Andre\AiPageBuilder\Capabilities\CapabilityDefinition;
+      use Andre\AiPageBuilder\Capabilities\CapabilityInput;
+      use Andre\AiPageBuilder\Facades\PageBuilder;
+      use Illuminate\Support\Str;
+      
+      PageBuilder::registerHelper(
+          new CapabilityDefinition(
+              key: 'util_slugify',                       // callable as util_slugify(...) in expressions
+              label: 'util.slugify',
+              category: CapabilityCategory::Util,
+              kind: CapabilityDefinition::KIND_HELPER,
+              description: 'Turns a string into a URL-safe slug.',
+              usage: "util_slugify(input.title)",
+              inputs: [
+                  new CapabilityInput('text', 'Text', 'string', required: true),
+              ],
+          ),
+          static fn (string $text): string =&gt; Str::slug($text),
+      );</code></pre></div>
+      <p>Put this call in a service provider&#39;s <code>boot()</code> (same place as node registration). A Function can then use it: <code>util_slugify(input.title)</code>.</p>
+      <p>For a whole group of related helpers, implement <code>Andre\AiPageBuilder\Capabilities\Helpers\HelperProvider</code> and call <code>PageBuilder::registerHelper(...)</code> for each inside its <code>register()</code> method — mirroring the core providers (<code>DbHelpers</code>, <code>UiHelpers</code>, <code>AuthHelpers</code>, <code>UtilHelpers</code>).</p>
+      <h2 id="d-it-shows-up-everywhere-automatically">(d) It shows up everywhere, automatically</h2>
+      <p>Once registered, a node or helper needs no further wiring:</p>
+      <ul>
+      <li><strong>Builder UI</strong> — the node appears in the canvas drawer (grouped by its <code>category</code>), the helper in the function-editor dropdown.</li>
+      <li><strong>Validation &amp; AI</strong> — a registered node <code>type</code> is valid in the BuildPlan validator and described to the AI app builder.</li>
+      <li><strong>Capability catalogue</strong> — it appears in <code>PageBuilder::capabilities()</code> and in the <code>ai-page-builder:capabilities</code> JSON. See <a href="#mcp-ai-exposure">MCP / AI exposure</a>.</li>
+      </ul>
+      <h2 id="mcp-ai-exposure">MCP / AI exposure</h2>
+      <p><code>PageBuilder::capabilities()</code> returns the merged catalogue — every node and helper as an array. The shape is already <strong>MCP-tool-shaped</strong>, so an MCP server / tool layer can map it directly:</p>
+      <div class="table-wrap"><table>
+      <thead>
+      <tr>
+      <th>capability field</th>
+      <th>MCP tool concept</th>
+      </tr>
+      </thead>
+      <tbody><tr>
+      <td><code>label</code></td>
+      <td>tool name</td>
+      </tr>
+      <tr>
+      <td><code>description</code> + <code>usage</code></td>
+      <td>tool description / prose</td>
+      </tr>
+      <tr>
+      <td><code>inputs</code> (<code>key</code>, <code>type</code>, <code>required</code>, <code>help</code>, …)</td>
+      <td>argument schema</td>
+      </tr>
+      <tr>
+      <td><code>kind</code></td>
+      <td><code>node</code> vs <code>helper</code></td>
+      </tr>
+      <tr>
+      <td><code>category</code>, <code>category_label</code></td>
+      <td>grouping</td>
+      </tr>
+      </tbody></table></div>
+      <p>Each entry is the serialized <a href="../src/Capabilities/CapabilityDefinition.php"><code>CapabilityDefinition</code></a> (<code>toArray()</code>): <code>key</code>, <code>label</code>, <code>kind</code>, <code>category</code>, <code>category_label</code>, <code>category_order</code>, <code>description</code>, <code>usage</code>, <code>icon</code>, <code>inputs</code>, <code>output_handles</code>, <code>meta</code>.</p>
+      <p>Dump it as JSON for an AI/MCP consumer:</p>
+      <div class="codeblock"><span class="code-lang">bash</span><pre><code class="language-bash">php artisan ai-page-builder:capabilities          # compact JSON
+      php artisan ai-page-builder:capabilities --pretty # pretty-printed</code></pre></div>
+      <p>Synapse does not ship a full MCP server — this catalogue is the seam. A thin MCP server (or any AI tool registry) reads this array and turns each entry into a tool descriptor; business logic stays in the registered node/helper.</p>
+      <hr>
+      <p>Back to the <a href="index.html">docs index</a>.</p>
     </article>
     <footer class="doc-footer">
       <p>Synapse — App Builder · self-hosted, low-code, inside your Laravel admin.</p>

@@ -4,12 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>File upload — Synapse Docs</title>
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-    <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
-    <link rel="icon" href="/favicon-16.png" sizes="16x16" type="image/png">
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-    <meta name="theme-color" content="#0a0e1a">
 <meta name="description" content="Synapse — the self-hosted, low-code app builder for Laravel + Filament. File upload reference.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23818cf8'/%3E%3Cstop offset='1' stop-color='%2322d3ee'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M12 1.6 22.4 12 12 22.4 1.6 12Z' fill='url(%23g)'/%3E%3C/svg%3E">
 <style>
 /* Synapse documentation theme.
    Ground: deep ink #0b1020. Accent: indigo #6366f1 -> cyan #22d3ee, spent
@@ -467,9 +463,8 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
   <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="sidebar">
     <span class="bars" aria-hidden="true"></span>
   </button>
-  <a class="brand" href="/"><svg class="mark-glyph" viewBox="0 0 32 32" aria-hidden="true" width="20" height="20"><defs><linearGradient id="syn-g" x1="0" y1="0" x2="32" y2="32"><stop offset="0" stop-color="#818cf8"/><stop offset="1" stop-color="#22d3ee"/></linearGradient></defs><path d="M16 3l11.3 6.5v13L16 29 4.7 22.5v-13L16 3z" fill="none" stroke="url(#syn-g)" stroke-width="1.6"/><circle cx="16" cy="16" r="3" fill="url(#syn-g)"/><circle cx="16" cy="6.5" r="1.6" fill="#22d3ee"/><circle cx="24.5" cy="11.5" r="1.6" fill="#818cf8"/><circle cx="24.5" cy="20.5" r="1.6" fill="#22d3ee"/><circle cx="7.5" cy="11.5" r="1.6" fill="#818cf8"/><path d="M16 13V6.5M18.6 14.5l5.9-3M18.6 17.5l5.9 3M13.4 14.5l-5.9-3" stroke="url(#syn-g)" stroke-width="1.2" opacity=".7"/></svg><span class="brand-name">Synapse</span></a>
+  <a class="brand" href="index.html"><svg class="mark-glyph" viewBox="0 0 24 24" aria-hidden="true" width="20" height="20"><defs><linearGradient id="syn-g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#818cf8"/><stop offset="1" stop-color="#22d3ee"/></linearGradient></defs><path d="M12 1.6 22.4 12 12 22.4 1.6 12Z" fill="url(#syn-g)"/></svg><span class="brand-name">Synapse</span></a>
   <nav class="topbar-links" aria-label="Project links">
-    <a href="/">Home</a>
     <a href="https://github.com/andrecorugda/synapse-app-builder" target="_blank" rel="noopener noreferrer">GitHub</a>
     <a href="https://packagist.org/packages/andrecorugda/synapse" target="_blank" rel="noopener noreferrer">Packagist</a>
   </nav>
@@ -597,6 +592,7 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
         <li><a class="nav-link" href="ai.html">AI</a></li>
         <li><a class="nav-link" href="configuration.html">Configuration</a></li>
         <li><a class="nav-link" href="extending.html">Extending</a></li>
+        <li><a class="nav-link" href="extending-flows.html">Extending Flows</a></li>
       </ul>
     </nav>
   </aside>
@@ -632,6 +628,14 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
         <div class="setting">
           <dt class="setting__name">Styles & classes</dt>
           <dd class="setting__body">Edit spacing, colour and layout visually in the GrapesJS editor. The wrapper carries <code>data-pb-block="file_upload"</code> so it imports as a labelled, editable component.</dd>
+        </div>
+        <div class="setting">
+          <dt class="setting__name">Field name</dt>
+          <dd class="setting__body">The control's <code>name</code> maps to a <a href="collections-and-data.html">collection</a> field key — the runtime collects it on submit of the surrounding <a href="component-form.html">Form</a>.</dd>
+        </div>
+        <div class="setting">
+          <dt class="setting__name">Validation</dt>
+          <dd class="setting__body">Mark it <code>required</code>; the collection field's type and options (e.g. <code>email</code>, <code>select</code> choices) drive server-side validation.</dd>
         </div>
       </dl>
     </article>

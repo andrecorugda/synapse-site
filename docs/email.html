@@ -4,12 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Email — Synapse Docs</title>
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-    <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
-    <link rel="icon" href="/favicon-16.png" sizes="16x16" type="image/png">
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-    <meta name="theme-color" content="#0a0e1a">
 <meta name="description" content="Synapse — the self-hosted, low-code app builder for Laravel + Filament. Email reference.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23818cf8'/%3E%3Cstop offset='1' stop-color='%2322d3ee'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M12 1.6 22.4 12 12 22.4 1.6 12Z' fill='url(%23g)'/%3E%3C/svg%3E">
 <style>
 /* Synapse documentation theme.
    Ground: deep ink #0b1020. Accent: indigo #6366f1 -> cyan #22d3ee, spent
@@ -467,9 +463,8 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
   <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="sidebar">
     <span class="bars" aria-hidden="true"></span>
   </button>
-  <a class="brand" href="/"><svg class="mark-glyph" viewBox="0 0 32 32" aria-hidden="true" width="20" height="20"><defs><linearGradient id="syn-g" x1="0" y1="0" x2="32" y2="32"><stop offset="0" stop-color="#818cf8"/><stop offset="1" stop-color="#22d3ee"/></linearGradient></defs><path d="M16 3l11.3 6.5v13L16 29 4.7 22.5v-13L16 3z" fill="none" stroke="url(#syn-g)" stroke-width="1.6"/><circle cx="16" cy="16" r="3" fill="url(#syn-g)"/><circle cx="16" cy="6.5" r="1.6" fill="#22d3ee"/><circle cx="24.5" cy="11.5" r="1.6" fill="#818cf8"/><circle cx="24.5" cy="20.5" r="1.6" fill="#22d3ee"/><circle cx="7.5" cy="11.5" r="1.6" fill="#818cf8"/><path d="M16 13V6.5M18.6 14.5l5.9-3M18.6 17.5l5.9 3M13.4 14.5l-5.9-3" stroke="url(#syn-g)" stroke-width="1.2" opacity=".7"/></svg><span class="brand-name">Synapse</span></a>
+  <a class="brand" href="index.html"><svg class="mark-glyph" viewBox="0 0 24 24" aria-hidden="true" width="20" height="20"><defs><linearGradient id="syn-g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#818cf8"/><stop offset="1" stop-color="#22d3ee"/></linearGradient></defs><path d="M12 1.6 22.4 12 12 22.4 1.6 12Z" fill="url(#syn-g)"/></svg><span class="brand-name">Synapse</span></a>
   <nav class="topbar-links" aria-label="Project links">
-    <a href="/">Home</a>
     <a href="https://github.com/andrecorugda/synapse-app-builder" target="_blank" rel="noopener noreferrer">GitHub</a>
     <a href="https://packagist.org/packages/andrecorugda/synapse" target="_blank" rel="noopener noreferrer">Packagist</a>
   </nav>
@@ -485,7 +480,7 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
         <li><a class="nav-link" href="architecture.html">Architecture</a></li>
         <li><a class="nav-link" href="pages-and-components.html">Pages &amp; Components</a></li>
         <li class="nav-group">
-        <details class="nav-group__d" open>
+        <details class="nav-group__d">
           <summary class="nav-group__label">Components</summary>
           <ul class="nav-grouplist">
             <li><a class="nav-link nav-link--overview" href="components.html">Overview</a></li>
@@ -597,15 +592,16 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
         <li><a class="nav-link" href="ai.html">AI</a></li>
         <li><a class="nav-link" href="configuration.html">Configuration</a></li>
         <li><a class="nav-link" href="extending.html">Extending</a></li>
+        <li><a class="nav-link" href="extending-flows.html">Extending Flows</a></li>
       </ul>
     </nav>
   </aside>
   <main class="content" id="content">
     <article class="doc">
       <h1 id="email">Email</h1>
-      <p>Synapse sends email through its <strong>own isolated SMTP transport</strong> — never the host app&#39;s mailer or global mail config. The transport is configured in the admin <strong>Settings</strong> screen, the body of an email is any page tagged <code>kind=email</code>, and a <a href="flows.html#send_email"><code>send_email</code> flow node</a> fires it (reset, invitation and 2FA emails use the same transport). This keeps a built app&#39;s email fully self-contained and portable across host apps.</p>
+      <p>Synapse sends email through its <strong>own isolated SMTP transport</strong> — never the host app&#39;s mailer or global mail config. The transport is configured in the admin <strong>Settings</strong> screen, the body of an email is any page tagged <code>kind=email</code>, and a <a href="flows.html#send_email"><code>send_email</code> flow node</a> fires it. This keeps a built app&#39;s email fully self-contained and portable across host apps.</p>
       <h2 id="smtp-settings">SMTP settings</h2>
-      <p>Configured on the <strong>Synapse Settings → Email</strong> tab and stored via the <code>Settings</code> service in <code>page_builder_settings</code>. Keys:</p>
+      <p>Configured on the <strong>Settings</strong> admin page (<code>PageBuilderSettings</code>) and stored via the <code>Settings</code> service in <code>page_builder_settings</code>. Keys:</p>
       <div class="table-wrap"><table>
       <thead>
       <tr>
@@ -651,7 +647,7 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
       <li>The password is read back through <code>Settings::getEncrypted(&#39;mail_password&#39;)</code> so it is never held in plaintext at rest.</li>
       </ul>
       <h3 id="send-a-test-email">Send a test email</h3>
-      <p>On the Settings page, the <strong>Send test email</strong> header action (visible once <code>configured()</code>) opens a prompt for an address and calls <code>PageBuilderMailer::sendTest($to)</code> — a one-line &quot;Your Synapse SMTP settings work&quot; message. Use it to confirm the transport before wiring a flow.</p>
+      <p>On the Settings page, the <strong>Send test email</strong> header action (visible once <code>configured()</code>) opens a prompt for an address and calls <code>PageBuilderMailer::sendTest($to)</code> — a one-line &quot;Your Page Builder SMTP settings work&quot; message. Use it to confirm the transport before wiring a flow.</p>
       <h2 id="email-template-pages-kindemail">Email-template pages (<code>kind=email</code>)</h2>
       <p>There&#39;s no separate email-authoring surface — an email body <strong>is</strong> a page with <code>kind = &#39;email&#39;</code>. Build it like any page (you can use the editor), then reference it by slug from a <code>send_email</code> node. The page&#39;s <code>css</code> is inlined as a <code>&lt;style&gt;</code> block ahead of its <code>html</code>.</p>
       <p>Mark a page as an email template by setting <code>kind</code> to <code>email</code> in the Pages form (the <code>emailTemplates()</code> scope lists them). The AI applier also auto-marks any page referenced as a <code>send_email</code> template, even if the plan forgot to tag it.</p>

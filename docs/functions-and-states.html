@@ -4,12 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Functions & States — Synapse Docs</title>
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-    <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
-    <link rel="icon" href="/favicon-16.png" sizes="16x16" type="image/png">
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-    <meta name="theme-color" content="#0a0e1a">
 <meta name="description" content="Synapse — the self-hosted, low-code app builder for Laravel + Filament. Functions & States reference.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23818cf8'/%3E%3Cstop offset='1' stop-color='%2322d3ee'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M12 1.6 22.4 12 12 22.4 1.6 12Z' fill='url(%23g)'/%3E%3C/svg%3E">
 <style>
 /* Synapse documentation theme.
    Ground: deep ink #0b1020. Accent: indigo #6366f1 -> cyan #22d3ee, spent
@@ -467,9 +463,8 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
   <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation" aria-expanded="false" aria-controls="sidebar">
     <span class="bars" aria-hidden="true"></span>
   </button>
-  <a class="brand" href="/"><svg class="mark-glyph" viewBox="0 0 32 32" aria-hidden="true" width="20" height="20"><defs><linearGradient id="syn-g" x1="0" y1="0" x2="32" y2="32"><stop offset="0" stop-color="#818cf8"/><stop offset="1" stop-color="#22d3ee"/></linearGradient></defs><path d="M16 3l11.3 6.5v13L16 29 4.7 22.5v-13L16 3z" fill="none" stroke="url(#syn-g)" stroke-width="1.6"/><circle cx="16" cy="16" r="3" fill="url(#syn-g)"/><circle cx="16" cy="6.5" r="1.6" fill="#22d3ee"/><circle cx="24.5" cy="11.5" r="1.6" fill="#818cf8"/><circle cx="24.5" cy="20.5" r="1.6" fill="#22d3ee"/><circle cx="7.5" cy="11.5" r="1.6" fill="#818cf8"/><path d="M16 13V6.5M18.6 14.5l5.9-3M18.6 17.5l5.9 3M13.4 14.5l-5.9-3" stroke="url(#syn-g)" stroke-width="1.2" opacity=".7"/></svg><span class="brand-name">Synapse</span></a>
+  <a class="brand" href="index.html"><svg class="mark-glyph" viewBox="0 0 24 24" aria-hidden="true" width="20" height="20"><defs><linearGradient id="syn-g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#818cf8"/><stop offset="1" stop-color="#22d3ee"/></linearGradient></defs><path d="M12 1.6 22.4 12 12 22.4 1.6 12Z" fill="url(#syn-g)"/></svg><span class="brand-name">Synapse</span></a>
   <nav class="topbar-links" aria-label="Project links">
-    <a href="/">Home</a>
     <a href="https://github.com/andrecorugda/synapse-app-builder" target="_blank" rel="noopener noreferrer">GitHub</a>
     <a href="https://packagist.org/packages/andrecorugda/synapse" target="_blank" rel="noopener noreferrer">Packagist</a>
   </nav>
@@ -485,7 +480,7 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
         <li><a class="nav-link" href="architecture.html">Architecture</a></li>
         <li><a class="nav-link" href="pages-and-components.html">Pages &amp; Components</a></li>
         <li class="nav-group">
-        <details class="nav-group__d" open>
+        <details class="nav-group__d">
           <summary class="nav-group__label">Components</summary>
           <ul class="nav-grouplist">
             <li><a class="nav-link nav-link--overview" href="components.html">Overview</a></li>
@@ -597,6 +592,7 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
         <li><a class="nav-link" href="ai.html">AI</a></li>
         <li><a class="nav-link" href="configuration.html">Configuration</a></li>
         <li><a class="nav-link" href="extending.html">Extending</a></li>
+        <li><a class="nav-link" href="extending-flows.html">Extending Flows</a></li>
       </ul>
     </nav>
   </aside>
@@ -635,17 +631,20 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
       </tr>
       </tbody></table></div>
       <p>The <code>function</code> node passes interpolated <code>args</code> and writes the return value to <code>vars[output]</code>.</p>
-      <h3 id="expression-runtime"><code>expression</code> runtime</h3>
-      <p>A <a href="https://symfony.com/doc/current/components/expression_language.html" target="_blank" rel="noopener noreferrer">Symfony ExpressionLanguage</a> expression — a safe sandbox (no PHP functions, no eval, no file/DB/network access; pure expressions only). The expression sees these variables:</p>
+      <h3 id="expression-runtime-the-recommended-eval-free-path"><code>expression</code> runtime — the recommended, eval-free path</h3>
+      <p>A <a href="https://symfony.com/doc/current/components/expression_language.html" target="_blank" rel="noopener noreferrer">Symfony ExpressionLanguage</a> expression — a safe sandbox with <strong>no raw PHP and no eval</strong>. Its only callable surface is <code>state()</code>/<code>global()</code> plus the curated <a href="#the-helper-library">helper library</a> (<code>db_*</code>, <code>ui_*</code>, <code>auth_*</code>, <code>util_*</code>). This is the <strong>recommended way to express logic</strong>: a function <em>composes documented, allow-listed helpers</em> rather than executing arbitrary code, so it gets real power (read/write collections, pop toasts, guard business rules) while staying safe. See the <a href="https://symfony.com/doc/current/reference/formats/expression_language.html" target="_blank" rel="noopener noreferrer">syntax reference</a> for operators, literals and indexing.</p>
+      <p>The expression sees these variables:</p>
       <ul>
       <li><code>input</code> — the flow input</li>
       <li><code>vars</code> — accumulated flow vars</li>
       <li><code>args</code> — the node&#39;s <code>args</code></li>
       <li><code>states</code> / <code>globals</code> — the persistent State map</li>
       </ul>
-      <p>Plus two custom helpers: <code>state(&#39;key&#39;)</code> and <code>global(&#39;key&#39;)</code> (alias) read a persistent State. Errors never throw — <code>ExpressionEvaluator</code> logs a warning and returns <code>null</code>.</p>
+      <p>Plus <code>state(&#39;key&#39;)</code> / <code>global(&#39;key&#39;)</code> (alias) to read a persistent State, and every helper in the <a href="#the-helper-library">helper library</a>.</p>
       <div class="codeblock"><span class="code-lang">text</span><pre><code class="language-text">args["price"] * 1.2</code></pre></div>
       <div class="codeblock"><span class="code-lang">text</span><pre><code class="language-text">state('tax_rate') * args["subtotal"]</code></pre></div>
+      <div class="codeblock"><span class="code-lang">text</span><pre><code class="language-text">db_create('orders', {customer_id: auth_id(), total: vars.total, ref: util_uuid()})</code></pre></div>
+      <p><strong>Errors propagate.</strong> When a function runs (the <a href="flows.html#function"><code>function</code> node</a> uses <code>ExpressionEvaluator::evaluateOrThrow</code>), a failing or asserting expression <strong>throws</strong> — it surfaces to the engine so it isn&#39;t silently masked, and a wrapping <a href="flows.html#transaction">Transaction</a> can roll back. (The swallowing <code>evaluate()</code> variant — returns <code>null</code> and logs on error — is still used for config interpolation, not for running functions.) To make a multi-write function atomic, run it inside a <a href="flows.html#transaction"><code>transaction</code> node</a>; to abort it on a business rule, use <a href="#the-helper-library"><code>util_assert</code></a>.</p>
       <h3 id="callable-runtime"><code>callable</code> runtime</h3>
       <p><code>body</code> is a key into the <code>FunctionRegistry</code>. You register a PHP callable at boot (see <a href="extending.html#registering-a-callable-function">Extending</a>):</p>
       <div class="codeblock"><span class="code-lang">php</span><pre><code class="language-php">app(\Andre\AiPageBuilder\Flow\FunctionRegistry::class)
@@ -661,8 +660,153 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
       app(\Andre\AiPageBuilder\Services\Data\VariableStore::class)-&gt;set('cart_total', $total);
       return $total;</code></pre></div>
       <blockquote>
-      <p><strong>Security:</strong> the <code>php</code> runtime runs <strong>arbitrary PHP</strong>. It is gated by <code>flow.allow_php_functions</code> (<code>AI_PAGE_BUILDER_ALLOW_PHP</code>, default <strong>true</strong> in config). This is intentional for a single-tenant, self-hosted builder where the function author <em>is</em> the app owner. <strong>Set it to <code>false</code> if you ever expose the builder to less-trusted authors</strong> — the <code>php</code> option then disappears from the Function form and <code>php</code> functions are refused at run time. Prefer <code>expression</code> or <code>callable</code> for anything you don&#39;t fully control.</p>
+      <p><strong>Security: <code>php</code> is OFF by default.</strong> The <code>php</code> runtime runs <strong>arbitrary PHP</strong>, so it is gated by <code>flow.allow_php_functions</code> (<code>AI_PAGE_BUILDER_ALLOW_PHP</code>, default <strong><code>false</code></strong>). With it off, the <code>php</code> option is hidden from the Function form and any <code>php</code> function is refused at run time (returns <code>null</code>). <strong>The recommended power model is eval-free</strong>: an <a href="#expression-runtime-the-recommended-eval-free-path"><code>expression</code></a> function composing the <a href="#the-helper-library">helper library</a> covers data writes, UI feedback, auth and utilities without arbitrary code. Only opt in to <code>php</code> (<code>AI_PAGE_BUILDER_ALLOW_PHP=true</code>) on a single-tenant, self-hosted install where the function author <em>is</em> the app owner — never when less-trusted authors can edit functions.</p>
       </blockquote>
+      <h2 id="the-helper-library">The helper library</h2>
+      <p>The expression sandbox ships with a curated, <strong>eval-free</strong> set of callables — the helper library — so a Function can read and write data, give UI feedback, read the user, and shape values without raw PHP. They are grouped by category and surface in the function editor&#39;s <strong>ƒ Insert helper…</strong> dropdown (each entry shows its description and usage), and they&#39;re the same callables an MCP/AI layer sees in the <a href="extending-flows.html#mcp-ai-exposure">capability catalogue</a>. Call a helper by its <code>name</code> inside any <code>expression</code> function.</p>
+      <div class="table-wrap"><table>
+      <thead>
+      <tr>
+      <th>Helper</th>
+      <th>Category</th>
+      <th>Description</th>
+      <th>Usage</th>
+      </tr>
+      </thead>
+      <tbody><tr>
+      <td><code>db_create</code></td>
+      <td>Data</td>
+      <td>Create a record in a collection; returns the created row.</td>
+      <td><code>db_create(&#39;orders&#39;, {customer_id: 1, total: 99.5})</code></td>
+      </tr>
+      <tr>
+      <td><code>db_update</code></td>
+      <td>Data</td>
+      <td>Update a record by id; returns the updated row (or null if missing).</td>
+      <td><code>db_update(&#39;orders&#39;, 42, {status: &#39;paid&#39;})</code></td>
+      </tr>
+      <tr>
+      <td><code>db_delete</code></td>
+      <td>Data</td>
+      <td>Delete a record by id; returns true on success.</td>
+      <td><code>db_delete(&#39;cart_items&#39;, 7)</code></td>
+      </tr>
+      <tr>
+      <td><code>db_find</code></td>
+      <td>Data</td>
+      <td>Fetch a single record by id; returns the row or null.</td>
+      <td><code>db_find(&#39;products&#39;, input.product_id)</code></td>
+      </tr>
+      <tr>
+      <td><code>db_list</code></td>
+      <td>Data</td>
+      <td>List records with optional Directus-style params (filter/sort/search/per_page); returns rows.</td>
+      <td><code>db_list(&#39;orders&#39;, {filter: {status: {eq: &#39;open&#39;}}, sort: &#39;-created_at&#39;})</code></td>
+      </tr>
+      <tr>
+      <td><code>db_aggregate</code></td>
+      <td>Data</td>
+      <td>Aggregate a column (sum/count/avg/min/max), optionally grouped; returns <code>{metric, total, rows}</code>.</td>
+      <td><code>db_aggregate(&#39;order_items&#39;, {metric: &#39;sum&#39;, field: &#39;subtotal&#39;, filter: {order_id: {eq: 42}}})</code></td>
+      </tr>
+      <tr>
+      <td><code>ui_notify</code></td>
+      <td>UI &amp; Feedback</td>
+      <td>Show a toast notification.</td>
+      <td><code>ui_notify(&#39;Order placed!&#39;, &#39;success&#39;)</code></td>
+      </tr>
+      <tr>
+      <td><code>ui_alert</code></td>
+      <td>UI &amp; Feedback</td>
+      <td>Show a blocking alert dialog with a title and message.</td>
+      <td><code>ui_alert(&#39;Out of stock&#39;, &#39;This item just sold out.&#39;)</code></td>
+      </tr>
+      <tr>
+      <td><code>ui_modal</code></td>
+      <td>UI &amp; Feedback</td>
+      <td>Open or close a modal by selector; optionally set its inner HTML.</td>
+      <td><code>ui_modal(&#39;open&#39;, &#39;#checkout-modal&#39;)</code></td>
+      </tr>
+      <tr>
+      <td><code>ui_redirect</code></td>
+      <td>UI &amp; Feedback</td>
+      <td>Navigate the browser to a URL.</td>
+      <td><code>ui_redirect(&#39;/p/order-confirmation&#39;)</code></td>
+      </tr>
+      <tr>
+      <td><code>ui_logout</code></td>
+      <td>Auth &amp; Access</td>
+      <td>Sign the current end-user out and redirect to login.</td>
+      <td><code>ui_logout()</code></td>
+      </tr>
+      <tr>
+      <td><code>ui_set_state</code></td>
+      <td>UI &amp; Feedback</td>
+      <td>Push a value into the reactive store (<code>$store.app</code>) so bound components re-render.</td>
+      <td><code>ui_set_state(&#39;cart_total&#39;, vars.total)</code></td>
+      </tr>
+      <tr>
+      <td><code>auth_user</code></td>
+      <td>Auth &amp; Access</td>
+      <td>The signed-in end-user as an array (sensitive columns hidden), or null when a guest.</td>
+      <td><code>auth_user()</code></td>
+      </tr>
+      <tr>
+      <td><code>auth_id</code></td>
+      <td>Auth &amp; Access</td>
+      <td>The signed-in end-user id, or null when a guest.</td>
+      <td><code>auth_id()</code></td>
+      </tr>
+      <tr>
+      <td><code>auth_check</code></td>
+      <td>Auth &amp; Access</td>
+      <td>True when an end-user is signed in.</td>
+      <td><code>auth_check()</code></td>
+      </tr>
+      <tr>
+      <td><code>util_now</code></td>
+      <td>Utilities</td>
+      <td>The current date/time with a PHP date format (default <code>Y-m-d H:i:s</code>).</td>
+      <td><code>util_now(&#39;Y-m-d&#39;)</code></td>
+      </tr>
+      <tr>
+      <td><code>util_uuid</code></td>
+      <td>Utilities</td>
+      <td>A new random UUID v4 string.</td>
+      <td><code>util_uuid()</code></td>
+      </tr>
+      <tr>
+      <td><code>util_number_format</code></td>
+      <td>Utilities</td>
+      <td>Format a number with a fixed number of decimals.</td>
+      <td><code>util_number_format(vars.total, 2)</code></td>
+      </tr>
+      <tr>
+      <td><code>util_json_encode</code></td>
+      <td>Utilities</td>
+      <td>Encode a value to a JSON string.</td>
+      <td><code>util_json_encode(vars.payload)</code></td>
+      </tr>
+      <tr>
+      <td><code>util_json_decode</code></td>
+      <td>Utilities</td>
+      <td>Decode a JSON string to a value.</td>
+      <td><code>util_json_decode(input.body)</code></td>
+      </tr>
+      <tr>
+      <td><code>util_assert</code></td>
+      <td>Utilities</td>
+      <td>Enforce a precondition — if the condition is falsey, <strong>fail the step</strong> with the given message.</td>
+      <td><code>util_assert(db_find(&#39;products&#39;, vars.item.id)[&#39;stock&#39;] &gt;= vars.item.qty, &#39;Insufficient stock&#39;)</code></td>
+      </tr>
+      </tbody></table></div>
+      <p>Notes:</p>
+      <ul>
+      <li><strong><code>db_*</code></strong> route through the same <code>RecordQuery</code> layer the <a href="flows.html#record">Record node</a> and REST API use. They are author-trusted (full data access, like the Record node); the REST API stays the permission-enforced edge. Wrap writing helpers in a <a href="flows.html#transaction">Transaction</a> for all-or-nothing behaviour.</li>
+      <li><strong><code>ui_*</code></strong> queue a browser action onto the running flow (the same channel the <a href="flows.html#result">Result node</a> uses, via <code>FlowRuntime</code>). Outside a flow run they are graceful no-ops.</li>
+      <li><strong><code>util_assert</code></strong> is the business-rule guard: a falsey condition (<code>false</code>/<code>null</code>/<code>0</code>/<code>&#39;&#39;</code>/<code>[]</code>) throws with your message. Because function errors propagate, that aborts the step — and inside a <code>transaction</code> it rolls everything back. It is the linchpin of the eval-free <a href="flows.html#worked-example-atomic-pos-style-checkout-no-eval">atomic checkout</a>.</li>
+      </ul>
+      <p>To add your own helper, see <a href="extending-flows.html#c-write-register-a-custom-helper">Extending flow nodes &amp; helpers</a> — registered helpers appear in the dropdown and the catalogue automatically.</p>
       <h2 id="states">States</h2>
       <p>A State is a persistent, app-wide variable in <code>page_builder_variables</code> (<code>src/Models/Variable.php</code>). The Filament resource is labelled <strong>States</strong>; the model is <code>Variable</code>. Route key <code>key</code>; the <code>VariableStore</code> service is the read/write API.</p>
       <div class="table-wrap"><table>
