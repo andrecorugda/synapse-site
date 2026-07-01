@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Modal — Synapse Docs</title>
-<meta name="description" content="Synapse — the self-hosted, low-code app builder for Laravel + Filament. Modal reference.">
+<title>Extending Components — Synapse Docs</title>
+<meta name="description" content="Synapse — the self-hosted, low-code app builder for Laravel + Filament. Extending Components reference.">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="icon" href="/favicon-16.png" sizes="16x16" type="image/png">
@@ -484,7 +484,7 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
         <li><a class="nav-link" href="architecture.html">Architecture</a></li>
         <li><a class="nav-link" href="pages-and-components.html">Pages &amp; Components</a></li>
         <li class="nav-group">
-        <details class="nav-group__d" open>
+        <details class="nav-group__d">
           <summary class="nav-group__label">Components</summary>
           <ul class="nav-grouplist">
             <li><a class="nav-link nav-link--overview" href="components.html">Overview</a></li>
@@ -535,12 +535,12 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
             </details>
           </li>
           <li>
-            <details class="nav-cat" open>
+            <details class="nav-cat">
               <summary class="nav-cat__label">Components <span class="nav-cat__count">15</span></summary>
               <ul class="nav-sublist">
               <li><a class="nav-sublink" href="component-card.html">Card</a></li>
               <li><a class="nav-sublink" href="component-banner.html">Banner</a></li>
-              <li><a class="nav-sublink is-current" aria-current="page" href="component-modal.html">Modal</a></li>
+              <li><a class="nav-sublink" href="component-modal.html">Modal</a></li>
               <li><a class="nav-sublink" href="component-drawer.html">Drawer</a></li>
               <li><a class="nav-sublink" href="component-tabs.html">Tabs</a></li>
               <li><a class="nav-sublink" href="component-accordion.html">Accordion</a></li>
@@ -596,13 +596,13 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
         <li><a class="nav-link" href="ai.html">AI</a></li>
         <li><a class="nav-link" href="configuration.html">Configuration</a></li>
         <li class="nav-group">
-        <details class="nav-group__d">
+        <details class="nav-group__d" open>
           <summary class="nav-group__label">Extending</summary>
           <ul class="nav-grouplist">
             <li><a class="nav-sublink" href="extending.html">Overview</a></li>
             <li><a class="nav-sublink" href="extending-flows.html">Flows</a></li>
             <li><a class="nav-sublink" href="extending-functions.html">Functions</a></li>
-            <li><a class="nav-sublink" href="extending-components.html">Components</a></li>
+            <li><a class="nav-sublink is-current" aria-current="page" href="extending-components.html">Components</a></li>
           </ul>
         </details>
         </li>
@@ -611,53 +611,127 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
   </aside>
   <main class="content" id="content">
     <article class="doc">
-      <p class="crumb"><a href="components.html">Components</a> <span aria-hidden="true">/</span> Components</p>
-      <h1 id="modal">Modal</h1>
-      <p class="badges"><span class="badge badge--cat">Components</span> <code class="badge badge--key">modal</code></p>
-      <p class="lead">Trigger button with a centered overlay dialog.</p>
-
-      <h2 id="markup">Markup</h2>
-      <p>Drops in as <code>data-pb-block="modal"</code>.</p>
-      <div class="codeblock"><span class="code-lang">html</span><pre><code class="language-html">&lt;div data-pb-block=&quot;modal&quot; class=&quot;pb-modal&quot; x-data=&quot;{ open: false }&quot;&gt;
-  &lt;button type=&quot;button&quot; class=&quot;pb-modal__trigger&quot; @click=&quot;open = true&quot; style=&quot;display:inline-block;padding:0.7rem 1.4rem;border:0;border-radius:0.5rem;background:#4f46e5;color:#fff;font-weight:600;cursor:pointer;&quot;&gt;Open modal&lt;/button&gt;
-  &lt;div class=&quot;pb-modal__overlay&quot; x-show=&quot;open&quot; x-cloak x-transition.opacity @keydown.escape.window=&quot;open = false&quot; @click.self=&quot;open = false&quot; style=&quot;position:fixed;inset:0;display:flex;align-items:center;justify-content:center;padding:1rem;background:rgba(15,23,42,0.55);z-index:1000;&quot;&gt;
-    &lt;div class=&quot;pb-modal__panel&quot; role=&quot;dialog&quot; aria-modal=&quot;true&quot; x-transition style=&quot;width:100%;max-width:28rem;background:#fff;border-radius:0.75rem;box-shadow:0 20px 50px rgba(15,23,42,0.25);overflow:hidden;&quot;&gt;
-      &lt;div class=&quot;pb-modal__body&quot; style=&quot;padding:1.75rem;&quot;&gt;
-        &lt;h3 class=&quot;pb-modal__title&quot; style=&quot;margin:0 0 0.75rem;font-size:1.25rem;color:#0f172a;&quot;&gt;Modal title&lt;/h3&gt;
-        &lt;p class=&quot;pb-modal__text&quot; style=&quot;margin:0;color:#475569;line-height:1.6;&quot;&gt;Put your dialog content here. Press Escape, click the backdrop, or use the buttons to close.&lt;/p&gt;
-      &lt;/div&gt;
-      &lt;div class=&quot;pb-modal__actions&quot; style=&quot;display:flex;justify-content:flex-end;gap:0.75rem;padding:1rem 1.75rem;border-top:1px solid #e2e8f0;background:#f8fafc;&quot;&gt;
-        &lt;button type=&quot;button&quot; class=&quot;pb-modal__close&quot; @click=&quot;open = false&quot; style=&quot;padding:0.55rem 1.1rem;border:1px solid #cbd5e1;border-radius:0.5rem;background:#fff;color:#334155;font-weight:600;cursor:pointer;&quot;&gt;Close&lt;/button&gt;
-        &lt;button type=&quot;button&quot; class=&quot;pb-modal__confirm&quot; @click=&quot;open = false&quot; style=&quot;padding:0.55rem 1.1rem;border:0;border-radius:0.5rem;background:#4f46e5;color:#fff;font-weight:600;cursor:pointer;&quot;&gt;Confirm&lt;/button&gt;
-      &lt;/div&gt;
-    &lt;/div&gt;
-  &lt;/div&gt;
-&lt;/div&gt;</code></pre></div>
-
-      <h2 id="settings">Settings</h2>
-      <p>Interactive behaviour is built in; on top of that every block supports:</p>
-      <dl class="settings">
-        <div class="setting">
-          <dt class="setting__name">Bind to State</dt>
-          <dd class="setting__body">Drive content reactively from a <a href="functions-and-states.html">State</a> with declarative Alpine — <code>x-text</code>, <code>x-show</code> or <code>x-model</code> over <code>$store.app.&lt;stateKey&gt;</code>.</dd>
-        </div>
-        <div class="setting">
-          <dt class="setting__name">On event → run a Flow</dt>
-          <dd class="setting__body">Wire an interaction to a <a href="flows.html">Flow</a>: set <code>data-pb-flow="&lt;slug&gt;"</code> and <code>data-pb-flow-event="click|submit|hover|change|…"</code>. The flow's returned actions update the page.</dd>
-        </div>
-        <div class="setting">
-          <dt class="setting__name">Link to a page</dt>
-          <dd class="setting__body">Navigate to another published page on click with <code>data-pb-page="&lt;slug&gt;"</code>.</dd>
-        </div>
-        <div class="setting">
-          <dt class="setting__name">Styles & classes</dt>
-          <dd class="setting__body">Edit spacing, colour and layout visually in the GrapesJS editor. The wrapper carries <code>data-pb-block="modal"</code> so it imports as a labelled, editable component.</dd>
-        </div>
-        <div class="setting">
-          <dt class="setting__name">Interactive out of the box</dt>
-          <dd class="setting__body">Ships with Alpine state baked in (<code>x-data</code>, <code>@click</code>, <code>x-show</code>, <code>x-transition</code>) — open/close, tabs and toggles work with no wiring. These owner-authored blocks are trusted and keep their executable directives.</dd>
-        </div>
-      </dl>
+      <h1 id="extending-custom-premium-components">Extending: custom &amp; premium components</h1>
+      <p><a href="index.html">← Docs index</a> · see also <a href="extending.html">Extending</a>, <a href="extending-flows.html">Flows</a>, <a href="extending-functions.html">Functions</a></p>
+      <p>The editor&#39;s block palette is open. A host app or third-party package can add its own <strong>components</strong> — draggable GrapesJS blocks — without forking Synapse. Anything you register shows up automatically in:</p>
+      <ul>
+      <li>the builder UI — the block appears in the GrapesJS block manager, grouped by its category;</li>
+      <li>the block vocabulary — <code>BlockVocabulary::all()</code> / <code>find()</code> / <code>toArray()</code> include it;</li>
+      <li>the <strong>capability catalogue</strong> — <code>PageBuilder::capabilities()</code> lists it as <code>kind: &#39;component&#39;</code>.</li>
+      </ul>
+      <p>No core change is required. This is also the seam an <strong>open-core premium component pack</strong> registers through (see <a href="#premium-component-packs">Premium component packs</a>).</p>
+      <h2 id="the-registration-seam">The registration seam</h2>
+      <p>One facade method, meant to be called from a service provider&#39;s <code>boot()</code>:</p>
+      <div class="codeblock"><span class="code-lang">php</span><pre><code class="language-php">use Andre\AiPageBuilder\Facades\PageBuilder;
+      
+      PageBuilder::registerComponent($block);   // a SectionBlock instance</code></pre></div>
+      <p>It resolves to the <a href="../src/Capabilities/ComponentRegistry.php"><code>ComponentRegistry</code></a> singleton, which is seeded with the built-in blocks and holds any you add. Register at boot time (before the editor field or block manager renders). Re-registering an existing <code>key</code> overrides that block in place, keeping its original position in the ordering — so a pack can override a built-in.</p>
+      <p>The public <code>BlockVocabulary</code> accessors (<code>all()</code>, <code>keys()</code>, <code>find()</code>, <code>toArray()</code>) all read <em>through</em> this registry, so a registered component is visible everywhere a consumer reads the vocabulary.</p>
+      <h2 id="a-block-is-a-sectionblock">A block is a <code>SectionBlock</code></h2>
+      <p>A component is a <a href="../src/Blocks/SectionBlock.php"><code>SectionBlock</code></a> value object — the same type the built-ins use:</p>
+      <div class="codeblock"><span class="code-lang">php</span><pre><code class="language-php">new SectionBlock(
+          key:         string,  // stable id; also the data-pb-block="{key}" attribute
+          label:       string,  // shown in the block manager
+          category:    string,  // block-manager group; 'Sections' opts into the AI vocabulary (see below)
+          template:    string,  // the block's HTML
+          description: string,  // optional; surfaced to the AI / capabilities
+          icon:        string,  // optional; block-manager icon key
+      );</code></pre></div>
+      <p>Keep the <code>data-pb-block=&quot;{key}&quot;</code> convention on the wrapping element of any block you want imported as a <strong>labelled, editable component</strong> and recognised by the validator. Primitive markup without it still drops in as free-form GrapesJS content, but won&#39;t be a named component. Use inline styles + stable <code>pb-{key}__*</code> classes (the published page carries no host Tailwind), the same convention the built-ins follow — see <a href="../src/Blocks/BlockVocabulary.php"><code>BlockVocabulary</code></a> for reference blocks.</p>
+      <h2 id="register-a-component-from-a-service-provider">Register a component from a service provider</h2>
+      <div class="codeblock"><span class="code-lang">php</span><pre><code class="language-php">namespace App\Providers;
+      
+      use Andre\AiPageBuilder\Blocks\BlockVocabulary;
+      use Andre\AiPageBuilder\Blocks\SectionBlock;
+      use Andre\AiPageBuilder\Facades\PageBuilder;
+      use Illuminate\Support\ServiceProvider;
+      
+      class ComponentExtensionsServiceProvider extends ServiceProvider
+      {
+          public function boot(): void
+          {
+              PageBuilder::registerComponent(new SectionBlock(
+                  key: 'price_table',
+                  label: 'Price table',
+                  category: BlockVocabulary::SECTION_CATEGORY,   // 'Sections' → joins the AI page vocabulary
+                  template: &lt;&lt;&lt;'HTML'
+                  &lt;section data-pb-block="price_table" class="pb-price-table" style="padding:4rem 1.5rem;"&gt;
+                    &lt;h2 class="pb-price-table__title" style="text-align:center;font-size:2rem;margin:0 0 2.5rem;"&gt;Plans&lt;/h2&gt;
+                    &lt;div class="pb-price-table__grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;max-width:60rem;margin:0 auto;"&gt;
+                      &lt;div class="pb-price-table__plan" style="padding:2rem;border:1px solid #e2e8f0;border-radius:0.75rem;text-align:center;"&gt;
+                        &lt;h3 style="margin:0 0 0.5rem;"&gt;Basic&lt;/h3&gt;
+                        &lt;p style="font-size:2rem;font-weight:700;margin:0;"&gt;$19&lt;span style="font-size:1rem;color:#64748b;"&gt;/mo&lt;/span&gt;&lt;/p&gt;
+                      &lt;/div&gt;
+                      &lt;div class="pb-price-table__plan" style="padding:2rem;border:2px solid #4f46e5;border-radius:0.75rem;text-align:center;"&gt;
+                        &lt;h3 style="margin:0 0 0.5rem;"&gt;Team&lt;/h3&gt;
+                        &lt;p style="font-size:2rem;font-weight:700;margin:0;"&gt;$49&lt;span style="font-size:1rem;color:#64748b;"&gt;/mo&lt;/span&gt;&lt;/p&gt;
+                      &lt;/div&gt;
+                      &lt;div class="pb-price-table__plan" style="padding:2rem;border:1px solid #e2e8f0;border-radius:0.75rem;text-align:center;"&gt;
+                        &lt;h3 style="margin:0 0 0.5rem;"&gt;Scale&lt;/h3&gt;
+                        &lt;p style="font-size:2rem;font-weight:700;margin:0;"&gt;$149&lt;span style="font-size:1rem;color:#64748b;"&gt;/mo&lt;/span&gt;&lt;/p&gt;
+                      &lt;/div&gt;
+                    &lt;/div&gt;
+                  &lt;/section&gt;
+                  HTML,
+                  description: 'Three pricing plans in a responsive grid.',
+                  icon: 'table',
+              ));
+          }
+      }</code></pre></div>
+      <p>If the block&#39;s template is expensive to build, resolve it from a factory of your own — <code>registerComponent()</code> just needs the finished <code>SectionBlock</code>.</p>
+      <h2 id="it-shows-up-everywhere-automatically">It shows up everywhere, automatically</h2>
+      <p>Once registered, a component needs no further wiring:</p>
+      <ul>
+      <li><strong>Builder UI</strong> — the block appears in the GrapesJS block manager, grouped by its <code>category</code>. <code>PageBuilder::components()</code> (and <code>BlockVocabulary::toArray()</code>) return the serialized list the JS block manager consumes.</li>
+      <li><strong>Vocabulary</strong> — <code>BlockVocabulary::all()</code>, <code>find(&#39;price_table&#39;)</code>, and <code>toArray()</code> all include it, because they delegate to the registry.</li>
+      <li><strong>Capability catalogue</strong> — it appears in <code>PageBuilder::capabilities()</code> as an entry with <code>kind: &#39;component&#39;</code> (shape: <code>{key, label, kind, category, description, icon}</code>), alongside the flow nodes and helpers. That single list is what an MCP server / AI tool layer reads.</li>
+      </ul>
+      <h2 id="the-sections-category-nuance-ai-page-vocabulary">The <code>Sections</code>-category nuance (AI page vocabulary)</h2>
+      <p>There are two levels of &quot;shows up&quot;:</p>
+      <ul>
+      <li><strong>Block manager + capabilities</strong> — <em>every</em> registered component appears here, regardless of category. It&#39;s a drag-only block your users can place by hand.</li>
+      <li><strong>AI page-generation vocabulary</strong> — the AI&#39;s constrained section list is <code>BlockVocabulary::keys()</code>, which is scoped to the <strong><code>Sections</code></strong> category (<code>BlockVocabulary::SECTION_CATEGORY</code>). A registered component joins the AI&#39;s page-building vocabulary <strong>only if it declares that category</strong>.</li>
+      </ul>
+      <p>So the category is the switch:</p>
+      <div class="codeblock"><span class="code-lang">php</span><pre><code class="language-php">// AI can compose whole pages with this section:
+      category: BlockVocabulary::SECTION_CATEGORY,   // 'Sections'
+      
+      // Drag-only: available in the palette + capabilities, but the AI won't emit it
+      // as a top-level page section:
+      category: 'Components',   // or 'Forms', 'Data', 'Basic', 'Shapes', or any custom group</code></pre></div>
+      <p>This mirrors the built-ins: the top-level page sections (<code>hero</code>, <code>features</code>, <code>pricing</code>, …) are <code>Sections</code>, while the finer-grained blocks (<code>card</code>, <code>modal</code>, form inputs, data tables) live in other categories and stay drag-only. Give your block the <code>Sections</code> category when it&#39;s a full-width, self-contained page section the AI should be able to lay out; give it another category when it&#39;s a smaller piece meant for manual composition.</p>
+      <h2 id="premium-component-packs">Premium component packs</h2>
+      <p>Because registration is a public seam with <strong>no core change</strong>, a <strong>premium component pack</strong> can ship as a separate, commercially-licensed package that:</p>
+      <ol>
+      <li><code>require</code>s the MIT core (<code>andre/ai-page-builder</code>);</li>
+      <li>registers its blocks from its own service provider&#39;s <code>boot()</code> with <code>PageBuilder::registerComponent(...)</code>;</li>
+      <li>is distributed under its own license and (typically) a private Composer repository / license gate.</li>
+      </ol>
+      <p>The core stays MIT and untouched; the pack&#39;s blocks become first-class — in the palette, the vocabulary, and the capability catalogue — the moment its provider boots. This is the open-core model the <code>ComponentRegistry</code> was built for, the same story as <a href="extending-flows.html"><code>NodeRegistry</code></a> for nodes and <a href="extending-functions.html"><code>HelperRegistry</code></a> for helpers.</p>
+      <p>A pack&#39;s provider is ordinary Laravel:</p>
+      <div class="codeblock"><span class="code-lang">php</span><pre><code class="language-php">namespace Acme\SynapsePremium;
+      
+      use Andre\AiPageBuilder\Facades\PageBuilder;
+      use Illuminate\Support\ServiceProvider;
+      
+      class PremiumComponentsServiceProvider extends ServiceProvider
+      {
+          public function boot(): void
+          {
+              foreach ($this-&gt;blocks() as $block) {
+                  PageBuilder::registerComponent($block);
+              }
+          }
+      
+          /** @return iterable&lt;\Andre\AiPageBuilder\Blocks\SectionBlock&gt; */
+          private function blocks(): iterable
+          {
+              // your premium SectionBlock definitions, optionally behind a license check
+              // …
+          }
+      }</code></pre></div>
+      <hr>
+      <p>Back to the <a href="index.html">docs index</a>.</p>
     </article>
     <footer class="doc-footer">
       <p>Synapse — App Builder · self-hosted, low-code, inside your Laravel admin.</p>

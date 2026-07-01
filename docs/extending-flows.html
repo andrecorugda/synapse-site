@@ -595,30 +595,39 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
         <li><a class="nav-link" href="email.html">Email</a></li>
         <li><a class="nav-link" href="ai.html">AI</a></li>
         <li><a class="nav-link" href="configuration.html">Configuration</a></li>
-        <li><a class="nav-link" href="extending.html">Extending</a></li>
-        <li><a class="nav-link is-current" aria-current="page" href="extending-flows.html">Extending Flows</a></li>
+        <li class="nav-group">
+        <details class="nav-group__d" open>
+          <summary class="nav-group__label">Extending</summary>
+          <ul class="nav-grouplist">
+            <li><a class="nav-sublink" href="extending.html">Overview</a></li>
+            <li><a class="nav-sublink is-current" aria-current="page" href="extending-flows.html">Flows</a></li>
+            <li><a class="nav-sublink" href="extending-functions.html">Functions</a></li>
+            <li><a class="nav-sublink" href="extending-components.html">Components</a></li>
+          </ul>
+        </details>
+        </li>
       </ul>
     </nav>
   </aside>
   <main class="content" id="content">
     <article class="doc">
-      <h1 id="extending-flow-nodes-helpers">Extending flow nodes &amp; helpers</h1>
-      <p><a href="index.html">← Docs index</a> · see also <a href="extending.html">Extending</a>, <a href="flows.html">Flows</a>, <a href="functions-and-states.html">Functions</a></p>
-      <p>The flow engine is open. A host app or third-party package can add its own <strong>flow nodes</strong> (steps on the canvas) and <strong>function helpers</strong> (callables in the expression sandbox) without forking Synapse. Anything you register shows up automatically in:</p>
+      <h1 id="extending-custom-flow-nodes">Extending: custom flow nodes</h1>
+      <p><a href="index.html">← Docs index</a> · see also <a href="extending.html">Extending</a>, <a href="extending-functions.html">Functions</a>, <a href="flows.html">Flows</a></p>
+      <p>The flow engine is open. A host app or third-party package can add its own <strong>flow nodes</strong> — steps on the canvas — without forking Synapse. Anything you register shows up automatically in:</p>
       <ul>
-      <li>the builder UI — nodes in the canvas drawer, helpers in the function-editor dropdown;</li>
-      <li>the validator and the AI app builder (a registered node <code>type</code> is a valid node);</li>
+      <li>the builder UI — the node appears in the canvas drawer, grouped by its category;</li>
+      <li>the validator and the AI app builder — a registered node <code>type</code> is a valid node;</li>
       <li>the <strong>capability catalogue</strong> — <code>PageBuilder::capabilities()</code> and the <code>ai-page-builder:capabilities</code> command — which is the MCP/AI tool listing.</li>
       </ul>
       <p>No core change is required.</p>
+      <p>For adding <strong>function helpers</strong> (callables in the expression sandbox) instead, see <a href="extending-functions.html">Extending function helpers</a>. For adding <strong>components</strong> (draggable editor blocks), see <a href="extending-components.html">Extending components</a>.</p>
       <h2 id="the-registration-seam">The registration seam</h2>
-      <p>Two facade methods, both meant to be called from a service provider&#39;s <code>boot()</code>:</p>
+      <p>One facade method, meant to be called from a service provider&#39;s <code>boot()</code>:</p>
       <div class="codeblock"><span class="code-lang">php</span><pre><code class="language-php">use Andre\AiPageBuilder\Facades\PageBuilder;
       
-      PageBuilder::registerNode($handler);             // a FlowNodeHandler instance
-      PageBuilder::registerHelper($definition, $fn);   // a CapabilityDefinition + callable
-      PageBuilder::capabilities();                      // read back the merged catalogue</code></pre></div>
-      <p>These resolve to the <code>NodeRegistry</code> / <code>HelperRegistry</code> singletons, so register at boot time (before a flow runs or the drawer renders).</p>
+      PageBuilder::registerNode($handler);   // a FlowNodeHandler instance
+      PageBuilder::capabilities();            // read back the merged catalogue</code></pre></div>
+      <p>It resolves to the <code>NodeRegistry</code> singleton, so register at boot time (before a flow runs or the drawer renders).</p>
       <h2 id="a-write-a-custom-node">(a) Write a custom node</h2>
       <p>A node type is a class implementing <code>FlowNodeHandler</code>. Implement <code>ProvidesNodeDefinition</code> too so it carries its own drawer/MCP metadata (label, category, description, usage, typed inputs, output handles). A handler <strong>without</strong> a definition still works — the registry synthesizes a minimal entry so it stays discoverable — but a definition is what makes it first-class.</p>
       <div class="codeblock"><span class="code-lang">php</span><pre><code class="language-php">namespace App\Flow;
@@ -675,7 +684,7 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
               );
           }
       }</code></pre></div>
-      <p><code>run()</code> reads <code>config</code> (interpolate strings via <code>$context-&gt;interpolate()</code> / <code>interpolateDeep()</code>), does its work, optionally <code>$context-&gt;set(&#39;&lt;output&gt;&#39;, $value)</code> or <code>$context-&gt;addAction([...])</code>, and returns the next node ids.</p>
+      <p><code>run()</code> reads <code>config</code> (interpolate strings via <code>$context-&gt;interpolate()</code> / <code>interpolateDeep()</code>), does its work, optionally <code>$context-&gt;set(&#39;&lt;output&gt;&#39;, $value)</code> or <code>$context-&gt;addAction([...])</code>, and returns the next node ids. The <code>outputHandles</code> in the definition are the connection points the canvas draws (<code>[&#39;next&#39;]</code> for a single successor; a branching node might declare <code>[&#39;next_true&#39;, &#39;next_false&#39;]</code>).</p>
       <h2 id="b-register-the-node-from-a-service-provider">(b) Register the node from a service provider</h2>
       <div class="codeblock"><span class="code-lang">php</span><pre><code class="language-php">namespace App\Providers;
       
@@ -691,39 +700,15 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
           }
       }</code></pre></div>
       <p>If your node has constructor dependencies, resolve it from the container: <code>PageBuilder::registerNode(app(SlugifyNode::class));</code>.</p>
-      <h2 id="c-write-register-a-custom-helper">(c) Write &amp; register a custom helper</h2>
-      <p>A helper is a <code>CapabilityDefinition</code> (kind <code>helper</code>) paired with a callable. The definition&#39;s <code>key</code> is the name the helper is callable by inside the <a href="functions-and-states.html">expression sandbox</a>; the callable receives the helper&#39;s arguments positionally.</p>
-      <div class="codeblock"><span class="code-lang">php</span><pre><code class="language-php">use Andre\AiPageBuilder\Capabilities\CapabilityCategory;
-      use Andre\AiPageBuilder\Capabilities\CapabilityDefinition;
-      use Andre\AiPageBuilder\Capabilities\CapabilityInput;
-      use Andre\AiPageBuilder\Facades\PageBuilder;
-      use Illuminate\Support\Str;
-      
-      PageBuilder::registerHelper(
-          new CapabilityDefinition(
-              key: 'util_slugify',                       // callable as util_slugify(...) in expressions
-              label: 'util.slugify',
-              category: CapabilityCategory::Util,
-              kind: CapabilityDefinition::KIND_HELPER,
-              description: 'Turns a string into a URL-safe slug.',
-              usage: "util_slugify(input.title)",
-              inputs: [
-                  new CapabilityInput('text', 'Text', 'string', required: true),
-              ],
-          ),
-          static fn (string $text): string =&gt; Str::slug($text),
-      );</code></pre></div>
-      <p>Put this call in a service provider&#39;s <code>boot()</code> (same place as node registration). A Function can then use it: <code>util_slugify(input.title)</code>.</p>
-      <p>For a whole group of related helpers, implement <code>Andre\AiPageBuilder\Capabilities\Helpers\HelperProvider</code> and call <code>PageBuilder::registerHelper(...)</code> for each inside its <code>register()</code> method — mirroring the core providers (<code>DbHelpers</code>, <code>UiHelpers</code>, <code>AuthHelpers</code>, <code>UtilHelpers</code>).</p>
-      <h2 id="d-it-shows-up-everywhere-automatically">(d) It shows up everywhere, automatically</h2>
-      <p>Once registered, a node or helper needs no further wiring:</p>
+      <h2 id="c-it-shows-up-everywhere-automatically">(c) It shows up everywhere, automatically</h2>
+      <p>Once registered, a node needs no further wiring:</p>
       <ul>
-      <li><strong>Builder UI</strong> — the node appears in the canvas drawer (grouped by its <code>category</code>), the helper in the function-editor dropdown.</li>
+      <li><strong>Builder UI</strong> — the node appears in the canvas drawer, grouped by its <code>category</code>, with its declared inputs and output handles.</li>
       <li><strong>Validation &amp; AI</strong> — a registered node <code>type</code> is valid in the BuildPlan validator and described to the AI app builder.</li>
       <li><strong>Capability catalogue</strong> — it appears in <code>PageBuilder::capabilities()</code> and in the <code>ai-page-builder:capabilities</code> JSON. See <a href="#mcp-ai-exposure">MCP / AI exposure</a>.</li>
       </ul>
       <h2 id="mcp-ai-exposure">MCP / AI exposure</h2>
-      <p><code>PageBuilder::capabilities()</code> returns the merged catalogue — every node and helper as an array. The shape is already <strong>MCP-tool-shaped</strong>, so an MCP server / tool layer can map it directly:</p>
+      <p><code>PageBuilder::capabilities()</code> returns the merged catalogue — every node, helper, and component as an array. Nodes are the serialized <a href="../src/Capabilities/CapabilityDefinition.php"><code>CapabilityDefinition</code></a> (<code>toArray()</code>): <code>key</code>, <code>label</code>, <code>kind</code>, <code>category</code>, <code>category_label</code>, <code>category_order</code>, <code>description</code>, <code>usage</code>, <code>icon</code>, <code>inputs</code>, <code>output_handles</code>, <code>meta</code>. The shape is already <strong>MCP-tool-shaped</strong>, so an MCP server / tool layer can map it directly:</p>
       <div class="table-wrap"><table>
       <thead>
       <tr>
@@ -745,18 +730,17 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
       </tr>
       <tr>
       <td><code>kind</code></td>
-      <td><code>node</code> vs <code>helper</code></td>
+      <td><code>node</code> vs <code>helper</code> vs <code>component</code></td>
       </tr>
       <tr>
       <td><code>category</code>, <code>category_label</code></td>
       <td>grouping</td>
       </tr>
       </tbody></table></div>
-      <p>Each entry is the serialized <a href="../src/Capabilities/CapabilityDefinition.php"><code>CapabilityDefinition</code></a> (<code>toArray()</code>): <code>key</code>, <code>label</code>, <code>kind</code>, <code>category</code>, <code>category_label</code>, <code>category_order</code>, <code>description</code>, <code>usage</code>, <code>icon</code>, <code>inputs</code>, <code>output_handles</code>, <code>meta</code>.</p>
       <p>Dump it as JSON for an AI/MCP consumer:</p>
       <div class="codeblock"><span class="code-lang">bash</span><pre><code class="language-bash">php artisan ai-page-builder:capabilities          # compact JSON
       php artisan ai-page-builder:capabilities --pretty # pretty-printed</code></pre></div>
-      <p>Synapse does not ship a full MCP server — this catalogue is the seam. A thin MCP server (or any AI tool registry) reads this array and turns each entry into a tool descriptor; business logic stays in the registered node/helper.</p>
+      <p>Synapse does not ship a full MCP server — this catalogue is the seam. A thin MCP server (or any AI tool registry) reads this array and turns each entry into a tool descriptor; business logic stays in the registered node.</p>
       <hr>
       <p>Back to the <a href="index.html">docs index</a>.</p>
     </article>

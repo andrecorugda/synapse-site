@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Modal — Synapse Docs</title>
-<meta name="description" content="Synapse — the self-hosted, low-code app builder for Laravel + Filament. Modal reference.">
+<title>Extending Functions — Synapse Docs</title>
+<meta name="description" content="Synapse — the self-hosted, low-code app builder for Laravel + Filament. Extending Functions reference.">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="icon" href="/favicon-16.png" sizes="16x16" type="image/png">
@@ -484,7 +484,7 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
         <li><a class="nav-link" href="architecture.html">Architecture</a></li>
         <li><a class="nav-link" href="pages-and-components.html">Pages &amp; Components</a></li>
         <li class="nav-group">
-        <details class="nav-group__d" open>
+        <details class="nav-group__d">
           <summary class="nav-group__label">Components</summary>
           <ul class="nav-grouplist">
             <li><a class="nav-link nav-link--overview" href="components.html">Overview</a></li>
@@ -535,12 +535,12 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
             </details>
           </li>
           <li>
-            <details class="nav-cat" open>
+            <details class="nav-cat">
               <summary class="nav-cat__label">Components <span class="nav-cat__count">15</span></summary>
               <ul class="nav-sublist">
               <li><a class="nav-sublink" href="component-card.html">Card</a></li>
               <li><a class="nav-sublink" href="component-banner.html">Banner</a></li>
-              <li><a class="nav-sublink is-current" aria-current="page" href="component-modal.html">Modal</a></li>
+              <li><a class="nav-sublink" href="component-modal.html">Modal</a></li>
               <li><a class="nav-sublink" href="component-drawer.html">Drawer</a></li>
               <li><a class="nav-sublink" href="component-tabs.html">Tabs</a></li>
               <li><a class="nav-sublink" href="component-accordion.html">Accordion</a></li>
@@ -596,12 +596,12 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
         <li><a class="nav-link" href="ai.html">AI</a></li>
         <li><a class="nav-link" href="configuration.html">Configuration</a></li>
         <li class="nav-group">
-        <details class="nav-group__d">
+        <details class="nav-group__d" open>
           <summary class="nav-group__label">Extending</summary>
           <ul class="nav-grouplist">
             <li><a class="nav-sublink" href="extending.html">Overview</a></li>
             <li><a class="nav-sublink" href="extending-flows.html">Flows</a></li>
-            <li><a class="nav-sublink" href="extending-functions.html">Functions</a></li>
+            <li><a class="nav-sublink is-current" aria-current="page" href="extending-functions.html">Functions</a></li>
             <li><a class="nav-sublink" href="extending-components.html">Components</a></li>
           </ul>
         </details>
@@ -611,53 +611,101 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
   </aside>
   <main class="content" id="content">
     <article class="doc">
-      <p class="crumb"><a href="components.html">Components</a> <span aria-hidden="true">/</span> Components</p>
-      <h1 id="modal">Modal</h1>
-      <p class="badges"><span class="badge badge--cat">Components</span> <code class="badge badge--key">modal</code></p>
-      <p class="lead">Trigger button with a centered overlay dialog.</p>
-
-      <h2 id="markup">Markup</h2>
-      <p>Drops in as <code>data-pb-block="modal"</code>.</p>
-      <div class="codeblock"><span class="code-lang">html</span><pre><code class="language-html">&lt;div data-pb-block=&quot;modal&quot; class=&quot;pb-modal&quot; x-data=&quot;{ open: false }&quot;&gt;
-  &lt;button type=&quot;button&quot; class=&quot;pb-modal__trigger&quot; @click=&quot;open = true&quot; style=&quot;display:inline-block;padding:0.7rem 1.4rem;border:0;border-radius:0.5rem;background:#4f46e5;color:#fff;font-weight:600;cursor:pointer;&quot;&gt;Open modal&lt;/button&gt;
-  &lt;div class=&quot;pb-modal__overlay&quot; x-show=&quot;open&quot; x-cloak x-transition.opacity @keydown.escape.window=&quot;open = false&quot; @click.self=&quot;open = false&quot; style=&quot;position:fixed;inset:0;display:flex;align-items:center;justify-content:center;padding:1rem;background:rgba(15,23,42,0.55);z-index:1000;&quot;&gt;
-    &lt;div class=&quot;pb-modal__panel&quot; role=&quot;dialog&quot; aria-modal=&quot;true&quot; x-transition style=&quot;width:100%;max-width:28rem;background:#fff;border-radius:0.75rem;box-shadow:0 20px 50px rgba(15,23,42,0.25);overflow:hidden;&quot;&gt;
-      &lt;div class=&quot;pb-modal__body&quot; style=&quot;padding:1.75rem;&quot;&gt;
-        &lt;h3 class=&quot;pb-modal__title&quot; style=&quot;margin:0 0 0.75rem;font-size:1.25rem;color:#0f172a;&quot;&gt;Modal title&lt;/h3&gt;
-        &lt;p class=&quot;pb-modal__text&quot; style=&quot;margin:0;color:#475569;line-height:1.6;&quot;&gt;Put your dialog content here. Press Escape, click the backdrop, or use the buttons to close.&lt;/p&gt;
-      &lt;/div&gt;
-      &lt;div class=&quot;pb-modal__actions&quot; style=&quot;display:flex;justify-content:flex-end;gap:0.75rem;padding:1rem 1.75rem;border-top:1px solid #e2e8f0;background:#f8fafc;&quot;&gt;
-        &lt;button type=&quot;button&quot; class=&quot;pb-modal__close&quot; @click=&quot;open = false&quot; style=&quot;padding:0.55rem 1.1rem;border:1px solid #cbd5e1;border-radius:0.5rem;background:#fff;color:#334155;font-weight:600;cursor:pointer;&quot;&gt;Close&lt;/button&gt;
-        &lt;button type=&quot;button&quot; class=&quot;pb-modal__confirm&quot; @click=&quot;open = false&quot; style=&quot;padding:0.55rem 1.1rem;border:0;border-radius:0.5rem;background:#4f46e5;color:#fff;font-weight:600;cursor:pointer;&quot;&gt;Confirm&lt;/button&gt;
-      &lt;/div&gt;
-    &lt;/div&gt;
-  &lt;/div&gt;
-&lt;/div&gt;</code></pre></div>
-
-      <h2 id="settings">Settings</h2>
-      <p>Interactive behaviour is built in; on top of that every block supports:</p>
-      <dl class="settings">
-        <div class="setting">
-          <dt class="setting__name">Bind to State</dt>
-          <dd class="setting__body">Drive content reactively from a <a href="functions-and-states.html">State</a> with declarative Alpine — <code>x-text</code>, <code>x-show</code> or <code>x-model</code> over <code>$store.app.&lt;stateKey&gt;</code>.</dd>
-        </div>
-        <div class="setting">
-          <dt class="setting__name">On event → run a Flow</dt>
-          <dd class="setting__body">Wire an interaction to a <a href="flows.html">Flow</a>: set <code>data-pb-flow="&lt;slug&gt;"</code> and <code>data-pb-flow-event="click|submit|hover|change|…"</code>. The flow's returned actions update the page.</dd>
-        </div>
-        <div class="setting">
-          <dt class="setting__name">Link to a page</dt>
-          <dd class="setting__body">Navigate to another published page on click with <code>data-pb-page="&lt;slug&gt;"</code>.</dd>
-        </div>
-        <div class="setting">
-          <dt class="setting__name">Styles & classes</dt>
-          <dd class="setting__body">Edit spacing, colour and layout visually in the GrapesJS editor. The wrapper carries <code>data-pb-block="modal"</code> so it imports as a labelled, editable component.</dd>
-        </div>
-        <div class="setting">
-          <dt class="setting__name">Interactive out of the box</dt>
-          <dd class="setting__body">Ships with Alpine state baked in (<code>x-data</code>, <code>@click</code>, <code>x-show</code>, <code>x-transition</code>) — open/close, tabs and toggles work with no wiring. These owner-authored blocks are trusted and keep their executable directives.</dd>
-        </div>
-      </dl>
+      <h1 id="extending-custom-function-helpers">Extending: custom function helpers</h1>
+      <p><a href="index.html">← Docs index</a> · see also <a href="extending.html">Extending</a>, <a href="extending-flows.html">Flows</a>, <a href="functions-and-states.html">Functions</a></p>
+      <p>The expression sandbox is open. A host app or third-party package can add its own <strong>function helpers</strong> — callables usable inside Function bodies and any expression — without forking Synapse. Anything you register shows up automatically in:</p>
+      <ul>
+      <li>the builder UI — the helper appears in the function-editor &quot;Insert helper&quot; dropdown, grouped by its category;</li>
+      <li>the expression sandbox — the helper is callable by its <code>key</code> from any Function body / expression;</li>
+      <li>the <strong>capability catalogue</strong> — <code>PageBuilder::capabilities()</code> and the <code>ai-page-builder:capabilities</code> command list it, which is the MCP/AI tool listing.</li>
+      </ul>
+      <p>No core change is required.</p>
+      <p>For adding whole <strong>flow nodes</strong> (steps on the canvas) instead, see <a href="extending-flows.html">Extending flow nodes</a>.</p>
+      <h2 id="the-registration-seam">The registration seam</h2>
+      <p>One facade method, meant to be called from a service provider&#39;s <code>boot()</code>:</p>
+      <div class="codeblock"><span class="code-lang">php</span><pre><code class="language-php">use Andre\AiPageBuilder\Facades\PageBuilder;
+      
+      PageBuilder::registerHelper($definition, $fn);   // a CapabilityDefinition + callable
+      PageBuilder::capabilities();                      // read back the merged catalogue</code></pre></div>
+      <p>It resolves to the <code>HelperRegistry</code> singleton, so register at boot time (before a flow runs or the function editor renders).</p>
+      <h2 id="write-register-a-custom-helper">Write &amp; register a custom helper</h2>
+      <p>A helper is a <a href="../src/Capabilities/CapabilityDefinition.php"><code>CapabilityDefinition</code></a> of kind <code>helper</code> paired with a callable. The definition&#39;s <code>key</code> is the name the helper is callable by inside the <a href="functions-and-states.html">expression sandbox</a>; the callable receives the helper&#39;s arguments positionally.</p>
+      <div class="codeblock"><span class="code-lang">php</span><pre><code class="language-php">use Andre\AiPageBuilder\Capabilities\CapabilityCategory;
+      use Andre\AiPageBuilder\Capabilities\CapabilityDefinition;
+      use Andre\AiPageBuilder\Capabilities\CapabilityInput;
+      use Andre\AiPageBuilder\Facades\PageBuilder;
+      use Illuminate\Support\Str;
+      
+      PageBuilder::registerHelper(
+          new CapabilityDefinition(
+              key: 'util_slugify',                       // callable as util_slugify(...) in expressions
+              label: 'util.slugify',
+              category: CapabilityCategory::Util,
+              kind: CapabilityDefinition::KIND_HELPER,
+              description: 'Turns a string into a URL-safe slug.',
+              usage: "util_slugify(input.title)",
+              inputs: [
+                  new CapabilityInput('text', 'Text', 'string', required: true),
+              ],
+          ),
+          static fn (string $text): string =&gt; Str::slug($text),
+      );</code></pre></div>
+      <p>Put this call in a service provider&#39;s <code>boot()</code> (the same place as <a href="extending-flows.html">node</a> and <a href="extending-components.html">component</a> registration). A Function can then use it: <code>util_slugify(input.title)</code>.</p>
+      <p>For a whole group of related helpers, implement <code>Andre\AiPageBuilder\Capabilities\Helpers\HelperProvider</code> and call <code>PageBuilder::registerHelper(...)</code> for each inside its <code>register()</code> method — mirroring the core providers (<code>DbHelpers</code>, <code>UiHelpers</code>, <code>AuthHelpers</code>, <code>UtilHelpers</code>).</p>
+      <h2 id="it-shows-up-everywhere-automatically">It shows up everywhere, automatically</h2>
+      <p>Once registered, a helper needs no further wiring:</p>
+      <ul>
+      <li><strong>Builder UI</strong> — the helper appears in the function-editor &quot;Insert helper&quot; dropdown, grouped by its <code>category</code>.</li>
+      <li><strong>Expression sandbox</strong> — it is callable by its <code>key</code> from any Function body or expression.</li>
+      <li><strong>Capability catalogue</strong> — it appears in <code>PageBuilder::capabilities()</code> and in the <code>ai-page-builder:capabilities</code> JSON. See <a href="#mcp-ai-exposure">MCP / AI exposure</a>.</li>
+      </ul>
+      <h2 id="the-callable-functionregistry-path">The callable-<code>FunctionRegistry</code> path</h2>
+      <p>There is a second, lighter path for a Function whose <code>runtime</code> is <code>callable</code>: the runtime looks its <code>body</code> up in the <code>FunctionRegistry</code>. Register callables at boot:</p>
+      <div class="codeblock"><span class="code-lang">php</span><pre><code class="language-php">use Andre\AiPageBuilder\Flow\FunctionRegistry;
+      use Andre\AiPageBuilder\Flow\FlowContext;
+      
+      app(FunctionRegistry::class)-&gt;register(
+          'slugify',
+          fn (array $args, FlowContext $ctx): string =&gt; \Illuminate\Support\Str::slug((string) ($args['text'] ?? '')),
+      );</code></pre></div>
+      <p>Signature: <code>callable(array $args, FlowContext $ctx): mixed</code>. Then create a Function with <code>runtime = callable</code> and <code>body = slugify</code>. See <a href="functions-and-states.html#callable-runtime">Functions → callable runtime</a>.</p>
+      <p>Which to use: register a <strong>helper</strong> (<code>PageBuilder::registerHelper</code>) when you want a named function usable <em>inline in any expression</em> and advertised in the capability catalogue; register a <strong>callable Function</strong> (<code>FunctionRegistry</code>) when you want a whole Function record whose implementation is PHP rather than an expression body.</p>
+      <h2 id="mcp-ai-exposure">MCP / AI exposure</h2>
+      <p><code>PageBuilder::capabilities()</code> returns the merged catalogue — every node, helper, and component as an array. Helpers are the serialized <a href="../src/Capabilities/CapabilityDefinition.php"><code>CapabilityDefinition</code></a> (<code>toArray()</code>): <code>key</code>, <code>label</code>, <code>kind</code>, <code>category</code>, <code>category_label</code>, <code>category_order</code>, <code>description</code>, <code>usage</code>, <code>icon</code>, <code>inputs</code>, <code>output_handles</code>, <code>meta</code>. The shape is already <strong>MCP-tool-shaped</strong>, so an MCP server / tool layer can map it directly:</p>
+      <div class="table-wrap"><table>
+      <thead>
+      <tr>
+      <th>capability field</th>
+      <th>MCP tool concept</th>
+      </tr>
+      </thead>
+      <tbody><tr>
+      <td><code>label</code></td>
+      <td>tool name</td>
+      </tr>
+      <tr>
+      <td><code>description</code> + <code>usage</code></td>
+      <td>tool description / prose</td>
+      </tr>
+      <tr>
+      <td><code>inputs</code> (<code>key</code>, <code>type</code>, <code>required</code>, <code>help</code>, …)</td>
+      <td>argument schema</td>
+      </tr>
+      <tr>
+      <td><code>kind</code></td>
+      <td><code>node</code> vs <code>helper</code> vs <code>component</code></td>
+      </tr>
+      <tr>
+      <td><code>category</code>, <code>category_label</code></td>
+      <td>grouping</td>
+      </tr>
+      </tbody></table></div>
+      <p>Dump it as JSON for an AI/MCP consumer:</p>
+      <div class="codeblock"><span class="code-lang">bash</span><pre><code class="language-bash">php artisan ai-page-builder:capabilities          # compact JSON
+      php artisan ai-page-builder:capabilities --pretty # pretty-printed</code></pre></div>
+      <p>Synapse does not ship a full MCP server — this catalogue is the seam. A thin MCP server (or any AI tool registry) reads this array and turns each entry into a tool descriptor; business logic stays in the registered helper.</p>
+      <hr>
+      <p>Back to the <a href="index.html">docs index</a>.</p>
     </article>
     <footer class="doc-footer">
       <p>Synapse — App Builder · self-hosted, low-code, inside your Laravel admin.</p>

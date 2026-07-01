@@ -595,8 +595,17 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
         <li><a class="nav-link" href="email.html">Email</a></li>
         <li><a class="nav-link" href="ai.html">AI</a></li>
         <li><a class="nav-link" href="configuration.html">Configuration</a></li>
-        <li><a class="nav-link" href="extending.html">Extending</a></li>
-        <li><a class="nav-link" href="extending-flows.html">Extending Flows</a></li>
+        <li class="nav-group">
+        <details class="nav-group__d">
+          <summary class="nav-group__label">Extending</summary>
+          <ul class="nav-grouplist">
+            <li><a class="nav-sublink" href="extending.html">Overview</a></li>
+            <li><a class="nav-sublink" href="extending-flows.html">Flows</a></li>
+            <li><a class="nav-sublink" href="extending-functions.html">Functions</a></li>
+            <li><a class="nav-sublink" href="extending-components.html">Components</a></li>
+          </ul>
+        </details>
+        </li>
       </ul>
     </nav>
   </aside>
@@ -622,8 +631,7 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
       <li><a href="functions-and-states.html">Functions &amp; States</a> — runtimes, the eval-free helper library, the reactive store.</li>
       <li><a href="authentication-and-permissions.html">Authentication &amp; permissions</a> — the <code>pb</code> guard, opt-in permission model, row-level rules.</li>
       <li><a href="email.html">Email</a> — the isolated SMTP transport and templates.</li>
-      <li><a href="extending.html">Extending</a> — swap models, register custom flow nodes/blocks, the <code>AiInvoker</code> contract, observers.</li>
-      <li><a href="extending-flows.html">Extending flow nodes &amp; helpers</a> — the <code>PageBuilder::registerNode/registerHelper</code> seam, the capability catalogue, MCP/AI exposure.</li>
+      <li><a href="extending.html">Extending</a> — the overview: the capability-registry model, the <code>PageBuilder</code> facade, swapping models, the <code>AiInvoker</code> contract, observers. Sub-pages: <a href="extending-flows.html">Flows</a>, <a href="extending-functions.html">Functions</a>, <a href="extending-components.html">Components</a>.</li>
       </ol>
       <h2 id="all-pages">All pages</h2>
       <div class="table-wrap"><table>
@@ -675,11 +683,19 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
       </tr>
       <tr>
       <td><a href="extending.html">extending.md</a></td>
-      <td>Swapping models, custom flow nodes, custom blocks, the <code>AiInvoker</code> contract, events/observers.</td>
+      <td>Extending <strong>overview</strong>: the capability-registry model, the <code>PageBuilder</code> facade, swapping models, the <code>AiInvoker</code> contract, events/observers.</td>
       </tr>
       <tr>
       <td><a href="extending-flows.html">extending-flows.md</a></td>
-      <td>The public <code>PageBuilder::registerNode/registerHelper</code> API, the merged capability catalogue, and MCP/AI tool exposure (<code>ai-page-builder:capabilities</code>).</td>
+      <td><strong>Flows</strong> — register a custom flow node (<code>PageBuilder::registerNode</code>), output handles, the capability catalogue, MCP/AI exposure (<code>ai-page-builder:capabilities</code>).</td>
+      </tr>
+      <tr>
+      <td><a href="extending-functions.html">extending-functions.md</a></td>
+      <td><strong>Functions</strong> — register a custom helper (<code>PageBuilder::registerHelper</code>), the expression sandbox + &quot;Insert helper&quot; dropdown, the callable-<code>FunctionRegistry</code> path, MCP/AI exposure.</td>
+      </tr>
+      <tr>
+      <td><a href="extending-components.html">extending-components.md</a></td>
+      <td><strong>Components</strong> — register a custom/premium draggable block (<code>PageBuilder::registerComponent</code>), the <code>Sections</code>-category AI-vocabulary nuance, open-core premium component packs.</td>
       </tr>
       </tbody></table></div>
       <h2 id="conventions-used-in-these-docs">Conventions used in these docs</h2>
