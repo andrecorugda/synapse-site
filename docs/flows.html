@@ -724,8 +724,10 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
       <blockquote>
       <p><strong>Adding nodes on the canvas.</strong> The toolbar&#39;s <strong>+ Add node</strong> button opens a left-anchored, searchable drawer that lists every registered node grouped by category (Flow Control, Data, UI &amp; Feedback, Communication, …) — including any <a href="extending-flows.html">custom nodes you register</a>. It replaces the old fixed palette and stays current as nodes are added, because it is built from the live <a href="extending-flows.html#mcp-ai-exposure">capability catalogue</a>.</p>
       </blockquote>
+      <h3 id="single-entry-point">Single entry point</h3>
+      <p>Every flow begins with <strong>exactly one Trigger node</strong>, badged <strong>START</strong> in the editor. Attempting to add a second Trigger is blocked. Branch to different outcomes from there with Condition nodes.</p>
       <h3 id="trigger"><code>trigger</code></h3>
-      <p>Entry node. No config — hands off to <code>next</code>. Every flow&#39;s <code>start</code> should be a trigger.</p>
+      <p>Entry node. No config — hands off to <code>next</code>. Every flow&#39;s <code>start</code> must be a trigger (the editor enforces one per flow).</p>
       <h3 id="record"><code>record</code></h3>
       <p>Read/write a collection through <code>RecordQuery</code>.</p>
       <div class="codeblock"><span class="code-lang">json</span><pre><code class="language-json">{ "type": "record", "config": {
@@ -813,6 +815,18 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
         "output": "result"
       } }</code></pre></div>
       <p>Writes the return value to <code>vars[output]</code> (default <code>result</code>).</p>
+      <h3 id="call_flow"><code>call_flow</code></h3>
+      <p>Run another saved flow&#39;s definition as a sub-step, sharing the caller&#39;s context (<code>vars</code>/<code>input</code>), so outputs flow between steps.</p>
+      <div class="codeblock"><span class="code-lang">json</span><pre><code class="language-json">{ "type": "call_flow", "config": {
+        "flow": "calculate-discount",
+        "output": "discount_result"
+      } }</code></pre></div>
+      <ul>
+      <li><code>flow</code> — the slug of the target flow to run. Its <code>definition</code> is executed as a nested sub-graph against the <strong>same</strong> <code>FlowContext</code>, so any vars the callee writes are visible to the caller&#39;s subsequent nodes.</li>
+      <li><code>output</code> — optional; when set, the callee&#39;s final <code>result</code> actions (or return value) are stored here.</li>
+      </ul>
+      <p><strong>Cycle guard:</strong> a flow cannot call itself directly or transitively (A→B→A is blocked). The call also counts against the shared <code>flow.max_steps</code> budget, so runaway call chains are bounded the same way as runaway loops.</p>
+      <p>This is the canonical way to factor a multi-step process used by more than one flow into a reusable unit — see <a href="functions-and-states.html#compose-dont-repeat">Functions &amp; States → Compose, don&#39;t repeat</a>.</p>
       <h3 id="send_email"><code>send_email</code></h3>
       <p>Send an email via the <a href="email.html">isolated mailer</a>.</p>
       <div class="codeblock"><span class="code-lang">json</span><pre><code class="language-json">{ "type": "send_email", "config": {
@@ -825,6 +839,66 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
       <p><code>to</code> accepts a string (comma-separated) or array. <code>template</code> is the slug of a <code>kind=email</code> page whose HTML is interpolated against the flow context (mustache, not Alpine); use inline <code>body</code> instead if no template. Writes <code>{ &quot;sent&quot;: true }</code> or <code>{ &quot;sent&quot;: false, &quot;error&quot;: &quot;...&quot; }</code> to <code>vars[output]</code> (default <code>email</code>).</p>
       <h3 id="result"><code>result</code></h3>
       <p>Append actions returned to the page runtime. <strong>All action fields are interpolated.</strong></p>
+      <p>The <code>result</code> node uses a <strong>low-code actions builder</strong> in the editor: a type dropdown selects the action type and the relevant fields for that type appear automatically. Supported types:</p>
+      <div class="table-wrap"><table>
+      <thead>
+      <tr>
+      <th>Type</th>
+      <th>Fields</th>
+      <th>Effect</th>
+      </tr>
+      </thead>
+      <tbody><tr>
+      <td><code>notify</code></td>
+      <td><code>message</code>, <code>level</code> (success/error/warning/info)</td>
+      <td>Toast notification</td>
+      </tr>
+      <tr>
+      <td><code>alert</code></td>
+      <td><code>title</code>, <code>message</code></td>
+      <td>Blocking alert dialog</td>
+      </tr>
+      <tr>
+      <td><code>modal</code></td>
+      <td><code>action</code> (open/close), <code>target</code> (CSS selector), <code>html</code> (optional)</td>
+      <td>Open or close a modal</td>
+      </tr>
+      <tr>
+      <td><code>redirect</code></td>
+      <td><code>url</code></td>
+      <td>Navigate the browser</td>
+      </tr>
+      <tr>
+      <td><code>setState</code></td>
+      <td><code>key</code>, <code>value</code></td>
+      <td>Update a reactive State in <code>$store.app</code></td>
+      </tr>
+      <tr>
+      <td><code>setHtml</code></td>
+      <td><code>target</code> (CSS selector), <code>html</code></td>
+      <td>Replace inner HTML of an element</td>
+      </tr>
+      <tr>
+      <td><code>setText</code></td>
+      <td><code>target</code> (CSS selector), <code>text</code></td>
+      <td>Replace text content of an element</td>
+      </tr>
+      <tr>
+      <td><code>addClass</code></td>
+      <td><code>target</code> (CSS selector), <code>class</code></td>
+      <td>Add a CSS class</td>
+      </tr>
+      <tr>
+      <td><code>removeClass</code></td>
+      <td><code>target</code> (CSS selector), <code>class</code></td>
+      <td>Remove a CSS class</td>
+      </tr>
+      <tr>
+      <td><code>logout</code></td>
+      <td>—</td>
+      <td>Sign the end-user out</td>
+      </tr>
+      </tbody></table></div>
       <div class="codeblock"><span class="code-lang">json</span><pre><code class="language-json">{ "type": "result", "config": { "actions": [
         { "type": "notify",  "message": "Saved!", "level": "success" },
         { "type": "setHtml", "target": "#out", "html": "{{ vars.ai }}" },
@@ -833,7 +907,63 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
         { "type": "addClass", "target": "#box", "class": "done" },
         { "type": "removeClass", "target": "#box", "class": "loading" }
       ] } }</code></pre></div>
-      <p>The <code>result</code> node accepts exactly these action types: <code>setHtml</code>, <code>setText</code>, <code>notify</code>, <code>redirect</code>, <code>addClass</code>, <code>removeClass</code>. (The page runtime <em>also</em> understands <code>setState</code>/<code>setStates</code> when present in an actions array, but the <code>result</code> node only emits the six above.)</p>
+      <p>(The page runtime <em>also</em> understands <code>setState</code>/<code>setStates</code> when present in an actions array from any node.)</p>
+      <h2 id="canvas-tools">Canvas tools</h2>
+      <h3 id="auto-layout">Auto-layout</h3>
+      <p>When the AI generates or updates a flow, or when you trigger <strong>Auto-layout</strong> from the toolbar, the canvas arranges all nodes so that no two overlap and edges are easy to follow. This is deterministic — calling it twice produces the same result.</p>
+      <h3 id="zoom-controls">Zoom controls</h3>
+      <p>The editor toolbar provides four zoom controls:</p>
+      <div class="table-wrap"><table>
+      <thead>
+      <tr>
+      <th>Button</th>
+      <th>Action</th>
+      </tr>
+      </thead>
+      <tbody><tr>
+      <td>Zoom out</td>
+      <td>Step down one zoom level</td>
+      </tr>
+      <tr>
+      <td>Reset zoom</td>
+      <td>Return to 100 %</td>
+      </tr>
+      <tr>
+      <td>Zoom in</td>
+      <td>Step up one zoom level</td>
+      </tr>
+      <tr>
+      <td>Fit to screen</td>
+      <td>Scale and pan so every node is visible</td>
+      </tr>
+      </tbody></table></div>
+      <h3 id="editing-transaction-and-loop-bodies-as-step-lists">Editing transaction and loop bodies as step lists</h3>
+      <p>Rather than editing a <code>transaction</code> or <code>loop</code> body as raw JSON, the canvas opens the body in a <strong>step list</strong> editor. Each step is one of:</p>
+      <div class="table-wrap"><table>
+      <thead>
+      <tr>
+      <th>Step kind</th>
+      <th>What it does</th>
+      </tr>
+      </thead>
+      <tbody><tr>
+      <td><strong>Function</strong></td>
+      <td>Run a named reusable expression function</td>
+      </tr>
+      <tr>
+      <td><strong>Flow</strong></td>
+      <td>Invoke a saved flow as a sub-step via <code>call_flow</code></td>
+      </tr>
+      <tr>
+      <td><strong>Loop</strong></td>
+      <td>A for-each with its own <code>over</code>/<code>item_var</code> and a nested step list</td>
+      </tr>
+      <tr>
+      <td><strong>Node</strong></td>
+      <td>Any other node type — Record, Set state, Condition, HTTP request, Send email, AI invoke, Result — edited via its schema fields, with conditional field visibility</td>
+      </tr>
+      </tbody></table></div>
+      <p>Steps are ordered and sortable. A ⋮ kebab menu on each row provides <strong>Reorder</strong> (drag handle) and <strong>Delete</strong>. The step list compiles to and from the engine&#39;s <code>{ start, nodes }</code> sub-graph losslessly — the runtime is unchanged; only the editing surface is different. Editing an AI-generated flow in the step list and re-saving round-trips correctly.</p>
       <h2 id="worked-example-atomic-pos-style-checkout-no-eval">Worked example: atomic POS-style checkout (no eval)</h2>
       <p><code>transaction</code> + <code>loop</code> + <code>record</code> + a few <a href="functions-and-states.html#the-helper-library">helper-composing functions</a> express a real point-of-sale checkout — create the order, walk the cart asserting stock and decrementing it per line, then total the lines — <strong>all-or-nothing and with no PHP/eval</strong>. If any line runs out of stock mid-checkout, the order and every prior decrement roll back and the flow takes the <code>rolled_back</code> branch.</p>
       <p>The four reusable functions (all <code>expression</code> runtime, composing <code>db_*</code> / <code>util_assert</code> helpers — see <a href="functions-and-states.html#the-helper-library">Functions &amp; States</a>):</p>

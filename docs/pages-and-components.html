@@ -803,12 +803,78 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
       </tbody></table></div>
       <p>Flow runs <code>POST</code> to <code>/{flow_prefix}/{slug}</code> with <code>{ &quot;input&quot;: {...} }</code> and apply the returned <code>actions[]</code> (<code>setHtml</code>, <code>setText</code>, <code>notify</code>, <code>redirect</code>, <code>addClass</code>, <code>removeClass</code>, <code>setState</code>, <code>setStates</code>). See <a href="flows.html">Flows</a>.</p>
       <h2 id="data-tables-with-pbtable">Data tables with <code>pbTable</code></h2>
-      <p>For a data-bound table, give the root <code>x-data=&quot;pbTable(&#39;&lt;collection key&gt;&#39;)&quot;</code>. On init it fetches <code>GET {api_prefix}/{collection}</code> and exposes:</p>
+      <p>For a data-bound table, give the root <code>x-data=&quot;pbTable(&#39;&lt;collection key&gt;&#39;)&quot;</code>. On init it fetches <code>GET {api_prefix}/{collection}?expand=*</code> and exposes:</p>
       <ul>
       <li><code>rows</code> — the records (<code>response.data</code>)</li>
       <li><code>loading</code> / <code>error</code> — request state</li>
       </ul>
       <p>Then repeat with <code>&lt;template x-for=&quot;row in rows&quot; :key=&quot;row.id&quot;&gt;</code> and bind cells with <code>x-text=&quot;row.&lt;field&gt;&quot;</code>. The <code>data_table</code> block ships this scaffold plus sample rows (hidden with <code>x-show=&quot;false&quot;</code>) so the editor canvas shows something while Alpine is inert.</p>
+      <p><strong>Auto-render:</strong> a bare <code>data_table</code> shell (no explicit column markup) renders columns directly from the fetched data — relation fields show the resolved <code>name</code> from the expanded relation, never the raw id. The table is never blank as long as the collection has rows. KPI and chart widgets render from a configured-but-empty wrapper without requiring manual column scaffolding.</p>
+      <h2 id="management-pages">Management pages</h2>
+      <p>A <strong>management page</strong> is a standard page pattern that pairs a create form with a live data table and per-row actions.</p>
+      <h3 id="structure">Structure</h3>
+      <ol>
+      <li><p><strong>Add form</strong> — a <code>&lt;form data-pb-record=&quot;&lt;collection&gt;&quot;&gt;</code> with one labelled input per field. Field types map to input types:</p>
+      <ul>
+      <li>Text/number fields → <code>&lt;input type=&quot;text|number&quot;&gt;</code></li>
+      <li>Select fields → <code>&lt;select&gt;</code> with <code>&lt;option&gt;</code> per choice</li>
+      <li>Relation fields → <code>&lt;select&gt;</code> populated from a collection list (<code>x-data=&quot;pbTable(&#39;&lt;related&gt;&#39;)&quot;</code>) so the dropdown shows related record names</li>
+      <li>Image fields → file input (see <a href="#image-fields">Image fields</a> below)</li>
+      </ul>
+      </li>
+      <li><p><strong>Data table</strong> — a <code>data_table</code> block that auto-refreshes after a successful create (the <code>data-pb-record</code> runtime re-fetches the list on <code>201</code>). Uses <code>?expand=*</code> so relation columns show names.</p>
+      </li>
+      <li><p><strong>Per-row Edit and Delete</strong> — on each row:</p>
+      <ul>
+      <li><strong>Edit</strong> — fills the Add form with the row&#39;s current values and switches the form&#39;s POST to a PUT to <code>{api}/{collection}/{id}</code>.</li>
+      <li><strong>Delete</strong> — sends a DELETE to <code>{api}/{collection}/{id}</code> and removes the row from the table.</li>
+      </ul>
+      </li>
+      </ol>
+      <p>Both actions go through <code>RecordQuery</code>, so validation, column mapping and permission rules apply.</p>
+      <h3 id="image-fields">Image fields</h3>
+      <p>An image field in a form is a <code>&lt;input type=&quot;file&quot; accept=&quot;image/*&quot;&gt;</code>. On file selection the runtime immediately uploads the file to <code>POST /pb-upload</code> (see <a href="#public-upload-endpoint">Public upload endpoint</a>) and puts the returned URL into a hidden input. The form then submits the URL string as the field value — the collection stores a plain URL, no binary data.</p>
+      <p><strong>Displaying images.</strong> The stored URL renders as an image wherever the value flows:</p>
+      <ul>
+      <li><strong>Auto data table</strong> — a cell whose value looks like an image URL (<code>.png/.jpg/.jpeg/.gif/.webp/.svg/.avif</code>) renders as a small thumbnail <code>&lt;img&gt;</code> instead of raw URL text.</li>
+      <li><strong>Record picker</strong> — set <code>data-pb-image-field</code> (default <code>image</code>) and <code>data-pb-price-field</code> (default <code>price</code>); each tile then shows the record&#39;s image thumbnail and price above the label, and every pick carries <code>{id, label, image, qty, price}</code> into the target cart state (so a cart/grid can show the image too). This is how a POS product picker shows each product&#39;s photo and price.</li>
+      <li><strong>Curated pages</strong> — bind <code>&lt;img :src=&quot;row.&lt;field&gt;&quot;&gt;</code> in an <code>x-for</code> to place the image exactly where you want it.</li>
+      </ul>
+      <h2 id="public-upload-endpoint">Public upload endpoint</h2>
+      <p><code>POST /pb-upload</code> — a gated endpoint for image uploads from generated forms.</p>
+      <p><strong>Request:</strong> <code>multipart/form-data</code> with a single <code>file</code> field (image only).</p>
+      <p><strong>Behavior:</strong></p>
+      <ul>
+      <li><strong>Authentication</strong> — authenticated by default (requires the <code>pb</code> end-user session). Set <code>AI_PAGE_BUILDER_UPLOADS_ANON=true</code> to allow unauthenticated uploads (opt-in; off by default for safety).</li>
+      <li><strong>Image-only</strong> — accepts <code>image/jpeg</code>, <code>image/jpg</code>, <code>image/png</code>, <code>image/gif</code>, <code>image/webp</code>. Any other MIME type returns <code>422</code>.</li>
+      <li><strong>Size cap</strong> — rejects files over <code>uploads.max_kb</code> (default 5 120 KB = 5 MB). Returns <code>413</code> when exceeded.</li>
+      <li><strong>Rate-limited</strong> — same rate-limit infrastructure as the flow run endpoint.</li>
+      <li><strong>Safe filenames</strong> — the stored filename is a UUID + the original extension; the original filename is never used.</li>
+      <li><strong>Response</strong> — <code>200 { &quot;url&quot;: &quot;https://...&quot; }</code> on success; standard error codes on failure.</li>
+      </ul>
+      <p>Configuration (see <a href="configuration.html#uploads">Configuration → <code>uploads</code></a>):</p>
+      <div class="table-wrap"><table>
+      <thead>
+      <tr>
+      <th>Key</th>
+      <th>Env</th>
+      <th>Default</th>
+      <th>Meaning</th>
+      </tr>
+      </thead>
+      <tbody><tr>
+      <td><code>uploads.allow_anonymous</code></td>
+      <td><code>AI_PAGE_BUILDER_UPLOADS_ANON</code></td>
+      <td><code>false</code></td>
+      <td>Allow unauthenticated uploads</td>
+      </tr>
+      <tr>
+      <td><code>uploads.max_kb</code></td>
+      <td><code>AI_PAGE_BUILDER_UPLOADS_MAX_KB</code></td>
+      <td><code>5120</code></td>
+      <td>Max upload size in KB</td>
+      </tr>
+      </tbody></table></div>
       <p>Next: <a href="collections-and-data.html">Collections &amp; data</a>.</p>
     </article>
     <footer class="doc-footer">

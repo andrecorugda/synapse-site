@@ -850,6 +850,10 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
       <div class="codeblock"><pre><code>GET /api/pb/leads?search=acme</code></pre></div>
       <p><strong>Pagination</strong> — <code>page</code> (default 1) and <code>per_page</code> (clamped between 1 and <code>data.max_per_page</code>; default <code>data.default_per_page</code> = 25).</p>
       <div class="codeblock"><pre><code>GET /api/pb/leads?page=2&amp;per_page=50</code></pre></div>
+      <p><strong>Relation expansion</strong> — <code>expand=*</code> (or <code>expand=field1,field2</code>) resolves belongs-to relations so the list response includes the related record&#39;s <code>name</code> (and <code>id</code>) instead of the raw foreign-key id. The auto <code>data_table</code> block uses <code>?expand=*</code> by default, so the table shows human-readable names in relation columns without extra work.</p>
+      <div class="codeblock"><pre><code>GET /api/pb/orders?expand=*</code></pre></div>
+      <p>A response row with a <code>customer_id</code> relation field becomes:</p>
+      <div class="codeblock"><span class="code-lang">json</span><pre><code class="language-json">{ "id": 42, "customer_id": 7, "customer": { "id": 7, "name": "Acme Corp" }, "total": 199.0 }</code></pre></div>
       <h3 id="response-envelope">Response envelope</h3>
       <p><code>list()</code> returns Laravel&#39;s paginator JSON:</p>
       <div class="codeblock"><span class="code-lang">json</span><pre><code class="language-json">{
@@ -862,7 +866,7 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
       <ul>
       <li><strong>Flows</strong> — the <a href="flows.html#record"><code>record</code> node</a> does <code>list</code>/<code>get</code>/<code>create</code>/<code>update</code>/<code>delete</code> against a collection, going through <code>RecordQuery</code>.</li>
       <li><strong>Functions</strong> — a <code>php</code>-runtime <a href="functions-and-states.html">Function</a> can call <code>RecordQuery</code> directly (or use the <code>record</code> node).</li>
-      <li><strong>Pages</strong> — the <a href="pages-and-components.html#data-tables-with-pbtable"><code>data_table</code> block / <code>pbTable</code></a> fetches the list endpoint; a <code>data-pb-record=&quot;&lt;collection&gt;&quot;</code> form POSTs a create.</li>
+      <li><strong>Pages</strong> — the <a href="pages-and-components.html#data-tables-with-pbtable"><code>data_table</code> block / <code>pbTable</code></a> fetches the list endpoint; a <code>data-pb-record=&quot;&lt;collection&gt;&quot;</code> form POSTs a create; a management page pairs the form with per-row Edit/Delete (see <a href="pages-and-components.html#management-pages">Management pages</a>).</li>
       </ul>
       <p>Every one of these paths funnels through <code>RecordQuery</code>, so validation, column mapping (field key ↔ <code>_id</code>), and the row-level permission filter are applied consistently.</p>
       <h2 id="validation">Validation</h2>

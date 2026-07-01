@@ -1127,6 +1127,35 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
       <td><code>10</code></td>
       <td>Base navigation sort (resources offset from it)</td>
       </tr>
+      <tr>
+      <td><code>filament.max_content_width</code></td>
+      <td><code>&#39;full&#39;</code></td>
+      <td>Content width for every Synapse admin page. Accepts any Filament width value (<code>&#39;xl&#39;</code>, <code>&#39;2xl&#39;</code>, <code>&#39;full&#39;</code>, etc.) or <code>null</code> to fall back to the host panel&#39;s default.</td>
+      </tr>
+      </tbody></table></div>
+      <h2 id="uploads"><code>uploads</code></h2>
+      <p>Controls the public image upload endpoint (<code>POST /pb-upload</code>) used by generated forms.</p>
+      <div class="table-wrap"><table>
+      <thead>
+      <tr>
+      <th>Key</th>
+      <th>Env</th>
+      <th>Default</th>
+      <th>Meaning</th>
+      </tr>
+      </thead>
+      <tbody><tr>
+      <td><code>uploads.allow_anonymous</code></td>
+      <td><code>AI_PAGE_BUILDER_ALLOW_ANON_UPLOADS</code></td>
+      <td><code>false</code></td>
+      <td>Allow unauthenticated uploads. <strong>Off by default</strong> — safe for public sites. Set <code>true</code> only when anonymous image submission is intentional.</td>
+      </tr>
+      <tr>
+      <td><code>uploads.max_kb</code></td>
+      <td><code>AI_PAGE_BUILDER_UPLOAD_MAX_KB</code></td>
+      <td><code>5120</code></td>
+      <td>Maximum upload size in KB (default 5 MB). Requests over the limit return <code>413</code>.</td>
+      </tr>
       </tbody></table></div>
       <p>Next: <a href="extending.html">Extending</a>.</p>
     </article>

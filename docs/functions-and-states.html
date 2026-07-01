@@ -868,6 +868,13 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
       Alpine.store('app', { ...window.__pbState });</code></pre></div>
       <p>Page markup binds to it declaratively over <code>$store.app.&lt;key&gt;</code> — <code>x-text</code>, <code>x-show</code>, <code>x-model</code>, <code>x-for</code> (see <a href="pages-and-components.html#declarative-data-binding-alpine">Pages → declarative binding</a>). The current end-user is added at <code>$store.app.$user</code> (from <code>GET /pb-auth/me</code>).</p>
       <p>A flow can update the store <strong>live</strong> without a reload: a <code>result</code> action of type <code>setState</code>/<code>setStates</code> (applied by the page runtime) writes into <code>$store.app</code>, and every bound component re-renders. (Persisting the value server-side is a separate <code>set_variable</code> node — <code>setState</code> only changes the in-page store for that visitor.)</p>
+      <h2 id="compose-dont-repeat">Compose, don&#39;t repeat</h2>
+      <p>There are two levels of reuse:</p>
+      <ul>
+      <li><strong>A single expression</strong> that&#39;s used in multiple places → factor it into a <strong>Function</strong> and call it with the <a href="flows.html#function"><code>function</code> node</a>. A function is a named one-liner (or short expression) that stays readable and testable in isolation.</li>
+      <li><strong>A multi-step process</strong> needed by more than one flow → make it its own <strong>Flow</strong> and invoke it with the <a href="flows.html#call_flow"><code>call_flow</code> node</a>. The called flow runs with the caller&#39;s shared context (<code>vars</code>/<code>input</code>), so outputs flow through naturally.</li>
+      </ul>
+      <p>The AI generator applies the same principle: it will factor logic that appears in more than one place into a function or a shared flow, but it won&#39;t over-factor a one-off step that only exists in one context.</p>
       <p>Next: <a href="authentication-and-permissions.html">Authentication &amp; permissions</a>.</p>
     </article>
     <footer class="doc-footer">
