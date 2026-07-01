@@ -705,7 +705,7 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
       <h3 id="shapes-category-shapes">Shapes (category <code>Shapes</code>)</h3>
       <p><code>shape-wave</code>, <code>shape-slant</code>, <code>shape-tilt</code>, <code>shape-curve</code> — full-width SVG section dividers.</p>
       <h3 id="components-category-components">Components (category <code>Components</code>)</h3>
-      <p><code>card</code>, <code>banner</code>, <code>modal</code>, <code>drawer</code>, <code>tabs</code>, <code>accordion</code>, <code>tooltip</code>, <code>dropdown_menu</code>. These are <strong>owner-authored, trusted</strong> interactive blocks — because the author wrote them (not the AI), they may carry <em>executable</em> Alpine directives (<code>x-data</code>, <code>@click</code>, <code>x-show</code>, <code>x-transition</code>, etc.) for local UI state. Overlay panels use <code>x-cloak</code> so they stay hidden in the editor canvas (where Alpine does not run).</p>
+      <p><code>card</code>, <code>banner</code>, <code>modal</code>, <code>drawer</code>, <code>tabs</code>, <code>accordion</code>, <code>tooltip</code>, <code>dropdown_menu</code>. These ship structured, styled markup with <strong>declarative</strong> local state (<code>x-data</code>, <code>x-show</code>, <code>x-cloak</code>, <code>x-transition</code>) — overlay panels use <code>x-cloak</code> so they stay hidden in the editor canvas (where Alpine does not run). Because page <code>html</code> is sanitized (see below), any <strong>user-triggered</strong> behaviour (open/close, switch tab) must be wired from <code>custom_js</code> using the <a href="#writing-interactive-pages-the-sanitizer-safe-pattern">sanitizer-safe pattern</a> — inline <code>@click</code> handlers on the block markup are stripped on save.</p>
       <h3 id="forms-category-forms">Forms (category <code>Forms</code>)</h3>
       <p><code>text_input</code>, <code>email_input</code>, <code>textarea</code>, <code>select</code>, <code>checkbox</code>, <code>radio_group</code>, <code>submit_button</code>, <code>form</code>. Each input is a real control with a stable <code>name</code> so the runtime&#39;s <code>collectFormInput()</code> picks it up.</p>
       <h3 id="data-category-data">Data (category <code>Data</code>)</h3>
@@ -728,7 +728,29 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
       <h3 id="caching">Caching</h3>
       <p><code>PageRenderer</code> caches the assembled HTML per slug. Cache key prefix <code>ai-page-builder:rendered:</code>, TTL <code>cache.ttl</code> (default 3600s; <code>0</code> disables), store <code>cache.store</code>. The cache is busted automatically when a page is saved or deleted.</p>
       <h2 id="per-page-css-js">Per-page CSS / JS</h2>
-      <p><code>custom_css</code> is injected into the page <code>&lt;head&gt;</code>; <code>custom_js</code> is injected at the <strong>end</strong> of <code>&lt;body&gt;</code>, after the DOM, the flow runtime and Alpine — so it can rely on <code>window.Alpine</code> and <code>$store.app</code> being present.</p>
+      <p><code>custom_css</code> is injected into the page <code>&lt;head&gt;</code>. <code>custom_js</code> is injected at the end of <code>&lt;body&gt;</code> <strong>before</strong> the (deferred) Alpine script — so any component factory it defines is registered before Alpine boots and evaluates the first <code>x-data</code>. <code>custom_css</code> and <code>custom_js</code> are the two <strong>raw, un-sanitized</strong> channels (the owner owns them); everything in <code>html</code> is sanitized (see below).</p>
+      <h3 id="writing-interactive-pages-the-sanitizer-safe-pattern">Writing interactive pages (the sanitizer-safe pattern)</h3>
+      <p>Because <code>html</code> is always sanitized, executable behaviour that you&#39;d normally inline in the markup is stripped. Put the behaviour in <code>custom_js</code> instead, and follow the same conventions the framework&#39;s own components use:</p>
+      <ul>
+      <li><strong>Define component factories in <code>custom_js</code></strong>, reference them declaratively in <code>html</code>:<div class="codeblock"><span class="code-lang">js</span><pre><code class="language-js">// custom_js
+      window.inventoryApp = () =&gt; ({
+        rows: [], loading: true,
+        init() { this.load(); },          // Alpine calls init() automatically — no x-init needed
+        load() { fetch(this.api).then(r =&gt; r.json()).then(d =&gt; { this.rows = d.data; }); },
+      });</code></pre></div>
+      <div class="codeblock"><span class="code-lang">html</span><pre><code class="language-html">&lt;!-- html: x-data references the factory; x-init is not needed (and would be stripped) --&gt;
+      &lt;div x-data="inventoryApp()"&gt; … &lt;/div&gt;</code></pre></div>
+      </li>
+      <li><strong>Need the reactive store at startup?</strong> Register on <code>alpine:init</code> (it fires when the deferred Alpine starts, after your <code>custom_js</code> has run): <code>document.addEventListener(&#39;alpine:init&#39;, () =&gt; { window.Alpine.store(&#39;app&#39;).foo = 1; })</code>.</li>
+      <li><strong>Handle clicks without <code>@click</code></strong> (which is stripped): tag buttons with a <code>data-*</code> attribute (kept by the sanitizer) and delegate inside <code>init()</code>:<div class="codeblock"><span class="code-lang">html</span><pre><code class="language-html">&lt;button data-act="openCreate"&gt;+ Add&lt;/button&gt;</code></pre></div>
+      <div class="codeblock"><span class="code-lang">js</span><pre><code class="language-js">init() {
+        this.$el.addEventListener('click', (e) =&gt; {
+          const btn = e.target.closest('[data-act]');
+          if (btn) this[btn.dataset.act]?.();
+        });
+      }</code></pre></div>
+      The bundled Inventory demo (<code>ai-page-builder:install-demo</code>) is authored exactly this way — read <code>src/Demo/InventoryDemo.php</code> for a full working example.</li>
+      </ul>
       <h2 id="declarative-data-binding-alpine">Declarative data binding (Alpine)</h2>
       <p>The rendered page loads Alpine and registers a global store named <code>app</code>, seeded from your <a href="functions-and-states.html">States</a>: <code>Alpine.store(&#39;app&#39;, { ...window.__pbState })</code>. Bind page content to state with <strong>declarative</strong> directives over <code>$store.app.&lt;state&gt;</code>:</p>
       <div class="table-wrap"><table>
@@ -756,7 +778,7 @@ a:hover { text-decoration: underline; text-underline-offset: 2px; }
       </tr>
       </tbody></table></div>
       <blockquote>
-      <p><strong>AI-authored pages are restricted to these declarative directives.</strong> The <a href="ai.html#safety"><code>HtmlSanitizer</code></a> strips executable directives (<code>@click</code>, <code>x-on:*</code>, <code>x-init</code>, <code>x-effect</code>, <code>x-html</code>) and <code>&lt;script&gt;</code> from AI HTML, but keeps <code>x-data</code>, <code>x-show</code>, <code>x-text</code>, <code>x-model</code>, <code>x-for</code>, <code>x-bind:</code>/<code>:</code>, <code>x-cloak</code>, <code>x-transition*</code> and the <code>data-pb-*</code> attributes. Owner-authored Component blocks are trusted and bypass the sanitizer.</p>
+      <p><strong>Page <code>html</code> is always sanitized — it&#39;s the XSS surface served verbatim to visitors</strong> — so this applies to hand-authored <em>and</em> AI-authored markup alike. The <a href="ai.html#safety"><code>HtmlSanitizer</code></a> strips executable directives (<code>@click</code>, <code>x-on:*</code>, <code>x-init</code>, <code>x-effect</code>, <code>x-html</code>) and <code>&lt;script&gt;</code> from <code>html</code>, but keeps the declarative ones (<code>x-data</code>, <code>x-show</code>, <code>x-text</code>, <code>x-model</code>, <code>x-for</code>, <code>x-bind:</code>/<code>:</code>, <code>x-cloak</code>, <code>x-transition*</code>) and the <code>data-*</code> / <code>data-pb-*</code> attributes. Executable behaviour belongs in the raw <code>custom_js</code> channel — see <a href="#writing-interactive-pages-the-sanitizer-safe-pattern">the sanitizer-safe pattern above</a>.</p>
       </blockquote>
       <p>The current end-user is fetched client-side from <code>GET /pb-auth/me</code> and placed at <code>$store.app.$user</code> — used to drive component visibility (see below).</p>
       <h2 id="runtime-data-attributes">Runtime data attributes</h2>
